@@ -1,0 +1,606 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>An Alternative Delta Time encoding for CCNx using Interval Time from RFC5497 </title>
+
+  
+<style type="text/css">/*<![CDATA[*/
+
+body {
+  font: 16px "Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
+  color: #333;
+  font-size-adjust: 0.5;
+  line-height: 24px;
+  margin: 75px auto;
+  max-width: 624px;
+  padding: 0 5px;
+}
+
+.title, .filename, h1, h2, h3, h4, h5 {
+  font: 16px "Roboto Condensed","Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
+  font-size-adjust: 0.5;
+  font-weight: bold;
+  color: #333;
+  line-height: 100%;
+  margin: 1.2em 0 0.3em;
+}
+.title, #rfc\.title h1 { font-size: 32px; }
+h1, section h1, h2, section h2, section h3, nav h2 { font-size: 20px; }
+h3, section h4, h4, section h5 { font-size: 16px; }
+h1 a[href], h2 a[href], h3 a[href], h4 a[href] {
+  color: #333;
+}
+
+table {
+  margin-left: 0em;
+  border-collapse: collapse;
+}
+th {
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+td {
+  border-top: 1px solid #ddd;
+  vertical-align: top;
+}
+tr:nth-child(2n+1) > td,
+tr:nth-child(2n+1) > th {
+  background-color: #f9f9f9;
+}
+td.reference {
+  max-width: 200px;
+  border-top: none;
+  padding-right: 1em;
+}
+.right {
+  text-align: right;
+}
+
+
+table.header, table#rfc\.headerblock {
+  width: 100%;
+}
+table.header td, table#rfc\.headerblock td {
+  border: none;
+  background-color: transparent;
+  color: black;
+  padding: 0;
+}
+.filename {
+  display: block;
+  color: rgb(119, 119, 119);
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 100%;
+  margin: 10px 0 32px;
+}
+#rfc\.abstract+p, #rfc\.abstract+p code, #rfc\.abstract+p samp, #rfc\.abstract+p tt {
+  font-size: 20px;
+  line-height: 28px;
+}
+
+samp, tt, code, pre, span.tt {
+  font-size: 13.5px;
+  font-family: Consolas, monospace;
+  font-size-adjust: none;
+}
+pre {
+  background-color: #eee;
+  border: 1px solid #ddd;
+  overflow-x: auto;
+  padding: 5px;
+  margin: 5px;
+}
+.figure, caption {
+  font-style: italic;
+  margin: 0 1.5em;
+  text-align: left;
+}
+
+address {
+  margin: 16px 2px;
+  line-height: 20px;
+}
+.vcard {
+  font-style: normal;
+}
+.vcardline {
+  display: block;
+}
+.vcardline .fn, address b {
+  font-weight: normal;
+}
+.vcardline .hidden {
+  display: none;
+}
+
+dl {
+  margin-left: 1em;
+}
+dl.dl-horizontal: {
+  margin-left: 0;
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.nohang > dt {
+  float: none;
+}
+dl > dd {
+  margin-bottom: .5em;
+}
+dl.compact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+ul.empty {
+  list-style-type: none;
+}
+ul.empty li {
+  margin-top: .5em;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+hr.noprint {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+}
+a[href] {
+  color: #2a6496;
+}
+a[href]:hover {
+  background-color: #eee;
+}
+
+p, ol, ul, li {
+  padding: 0;
+}
+p {
+  margin: 0.5em 0;
+}
+ol, ul {
+  margin: 0.2em 0 0.2em 2em;
+}
+li {
+  margin: 0.2em 0;
+}
+address {
+  font-style: normal;
+}
+
+ul.toc ul {
+  margin: 0 0 0 2em;
+}
+ul.toc li {
+  list-style: none;
+  margin: 0;
+}
+
+@media screen and (min-width: 924px) {
+  body {
+    padding-right: 350px;
+  }
+  body>ul.toc, body>#rfc\.toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 500px);
+    width: 300px;
+    z-index: 1;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  body>#rfc\.toc {
+    top: 55px;
+  }
+  body>ul.toc {
+    top: 100px;
+  }
+
+  ul.toc {
+    margin: 0 0 0 4px;
+    font-size: 12px;
+    line-height: 20px;
+  }
+  ul.toc ul {
+    margin-left: 1.2em;
+  }
+}
+
+.github-fork-ribbon-wrapper {
+  display: none;
+}
+@media screen and (min-width: 800px) {
+  /* "Fork me on GitHub" CSS ribbon based on
+   * https://github.com/simonwhitaker/github-fork-ribbon-css
+   */
+  .github-fork-ribbon {
+    position: absolute;
+    padding: 2px 0;
+    background-color: #a00;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
+    font: 700 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    pointer-events: auto;
+
+    top: 38px;
+    right: -45px;
+
+    transform: rotate(45deg);
+  }
+
+  .github-fork-ribbon a[href],
+  .github-fork-ribbon a[href]:hover {
+    color: #fff;
+    background-color: transparent;
+    text-decoration: none;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
+    text-align: center;
+
+    width: 190px;
+    line-height: 18px;
+
+    display: inline-block;
+    padding: 2px 0;
+
+    border: 1.5px dotted #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .github-fork-ribbon-wrapper {
+    display: block;
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    overflow: hidden;
+    top: 0; right: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .github-fork-ribbon-wrapper {
+    position: fixed;
+  }
+/*]]>*/</style>
+<meta name="viewport" content="initial-scale=1.0">
+
+
+  <link href="#rfc.toc" rel="Contents"/>
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction"/>
+<link href="#rfc.section.2" rel="Chapter" title="2 Requirements Language"/>
+<link href="#rfc.section.3" rel="Chapter" title="3 Usage of Time values CCNx"/>
+<link href="#rfc.section.3.1" rel="Chapter" title="3.1 Relative Time usage in CCNx"/>
+<link href="#rfc.section.3.2" rel="Chapter" title="3.2 Absolute Time usage in CCNx"/>
+<link href="#rfc.section.3.2.1" rel="Chapter" title="3.2.1 Signature Time"/>
+<link href="#rfc.section.3.2.2" rel="Chapter" title="3.2.2 Expiry Time"/>
+<link href="#rfc.section.3.2.3" rel="Chapter" title="3.2.3 Recommended Cache Time"/>
+<link href="#rfc.section.4" rel="Chapter" title="4 Alternatives for a compact time representation in CCNx messages"/>
+<link href="#rfc.section.5" rel="Chapter" title="5 IANA Considerations"/>
+<link href="#rfc.section.6" rel="Chapter" title="6 Security Considerations"/>
+<link href="#rfc.references" rel="Chapter" title="7 References"/>
+<link href="#rfc.references.1" rel="Chapter" title="7.1 Normative References"/>
+<link href="#rfc.references.2" rel="Chapter" title="7.2 Informative References"/>
+<link href="#rfc.authors" rel="Chapter"/>
+
+
+  <meta name="generator" content="xml2rfc version 2.5.2 - http://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="C. Gundogan, , Schmidt, TC., D. Oran, , and M. Waehlisch" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-gundogan-icnrg-ccnx-timetlv-00" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-10-3" />
+  <meta name="dct.abstract" content="CCNx utilizes Delta Time for a number of functions. When using CCNx in environments with constrained nodes and/or bandwidth constrained networks, it is valuable to have a compressed representation of delta time. In order to do so, either accuracy or dynamic range has to be sacrificed. Since the current uses of delta time do not require both simultaneously, one can consider a logarithmic encoding such as that specified in RFC5497. This document updates " />
+  <meta name="description" content="CCNx utilizes Delta Time for a number of functions. When using CCNx in environments with constrained nodes and/or bandwidth constrained networks, it is valuable to have a compressed representation of delta time. In order to do so, either accuracy or dynamic range has to be sacrificed. Since the current uses of delta time do not require both simultaneously, one can consider a logarithmic encoding such as that specified in RFC5497. This document updates " />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+  <td class="left">ICNRG</td>
+  <td class="right">C. Gundogan</td>
+</tr>
+<tr>
+  <td class="left">Internet-Draft</td>
+  <td class="right">TC. Schmidt</td>
+</tr>
+<tr>
+  <td class="left">Intended status: Experimental</td>
+  <td class="right">HAW Hamburg</td>
+</tr>
+<tr>
+  <td class="left">Expires: April 5, 2020</td>
+  <td class="right">D. Oran</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">Network Systems Research and Design</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">M. Waehlisch</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">link-lab &amp; FU Berlin</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">October 3, 2019</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">An Alternative Delta Time encoding for CCNx using Interval Time from RFC5497 <br />
+  <span class="filename">draft-gundogan-icnrg-ccnx-timetlv-00</span></p>
+  
+  <h1 id="rfc.abstract">
+  <a href="#rfc.abstract">Abstract</a>
+</h1>
+<p>CCNx utilizes Delta Time for a number of functions. When using CCNx in environments with constrained nodes and/or bandwidth constrained networks, it is valuable to have a compressed representation of delta time. In order to do so, either accuracy or dynamic range has to be sacrificed. Since the current uses of delta time do not require both simultaneously, one can consider a logarithmic encoding such as that specified in RFC5497. This document updates <em>CCNx messages in TLV Format</em> (RFC8609) to specify this alternative encoding.</p>
+<h1 id="rfc.status">
+  <a href="#rfc.status">Status of This Memo</a>
+</h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on April 5, 2020.</p>
+<h1 id="rfc.copyrightnotice">
+  <a href="#rfc.copyrightnotice">Copyright Notice</a>
+</h1>
+<p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (http://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a></li>
+<li>2.   <a href="#rfc.section.2">Requirements Language</a></li>
+<li>3.   <a href="#rfc.section.3">Usage of Time values CCNx</a></li>
+<ul><li>3.1.   <a href="#rfc.section.3.1">Relative Time usage in CCNx</a></li>
+<li>3.2.   <a href="#rfc.section.3.2">Absolute Time usage in CCNx</a></li>
+<ul><li>3.2.1.   <a href="#rfc.section.3.2.1">Signature Time</a></li>
+<li>3.2.2.   <a href="#rfc.section.3.2.2">Expiry Time</a></li>
+<li>3.2.3.   <a href="#rfc.section.3.2.3">Recommended Cache Time</a></li>
+</ul></ul><li>4.   <a href="#rfc.section.4">Alternatives for a compact time representation in CCNx messages</a></li>
+<li>5.   <a href="#rfc.section.5">IANA Considerations</a></li>
+<li>6.   <a href="#rfc.section.6">Security Considerations</a></li>
+<li>7.   <a href="#rfc.references">References</a></li>
+<ul><li>7.1.   <a href="#rfc.references.1">Normative References</a></li>
+<li>7.2.   <a href="#rfc.references.2">Informative References</a></li>
+</ul><li><a href="#rfc.authors">Authors' Addresses</a></li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#intro" id="intro">Introduction</a></h1>
+<p id="rfc.section.1.p.1">CCNx utilizes Time values for a number of functions. Some of these are expressed as absolute time, others as delta time. When using CCNx in environments with constrained nodes and/or bandwidth constrained networks, it is valuable to have a compact representation of time values. For example <a href="#I-D.irtf-icnrg-icnlowpan">[I-D.irtf-icnrg-icnlowpan]</a> specifies a compression scheme useful over IEEE 804.15.4 networks. However, any compact time representation has to sacrifice either accuracy or dynamic range or both. For some time uses this is relatively strightforard to achieve, for other uses, it is not. This document discusses the various cases, and proposes a compact encoding that is easily accommodated for delta times, and a more complicated method that can be considered for some uses of absolute time.</p>
+<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> Requirements Language</h1>
+<p id="rfc.section.2.p.1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="#RFC2119">RFC 2119</a> <cite title="NONE">[RFC2119]</cite>.</p>
+<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> Usage of Time values CCNx</h1>
+<h1 id="rfc.section.3.1"><a href="#rfc.section.3.1">3.1.</a> <a href="#relativeTime" id="relativeTime">Relative Time usage in CCNx</a></h1>
+<p id="rfc.section.3.1.p.1">CCNx, as currently specified in <a href="#RFC8569">[RFC8569]</a>, utilizes delta time for only the lifetime of an Interest message (sections 2.1, 2.2, 2.4.2, 10.3). It is a hop-by-hop header value, and is currently encoded via the T_INTLIFE TLV as a 64-bit integer (<a href="#RFC8609">[RFC8609]</a> section 3.4.1). While formally an optional TLV, in all but some corner cases every Interest Message is expected to carry the Interest Lifetime TLV, and hence having compact encoding is particularly valuable for keeping Interest messages short.</p>
+<p id="rfc.section.3.1.p.2">Since the current uses of delta time do not require both accuracy and dynamic range simultaneously, one can consider a logarithmic encoding such as that specified in <a href="#RFC5497">[RFC5497]</a>. This document updates CCNx messages in TLV Format (<a href="#RFC8609">[RFC8609]</a>) to permit this alternative encoding for selected Time values. See <a href="#IANA">Section 5</a> for the specific actions needed to register this alternative compact representation of Interest Lifetime.</p>
+<h1 id="rfc.section.3.2"><a href="#rfc.section.3.2">3.2.</a> <a href="#absoluteTime" id="absoluteTime">Absolute Time usage in CCNx</a></h1>
+<p id="rfc.section.3.2.p.1">CCNx, as currently specified in <a href="#RFC8569">[RFC8569]</a>, utilizes absolute time for various important functions. Each of these absolute time usages poses a different challenge for a compact representation. These are discussed in the following subsections.</p>
+<h1 id="rfc.section.3.2.1"><a href="#rfc.section.3.2.1">3.2.1.</a> Signature Time</h1>
+<p><em>Signature Time</em> is the time the signature of a content object was generated (<a href="#RFC8569">sections 8.2-8.4</a> <cite title="NONE">[RFC8569]</cite>). This is a content message TLV stating the time the signature on the content object was generated, in milliseconds since the UTC epoch (i.e. An NTP timestamp). It is currently encoded via the T_SIGTIME TLV as a 64-bit unsigned integer (see <a href="#RFC8609">section 3.6.4.1.4.5</a> <cite title="NONE">[RFC8609]</cite>).</p>
+<p id="rfc.section.3.2.1.p.2">Given that a signature time could be essentially at any time in the past, and is included in the hash securing the content object, is seems there is no practical way to define an alternative compact encoding that preserves its semantics and security properties; hence we don't consider it further as a candidate.</p>
+<h1 id="rfc.section.3.2.2"><a href="#rfc.section.3.2.2">3.2.2.</a> Expiry Time</h1>
+<p><em>Expiry Time</em> indicates the expiry time of a content object (<a href="#RFC8569">section 4</a> <cite title="NONE">[RFC8569]</cite>). This is a content message TLV (covered by the hash and signature of the content object) stating the expiration time of the content object milliseconds since the UTC epoch (i.e. An NTP timestamp). It is currently encoded via the T_EXPIRY TLV as a 64-bit unsigned integer (see <a href="#RFC8609">section 3.6.2.2.2</a> <cite title="NONE">[RFC8609]</cite>).</p>
+<p id="rfc.section.3.2.2.p.2">Expiry time could be in the past, or in the future, potentially by a large delta, and is included in the hash securing the content object. Therefore, it seems there is no practical way to define an alternative compact encoding that preserves its semantics and security properties; hence we don't consider it further as a candidate.</p>
+<h1 id="rfc.section.3.2.3"><a href="#rfc.section.3.2.3">3.2.3.</a> Recommended Cache Time</h1>
+<p><em>Recommended Cache Time</em> (RCT) for a content object (<a href="#RFC8569">see section 4</a> <cite title="NONE">[RFC8569]</cite>) is a hop-by-hop header stating the expiration time for a cached content object in milliseconds since the UTC epoch (i.e. An NTP timestamp). It is currently encoded via the T_CACHETIME TLV as a 64-bit unsigned integer (see <a href="#RFC8609">section 3.4.2</a> <cite title="NONE">[RFC8609]</cite>).</p>
+<p id="rfc.section.3.2.3.p.2">Recommended cache time could be far in the future, but cannot be in the past and is likely to be a reasonably short offset from the current time. Therefore, there are a couple of alternatives for defining a compact representation. These are: </p>
+
+<ul>
+  <li>allow the compact representation to be interpreted as a delta time rather than an absolute time, since the semantics associated with an absolute time value do not seem to be critical to the utility of this value.</li>
+  <li>define an alternative absolute time base against which the RCT delta can be measured. One potential candidate would be a <em>message generation time</em> included as a message TLV (not a hop-by-hop TLV). While doing this would not save any space if used for just RCT (it would actually make the message bigger) if its cost could be amortitized across multiple other time TLVs in the same message, it might be a win.</li>
+</ul>
+
+<p> This possibility is for further analysis and discussion as the document progresses.  </p>
+<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> Alternatives for a compact time representation in CCNx messages</h1>
+<p id="rfc.section.4.p.1">A straightforward way to accommodate the TimeTLV approach as an alternative encoding is to simply allow a 1 or 2-byte length as an alternative to the 8-byte length while retaining the existing TLV Registry entries. While this has backward compatibility problems, the authors recommend this approach for the following reasons: </p>
+
+<ul>
+  <li>Both CCNx RFCs are experimental and not Standards Track, hence expectations for forward and backward compatibility are not as stringent. "Flag day" upgrades of deployed CCNx networks, while inconvenient, are still feasible.</li>
+  <li>The major use case for these compressed encodings are smaller-scale IoT and/or sensor networks where the population of consumers, producers, and forwarders is reasonably small.</li>
+  <li>Since the current TLVs have hop-by-hop semantics, they are not covered by any signed hash and hence may be freely re-encoded by any forwarder. That means a forwarder supporting the new encoding can translate freely between the two encodings.</li>
+  <li>The alternative of assigning new TLV registry values does not substantially mitigate the interoperability problems anyway.</li>
+</ul>
+
+<p> </p>
+<h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#IANA" id="IANA">IANA Considerations</a></h1>
+<p id="rfc.section.5.p.1">Please change the registry for the T_INTLIFE to permit a length of 1 or 2 in addition to a length of 8, as follows:.</p>
+<div id="rfc.figure.1"/>
+<div id="timetlv-encoding"/>
+<p>.</p>
+<pre>
+                     1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++---------------+---------------+---------------+---------------+
+|             T_INTLIFE         |               1               |
++---------------+---------------+---------------+---------------+
+| INTERVAL_TIME |
++---------------+
+
+                     1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++---------------+---------------+---------------+---------------+
+|             T_INTLIFE         |               2               |
++---------------+---------------+---------------+---------------+
+|           INTERVAL_TIME       |
++-------------------------------+
+
+            </pre>
+<p class="figure">Figure 1: Alternate Delta Time encoding based on RFC4574</p>
+<h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#Security" id="Security">Security Considerations</a></h1>
+<p id="rfc.section.6.p.1">This document makes no semantic changes to RFC8965, nor to any of the security properties of the message encodings of RFC8609, and hence has the same security considerations as those two existing documents.  </p>
+<h1 id="rfc.references"><a href="#rfc.references">7.</a> References</h1>
+<h1 id="rfc.references.1"><a href="#rfc.references.1">7.1.</a> Normative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="RFC2119">[RFC2119]</b>
+      </td>
+      <td class="top"><a>Bradner, S.</a>, "<a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC5497">[RFC5497]</b>
+      </td>
+      <td class="top"><a>Clausen, T.</a> and <a>C. Dearlove</a>, "<a href="http://tools.ietf.org/html/rfc5497">Representing Multi-Value Time in Mobile Ad Hoc Networks (MANETs)</a>", RFC 5497, DOI 10.17487/RFC5497, March 2009.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC8569">[RFC8569]</b>
+      </td>
+      <td class="top"><a>Mosko, M.</a>, <a>Solis, I.</a> and <a>C. Wood</a>, "<a href="http://tools.ietf.org/html/rfc8569">Content-Centric Networking (CCNx) Semantics</a>", RFC 8569, DOI 10.17487/RFC8569, July 2019.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC8609">[RFC8609]</b>
+      </td>
+      <td class="top"><a>Mosko, M.</a>, <a>Solis, I.</a> and <a>C. Wood</a>, "<a href="http://tools.ietf.org/html/rfc8609">Content-Centric Networking (CCNx) Messages in TLV Format</a>", RFC 8609, DOI 10.17487/RFC8609, July 2019.</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.references.2"><a href="#rfc.references.2">7.2.</a> Informative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="I-D.irtf-icnrg-icnlowpan">[I-D.irtf-icnrg-icnlowpan]</b>
+      </td>
+      <td class="top"><a>Gundogan, C.</a>, <a>Schmidt, T.</a>, <a>Waehlisch, M.</a>, <a>Scherb, C.</a>, <a>Marxer, C.</a> and <a>C. Tschudin</a>, "<a href="http://tools.ietf.org/html/draft-irtf-icnrg-icnlowpan-05">ICN Adaptation to LowPAN Networks (ICN LoWPAN)</a>", Internet-Draft draft-irtf-icnrg-icnlowpan-05, September 2019.</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.authors">
+  <a href="#rfc.authors">Authors' Addresses</a>
+</h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Cenk Gundogan</span> 
+	  <span class="n hidden">
+		<span class="family-name">C. Gundogan</span>
+	  </span>
+	</span>
+	<span class="org vcardline">HAW Hamburg</span>
+	<span class="adr">
+	  <span class="vcardline">Berliner Tor 7</span>
+
+	  <span class="vcardline">
+		<span class="locality">Hamburg</span>,  
+		<span class="region"></span>
+		<span class="code">D-20099</span>
+	  </span>
+	  <span class="country-name vcardline">Germany</span>
+	</span>
+	<span class="vcardline">Phone: +4940428758067</span>
+
+<span class="vcardline">EMail: <a href="mailto:cenk.guendogan@haw-hamburg.de">cenk.guendogan@haw-hamburg.de</a></span>
+
+<span class="vcardline">URI: <a href="http://inet.haw-hamburg.de/members/cenk-gundogan">http://inet.haw-hamburg.de/members/cenk-gundogan</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Thomas C. Schmidt</span> 
+	  <span class="n hidden">
+		<span class="family-name">Schmidt</span>
+	  </span>
+	</span>
+	<span class="org vcardline">HAW Hamburg</span>
+	<span class="adr">
+	  <span class="vcardline">Berliner Tor 7</span>
+
+	  <span class="vcardline">
+		<span class="locality">Hamburg</span>,  
+		<span class="region"></span>
+		<span class="code">D-20099</span>
+	  </span>
+	  <span class="country-name vcardline">Germany</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:t.schmidt@haw-hamburg.de">t.schmidt@haw-hamburg.de</a></span>
+
+<span class="vcardline">URI: <a href="http://inet.haw-hamburg.de/members/schmidt">http://inet.haw-hamburg.de/members/schmidt</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Dave Oran</span> 
+	  <span class="n hidden">
+		<span class="family-name">D. Oran</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Network Systems Research and Design</span>
+	<span class="adr">
+	  <span class="vcardline">4 Shady Hill Square</span>
+
+	  <span class="vcardline">
+		<span class="locality">Cambridge</span>,  
+		<span class="region">MA</span> 
+		<span class="code">02138</span>
+	  </span>
+	  <span class="country-name vcardline">USA</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:daveoran@orandom.net">daveoran@orandom.net</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Matthias Waehlisch</span> 
+	  <span class="n hidden">
+		<span class="family-name">Waehlisch</span>
+	  </span>
+	</span>
+	<span class="org vcardline">link-lab & FU Berlin</span>
+	<span class="adr">
+	  <span class="vcardline">Hoenower Str. 35</span>
+
+	  <span class="vcardline">
+		<span class="locality">Berlin</span>,  
+		<span class="region"></span>
+		<span class="code">D-10318</span>
+	  </span>
+	  <span class="country-name vcardline">Germany</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:mw@link-lab.net">mw@link-lab.net</a></span>
+
+<span class="vcardline">URI: <a href="http://www.inf.fu-berlin.de/~waehl">http://www.inf.fu-berlin.de/~waehl</a></span>
+
+  </address>
+</div>
+
+</body>
+</html>
+

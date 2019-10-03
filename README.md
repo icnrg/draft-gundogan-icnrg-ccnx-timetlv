@@ -5,7 +5,7 @@ TimeTLV for CCNx draft
 
 Inside each draft, you should use the suffix '-latest' in the draft name, for example:
 ```
-<rfc category="exp" docName="draft-gondoganÑicneg-ccnx-timetlv-latest" ipr="trust200902">
+<rfc category="exp" docName="draft-gondoganÑicnrg-ccnx-timetlv-latest" ipr="trust200902">
 ```
 
 The file `versions` contains the draft version number for each document.  After you edit
