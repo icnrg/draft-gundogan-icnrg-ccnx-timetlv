@@ -5,11 +5,11 @@
 ICNRG                                                        C. Gundogan
 Internet-Draft                                               TC. Schmidt
 Intended status: Experimental                                HAW Hamburg
-Expires: April 5, 2020                                           D. Oran
+Expires: May 3, 2020                                             D. Oran
                                      Network Systems Research and Design
                                                             M. Waehlisch
                                                     link-lab & FU Berlin
-                                                         October 3, 2019
+                                                        October 31, 2019
 
 
   An Alternative Delta Time encoding for CCNx using Interval Time from
@@ -35,14 +35,14 @@ Status of This Memo
    Internet-Drafts are working documents of the Internet Engineering
    Task Force (IETF).  Note that other groups may also distribute
    working documents as Internet-Drafts.  The list of current Internet-
-   Drafts is at http://datatracker.ietf.org/drafts/current/.
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
 
    Internet-Drafts are draft documents valid for a maximum of six months
    and may be updated, replaced, or obsoleted by other documents at any
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on April 5, 2020.
+   This Internet-Draft will expire on May 3, 2020.
 
 Copyright Notice
 
@@ -53,14 +53,14 @@ Copyright Notice
 
 
 
-C. Gundogan, et al.       Expires April 5, 2020                 [Page 1]
+C. Gundogan, et al.        Expires May 3, 2020                  [Page 1]
 
 Internet-Draft              TimeTLV for CCNx                October 2019
 
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents
-   (http://trustee.ietf.org/license-info) in effect on the date of
+   (https://trustee.ietf.org/license-info) in effect on the date of
    publication of this document.  Please review these documents
    carefully, as they describe your rights and restrictions with respect
    to this document.  Code Components extracted from this document must
@@ -78,13 +78,14 @@ Table of Contents
        3.2.1.  Signature Time  . . . . . . . . . . . . . . . . . . .   3
        3.2.2.  Expiry Time . . . . . . . . . . . . . . . . . . . . .   4
        3.2.3.  Recommended Cache Time  . . . . . . . . . . . . . . .   4
-   4.  Alternatives for a compact time representation in CCNx
+   4.  A Compact Time Representation with Logarithmic Range  . . . .   5
+   5.  Alternatives for a compact time representation in CCNx
        messages  . . . . . . . . . . . . . . . . . . . . . . . . . .   5
-   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
-   6.  Security Considerations . . . . . . . . . . . . . . . . . . .   6
-   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
-     7.1.  Normative References  . . . . . . . . . . . . . . . . . .   6
-     7.2.  Informative References  . . . . . . . . . . . . . . . . .   7
+   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   6
+   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
+     8.1.  Normative References  . . . . . . . . . . . . . . . . . .   6
+     8.2.  Informative References  . . . . . . . . . . . . . . . . .   7
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   7
 
 1.  Introduction
@@ -97,7 +98,7 @@ Table of Contents
    compression scheme useful over IEEE 804.15.4 networks.  However, any
    compact time representation has to sacrifice either accuracy or
    dynamic range or both.  For some time uses this is relatively
-   strightforard to achieve, for other uses, it is not.  This document
+   straightforward to achieve, for other uses, it is not.  This document
    discusses the various cases, and proposes a compact encoding that is
    easily accommodated for delta times, and a more complicated method
    that can be considered for some uses of absolute time.
@@ -108,8 +109,7 @@ Table of Contents
 
 
 
-
-C. Gundogan, et al.       Expires April 5, 2020                 [Page 2]
+C. Gundogan, et al.        Expires May 3, 2020                  [Page 2]
 
 Internet-Draft              TimeTLV for CCNx                October 2019
 
@@ -135,11 +135,11 @@ Internet-Draft              TimeTLV for CCNx                October 2019
 
    Since the current uses of delta time do not require both accuracy and
    dynamic range simultaneously, one can consider a logarithmic encoding
-   such as that specified in [RFC5497].  This document updates CCNx
-   messages in TLV Format ([RFC8609]) to permit this alternative
-   encoding for selected Time values.  See Section 5 for the specific
-   actions needed to register this alternative compact representation of
-   Interest Lifetime.
+   such as that specified in [RFC5497] and outlined in Section 4.  This
+   document updates CCNx messages in TLV Format ([RFC8609]) to permit
+   this alternative encoding for selected Time values.  See Section 6
+   for the specific actions needed to register this alternative compact
+   representation of Interest Lifetime.
 
 3.2.  Absolute Time usage in CCNx
 
@@ -158,14 +158,14 @@ Internet-Draft              TimeTLV for CCNx                October 2019
    64-bit unsigned integer (see section 3.6.4.1.4.5 [RFC8609]).
 
    Given that a signature time could be essentially at any time in the
-   past, and is included in the hash securing the content object, is
+   past, and is included in the hash securing the content object, it
    seems there is no practical way to define an alternative compact
    encoding that preserves its semantics and security properties; hence
    we don't consider it further as a candidate.
 
 
 
-C. Gundogan, et al.       Expires April 5, 2020                 [Page 3]
+C. Gundogan, et al.        Expires May 3, 2020                  [Page 3]
 
 Internet-Draft              TimeTLV for CCNx                October 2019
 
@@ -175,7 +175,7 @@ Internet-Draft              TimeTLV for CCNx                October 2019
    _Expiry Time_ indicates the expiry time of a content object (section
    4 [RFC8569]).  This is a content message TLV (covered by the hash and
    signature of the content object) stating the expiration time of the
-   content object milliseconds since the UTC epoch (i.e.  An NTP
+   content object in milliseconds since the UTC epoch (i.e.  An NTP
    timestamp).  It is currently encoded via the T_EXPIRY TLV as a 64-bit
    unsigned integer (see section 3.6.2.2.2 [RFC8609]).
 
@@ -221,12 +221,40 @@ Internet-Draft              TimeTLV for CCNx                October 2019
 
 
 
-C. Gundogan, et al.       Expires April 5, 2020                 [Page 4]
+C. Gundogan, et al.        Expires May 3, 2020                  [Page 4]
 
 Internet-Draft              TimeTLV for CCNx                October 2019
 
 
-4.  Alternatives for a compact time representation in CCNx messages
+4.  A Compact Time Representation with Logarithmic Range
+
+   This document defines a compact time representation with logarithmic
+   range support that is inspired by [RFC5497].  Compact time-codes are
+   one or two octets wide and represent time-values that range from
+   milliseconds to days.  Figure 1 depicts the logarithmic nature of
+   this time representation.
+
+     ||||| | | | | |  |  |  |  |  |   |   |   |   |   |      |      |
+     +--------------------------------------------------------------+
+     milliseconds                                                days
+
+      Figure 1: A logarithmic range representation allows for higher
+    precision in the smaller time ranges and still supports large time
+                                  deltas.
+
+   Time-codes encode an exponent and a mantissa as illustrated in
+   Figure 2.  Appropriate sizes for the exponent (b) and mantissa (a)
+   are yet to be discussed.
+
+                     <--   one or two octets wide  -->
+                     +---+---+---+---+---+---+---+---+
+                     |  exponent (b) |  mantissa (a) |
+                     +---+---+---+---+---+---+---+---+
+
+       Figure 2: A time-code with exponent and mantissa to encode a
+                  logarithmic range time representation.
+
+5.  Alternatives for a compact time representation in CCNx messages
 
    A straightforward way to accommodate the TimeTLV approach as an
    alternative encoding is to simply allow a 1 or 2-byte length as an
@@ -245,42 +273,25 @@ Internet-Draft              TimeTLV for CCNx                October 2019
 
    o  Since the current TLVs have hop-by-hop semantics, they are not
       covered by any signed hash and hence may be freely re-encoded by
+
+
+
+
+C. Gundogan, et al.        Expires May 3, 2020                  [Page 5]
+
+Internet-Draft              TimeTLV for CCNx                October 2019
+
+
       any forwarder.  That means a forwarder supporting the new encoding
       can translate freely between the two encodings.
 
    o  The alternative of assigning new TLV registry values does not
       substantially mitigate the interoperability problems anyway.
 
-5.  IANA Considerations
+6.  IANA Considerations
 
    Please change the registry for the T_INTLIFE to permit a length of 1
    or 2 in addition to a length of 8, as follows:.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-C. Gundogan, et al.       Expires April 5, 2020                 [Page 5]
-
-Internet-Draft              TimeTLV for CCNx                October 2019
-
 
    .
 
@@ -301,49 +312,48 @@ Internet-Draft              TimeTLV for CCNx                October 2019
    +-------------------------------+
 
 
-         Figure 1: Alternate Delta Time encoding based on RFC4574
+         Figure 3: Alternate Delta Time encoding based on RFC4574
 
-6.  Security Considerations
+7.  Security Considerations
 
    This document makes no semantic changes to RFC8965, nor to any of the
    security properties of the message encodings of RFC8609, and hence
    has the same security considerations as those two existing documents.
 
-7.  References
+8.  References
 
-7.1.  Normative References
+8.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
-              DOI 10.17487/RFC2119, March 1997, <https://www.rfc-
-              editor.org/info/rfc2119>.
-
-   [RFC5497]  Clausen, T. and C. Dearlove, "Representing Multi-Value
-              Time in Mobile Ad Hoc Networks (MANETs)", RFC 5497,
-              DOI 10.17487/RFC5497, March 2009, <https://www.rfc-
-              editor.org/info/rfc5497>.
-
-   [RFC8569]  Mosko, M., Solis, I., and C. Wood, "Content-Centric
-              Networking (CCNx) Semantics", RFC 8569,
-              DOI 10.17487/RFC8569, July 2019, <https://www.rfc-
-              editor.org/info/rfc8569>.
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
 
 
 
 
 
-
-C. Gundogan, et al.       Expires April 5, 2020                 [Page 6]
+C. Gundogan, et al.        Expires May 3, 2020                  [Page 6]
 
 Internet-Draft              TimeTLV for CCNx                October 2019
 
 
+   [RFC5497]  Clausen, T. and C. Dearlove, "Representing Multi-Value
+              Time in Mobile Ad Hoc Networks (MANETs)", RFC 5497,
+              DOI 10.17487/RFC5497, March 2009,
+              <https://www.rfc-editor.org/info/rfc5497>.
+
+   [RFC8569]  Mosko, M., Solis, I., and C. Wood, "Content-Centric
+              Networking (CCNx) Semantics", RFC 8569,
+              DOI 10.17487/RFC8569, July 2019,
+              <https://www.rfc-editor.org/info/rfc8569>.
+
    [RFC8609]  Mosko, M., Solis, I., and C. Wood, "Content-Centric
               Networking (CCNx) Messages in TLV Format", RFC 8609,
-              DOI 10.17487/RFC8609, July 2019, <https://www.rfc-
-              editor.org/info/rfc8609>.
+              DOI 10.17487/RFC8609, July 2019,
+              <https://www.rfc-editor.org/info/rfc8609>.
 
-7.2.  Informative References
+8.2.  Informative References
 
    [I-D.irtf-icnrg-icnlowpan]
               Gundogan, C., Schmidt, T., Waehlisch, M., Scherb, C.,
@@ -374,6 +384,16 @@ Authors' Addresses
    URI:   http://inet.haw-hamburg.de/members/schmidt
 
 
+
+
+
+
+
+C. Gundogan, et al.        Expires May 3, 2020                  [Page 7]
+
+Internet-Draft              TimeTLV for CCNx                October 2019
+
+
    Dave Oran
    Network Systems Research and Design
    4 Shady Hill Square
@@ -381,17 +401,6 @@ Authors' Addresses
    USA
 
    Email: daveoran@orandom.net
-
-
-
-
-
-
-
-
-C. Gundogan, et al.       Expires April 5, 2020                 [Page 7]
-
-Internet-Draft              TimeTLV for CCNx                October 2019
 
 
    Matthias Waehlisch
@@ -436,13 +445,4 @@ Internet-Draft              TimeTLV for CCNx                October 2019
 
 
 
-
-
-
-
-
-
-
-
-
-C. Gundogan, et al.       Expires April 5, 2020                 [Page 8]
+C. Gundogan, et al.        Expires May 3, 2020                  [Page 8]
