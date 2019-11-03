@@ -194,7 +194,7 @@ This possibility is for further analysis and discussion as the document progress
 </section>
 </section>
 </section>
-<section title="Time TLV: A Compact Time Representation with Logarithmic Range" anchor="sec.timetlv">
+<section title="A Compact Time Representation with Logarithmic Range" anchor="sec.timetlv">
   <t>
     This document defines a compact time representation with logarithmic range support that is inspired by <xref target="RFC5497"/>.
     Compact time-codes are one or two octets wide and represent time-values that range from milliseconds to days.
