@@ -163,7 +163,7 @@
 
 <t>CCNx, as currently specified in <xref target="RFC8569"/>, utilizes delta time for only the lifetime of an Interest message (sections 2.1, 2.2, 2.4.2, 10.3). It is a hop-by-hop header value, and is currently encoded via the T_INTLIFE TLV as a 64-bit integer (<xref target="RFC8609"/> section 3.4.1). While formally an optional TLV, in all but some corner cases every Interest Message is expected to carry the Interest Lifetime TLV, and hence having compact encoding is particularly valuable for keeping Interest messages short.</t>
 
-<t>Since the current uses of delta time do not require both accuracy and dynamic range simultaneously, one can consider a logarithmic encoding such as that specified in <xref target="RFC5497"/>. This document updates CCNx messages in TLV Format (<xref target="RFC8609"/>) to permit this alternative encoding for selected Time values. See <xref target="IANA"/> for the specific actions needed to register this alternative compact representation of Interest Lifetime.</t>
+<t>Since the current uses of delta time do not require both accuracy and dynamic range simultaneously, one can consider a logarithmic encoding such as that specified in <xref target="RFC5497"/> and outlined in <xref target="sec.timetlv"/>. This document updates CCNx messages in TLV Format (<xref target="RFC8609"/>) to permit this alternative encoding for selected Time values. See <xref target="IANA"/> for the specific actions needed to register this alternative compact representation of Interest Lifetime.</t>
 </section>
 
 <section anchor="absoluteTime" title="Absolute Time usage in CCNx">
@@ -193,6 +193,32 @@ This possibility is for further analysis and discussion as the document progress
 </t>
 </section>
 </section>
+</section>
+<section title="Time TLV: A Compact Time Representation with Logarithmic Range" anchor="sec.timetlv">
+  <t>
+    This document defines a compact time representation with logarithmic range support that is inspired by <xref target="RFC5497"/>.
+    Compact time-codes are one or two octets wide and represent time-values that range from milliseconds to days.
+    <xref target="fig.time-value"/> depicts the logarithmic nature of this time representation.
+  </t>
+  <figure anchor="fig.time-value" title="A logarithmic range representation allows for higher precision in the smaller time ranges and still supports large time deltas.">
+    <artwork align="center"><![CDATA[
+||||| | | | | |  |  |  |  |  |   |   |   |   |   |      |      |
++--------------------------------------------------------------+
+milliseconds                                                days
+]]></artwork>
+  </figure>
+  <t>
+    Time-codes encode an exponent and a mantissa as illustrated in <xref target="fig.time-code"/>.
+    Appropriate sizes for the exponent (b) and mantissa (a) are yet to be discussed.
+  </t>
+  <figure anchor="fig.time-code" title="A time-code with exponent and mantissa to encode a logarithmic range time representation.">
+    <artwork align="center"><![CDATA[
+<--   one or two octets wide  -->
++---+---+---+---+---+---+---+---+
+|  exponent (b) |  mantissa (a) |
++---+---+---+---+---+---+---+---+
+]]></artwork>
+  </figure>
 </section>
 <section title="Alternatives for a compact time representation in CCNx messages">
 
