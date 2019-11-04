@@ -14,7 +14,7 @@ Expires: May 7, 2020                                             D. Oran
 
   An Alternative Delta Time encoding for CCNx using Interval Time from
                                 RFC5497
-                draft-gundogan-icnrg-ccnx-timetlv-00
+                draft-gundogan-icnrg-ccnx-timetlv-latest
 
 Abstract
 
