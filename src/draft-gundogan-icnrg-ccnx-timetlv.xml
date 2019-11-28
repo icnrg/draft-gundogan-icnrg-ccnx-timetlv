@@ -233,7 +233,7 @@ milliseconds                                                days
 </section>
 <section anchor="IANA" title="IANA Considerations">
 <t>Please change the registry for the T_INTLIFE to permit a length of 1 or 2 in addition to a length of 8, as follows:.</t>
-	<figure anchor="timetlv-encoding" title="Alternate Delta Time encoding based on RFC4574">
+	<figure anchor="timetlv-encoding" title="Alternate Delta Time encoding.">
 		<preamble>.</preamble>
         <artwork align="left"><![CDATA[
                      1                   2                   3
