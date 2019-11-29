@@ -196,7 +196,7 @@ This possibility is for further analysis and discussion as the document progress
 </section>
 <section title="A Compact Time Representation with Logarithmic Range" anchor="sec.timetlv">
   <t>
-    This document defines a compact time representation with logarithmic range support that is inspired by <xref target="RFC5497"/>.
+    This document defines a compact time representation with logarithmic range support that is inspired by <xref target="RFC5497"/> and <xref target="IEEE.754.2019"/>.
     Compact time-codes are one or two octets wide and represent time-values that range from milliseconds to days.
     <xref target="fig.time-value"/> depicts the logarithmic nature of this time representation.
   </t>
@@ -209,16 +209,25 @@ milliseconds                                                   days
   </figure>
   <t>
     Time-codes encode an exponent and a mantissa as illustrated in <xref target="fig.time-code"/>.
-    Appropriate sizes for the exponent (b) and mantissa (a) are yet to be discussed.
   </t>
   <figure anchor="fig.time-code" title="A time-code with exponent and mantissa to encode a logarithmic range time representation.">
     <artwork align="center"><![CDATA[
 <--   one or two octets wide  -->
 +---+---+---+---+---+---+---+---+
-|  exponent (b) |  mantissa (a) |
+|  exponent (e) |  mantissa (m) |
 +---+---+---+---+---+---+---+---+
 ]]></artwork>
   </figure>
+  <t>
+    The base unit for time values are seconds. A time-value is calculated using the following formula,
+    where (e) represents the exponent, (m) the mantissa, and (b) the bias.
+    <list style="hanging">
+      <t hangText="Subnormal (e == 0):"> (0 + m/m_max) * 2^(0+b+1)
+      </t>
+      <t hangText="Normalized (e &gt; 0):"> (1 + m/m_max) * 2^(e+b)
+      </t>
+    </list>
+  </t>
 </section>
 <section title="Alternatives for a compact time representation in CCNx messages">
 
