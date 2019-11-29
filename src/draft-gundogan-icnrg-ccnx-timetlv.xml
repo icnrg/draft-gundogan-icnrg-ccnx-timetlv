@@ -281,14 +281,22 @@ milliseconds                                                days
      filing system or remote ones accessed by http (http://domain/dir/... ).-->
 
     <references title="Normative References">
-		&RFC2119;
-		&RFC5497;
-		&RFC8569;
-		&RFC8609;
-	</references>
+      &RFC2119;
+      &RFC5497;
+      &RFC8569;
+      &RFC8609;
+      <reference anchor="IEEE.754.2019"
+                 target="https://standards.ieee.org/content/ieee-standards/en/standard/754-2019.html">
+        <front>
+          <title>Standard for Floating-Point Arithmetic</title>
+          <author surname="Institute of Electrical and Electronics Engineers"/>
+          <date month="June" year="2019"/>
+        </front>
+      </reference>
+    </references>
 
-	<references title="Informative References">
-		&I-D.irtf-icnrg-icnlowpan;	
+    <references title="Informative References">
+      &I-D.irtf-icnrg-icnlowpan;
     </references>
 
     <!-- Change Log
