@@ -202,9 +202,9 @@ This possibility is for further analysis and discussion as the document progress
   </t>
   <figure anchor="fig.time-value" title="A logarithmic range representation allows for higher precision in the smaller time ranges and still supports large time deltas.">
     <artwork align="center"><![CDATA[
-||||| | | | | |  |  |  |  |  |   |   |   |   |   |      |      |
-+--------------------------------------------------------------+
-milliseconds                                                days
+|| |  |   |    |     |      |       |        |         |          |
++-----------------------------------------------------------------+
+milliseconds                                                   days
 ]]></artwork>
   </figure>
   <t>
