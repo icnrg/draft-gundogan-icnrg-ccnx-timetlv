@@ -209,6 +209,7 @@ milliseconds                                                   days
   </figure>
   <t>
     Time-codes encode an exponent and a mantissa as illustrated in <xref target="fig.time-code"/>.
+    In contrast to the representation in <xref target="IEEE.754.2019"/>, time-codes only encode positive numbers and hence do not include an extra bit for signedness.
   </t>
   <figure anchor="fig.time-code" title="A time-code with exponent and mantissa to encode a logarithmic range time representation.">
     <artwork align="center"><![CDATA[
@@ -220,11 +221,38 @@ milliseconds                                                   days
   </figure>
   <t>
     The base unit for time values are seconds. A time-value is calculated using the following formula,
-    where (e) represents the exponent, (m) the mantissa, and (b) the bias.
+    where (e) represents the exponent, (m) the mantissa, (m_max) the maximum mantissa value, and (b) the bias.
     <list style="hanging">
-      <t hangText="Subnormal (e == 0):"> (0 + m/m_max) * 2^(0+b+1)
+      <t hangText="Subnormal (e == 0):"> (0 + m/m_max) * 2^(1+b)
       </t>
       <t hangText="Normalized (e &gt; 0):"> (1 + m/m_max) * 2^(e+b)
+      </t>
+    </list>
+    The subnormal form provides a gradual underflow from the smallest normalized number towards zero.
+  </t>
+  <t>
+    This document defines a bias and widths for exponents and mantissae.
+    These values are defined separately for 1-octet wide and 2-octet wide representations.
+    <list style="hanging">
+      <t hangText="1-octet time-code:">
+        The 1-octet time representation uses five exponent bits, three mantissa bits, and applies a bias to the exponent of negative five.
+        The configuration is written as (5, 3, -5).
+        <list style="symbols">
+          <t>Minimum subnormal number:   0 seconds</t>
+          <t>Maximum subnormal number:  ~0.054688 seconds</t>
+          <t>Minimum normalized number: ~0.062500 seconds</t>
+          <t>Maximum normalized number: ~3.987284 years</t>
+        </list>
+      </t>
+      <t hangText="2-octet time-code:">
+        The 2-octet time representation uses five exponent bits, eleven mantissa bits, and applies a bias to the exponent of negative five.
+        The configuration is written as (5, 11, -5).
+        <list style="symbols">
+          <t>Minimum subnormal number:   0 seconds</t>
+          <t>Maximum subnormal number:  ~0.062479 seconds</t>
+          <t>Minimum normalized number: ~0.062500 seconds</t>
+          <t>Maximum normalized number: ~4.252065 years</t>
+        </list>
       </t>
     </list>
   </t>
