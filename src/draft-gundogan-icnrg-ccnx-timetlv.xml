@@ -170,13 +170,13 @@
 <t>CCNx, as currently specified in <xref target="RFC8569"/>, utilizes absolute time for various important functions. Each of these absolute time usages poses a different challenge for a compact representation. These are discussed in the following subsections.</t>
 
 <section title="Signature Time">
-<t><spanx>Signature Time</spanx> is the time the signature of a content object was generated (<xref target="RFC8569">sections 8.2-8.4</xref>). This is a content message TLV stating the time the signature on the content object was generated, in milliseconds since the UTC epoch (i.e. An NTP timestamp). It is currently encoded via the T_SIGTIME TLV as a 64-bit unsigned integer (see <xref target="RFC8609"> section 3.6.4.1.4.5</xref>).</t>	
+<t><spanx>Signature Time</spanx> is the time the signature of a content object was generated (<xref target="RFC8569">sections 8.2-8.4</xref>). This is a content message TLV and represents an absolute timestamp in milliseconds since the UTC epoch (i.e. An NTP timestamp). It is currently encoded via the T_SIGTIME TLV as a 64-bit unsigned integer (see <xref target="RFC8609"> section 3.6.4.1.4.5</xref>).</t>
 
 <t>Given that a signature time could be essentially at any time in the past, and is included in the hash securing the content object, it seems there is no practical way to define an alternative compact encoding that preserves its semantics and security properties; hence we don't consider it further as a candidate.</t>
 </section>
 
 <section title="Expiry Time">
-<t><spanx>Expiry Time</spanx> indicates the expiry time of a content object (<xref target="RFC8569">section 4</xref>). This is a content message TLV (covered by the hash and signature of the content object) stating the expiration time of the content object in milliseconds since the UTC epoch (i.e. An NTP timestamp). It is currently encoded via the T_EXPIRY TLV as a 64-bit unsigned integer (see <xref target="RFC8609"> section 3.6.2.2.2</xref>).</t>
+<t><spanx>Expiry Time</spanx> indicates the expiry time of a content object (<xref target="RFC8569">section 4</xref>). This is a content message TLV (covered by the hash and signature of the content object) and represents an absolute timestamp in milliseconds since the UTC epoch (i.e. An NTP timestamp). It is currently encoded via the T_EXPIRY TLV as a 64-bit unsigned integer (see <xref target="RFC8609"> section 3.6.2.2.2</xref>).</t>
 
 <t>Expiry time could be in the past, or in the future, potentially by a large delta, and is included in the hash securing the content object. Therefore, it seems there is no practical way to define an alternative compact encoding that preserves its semantics and security properties; hence we don't consider it further as a candidate.</t>
 </section>
