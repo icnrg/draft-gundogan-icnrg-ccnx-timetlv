@@ -150,7 +150,7 @@
 
 <section anchor="intro" title="Introduction">
 
-<t>CCNx utilizes Time values for a number of functions. Some of these are expressed as absolute time, others as delta time. When using CCNx in environments with constrained nodes and/or bandwidth constrained networks, it is valuable to have a compact representation of time values. For example <xref target="I-D.irtf-icnrg-icnlowpan"/> specifies a compression scheme useful over IEEE 804.15.4 networks. However, any compact time representation has to sacrifice either accuracy or dynamic range or both. For some time uses this is relatively straightforward to achieve, for other uses, it is not. This document discusses the various cases, and proposes a compact encoding that is easily accommodated for delta times, and a more complicated method that can be considered for some uses of absolute time.</t>
+<t>CCNx utilizes Time values for a number of functions. Some of these are expressed as absolute time, others as delta time. When using CCNx in environments with constrained nodes and/or bandwidth constrained networks, it is valuable to have a compact representation of time values. For example <xref target="I-D.irtf-icnrg-icnlowpan"/> specifies a compression scheme useful over IEEE 802.15.4 networks. However, any compact time representation has to sacrifice either accuracy or dynamic range or both. For some time uses this is relatively straightforward to achieve, for other uses, it is not. This document discusses the various cases, and proposes a compact encoding that is easily accommodated for delta times, and a more complicated method that can be considered for some uses of absolute time.</t>
 </section>
 
 <section title="Requirements Language">
