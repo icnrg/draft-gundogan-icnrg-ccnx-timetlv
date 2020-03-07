@@ -242,9 +242,10 @@ milliseconds                                                   days
           <t>Minimum subnormal number:   0 seconds</t>
           <t>Maximum subnormal number:  ~0.054688 seconds</t>
           <t>Minimum normalized number: ~0.062500 seconds</t>
-          <t>Maximum normalized number: ~3.987284 years</t>
+          <t>Maximum normalized numbers: [~3.46, ~3.72, ~3.99] years</t>
         </list>
         Eight time values exist in the subnormal range [0,~0.054688s] with a step size of ~0.007813s between each time value.
+        In addition, this configuration also encodes the following convenient numbers in seconds: [1, 2, 4, 8, 16, 32, 64].
       </t>
     </list>
   </t>
