@@ -197,7 +197,7 @@ This possibility is for further analysis and discussion as the document progress
 <section title="A Compact Time Representation with Logarithmic Range" anchor="sec.timetlv">
   <t>
     This document defines a compact time representation with logarithmic range support that is inspired by <xref target="RFC5497"/> and <xref target="IEEE.754.2019"/>.
-    Compact time-codes are one or two octets wide and represent time-values that range from milliseconds to days.
+    Compact time-codes are one octet wide and represent time-values that range from milliseconds to days.
     <xref target="fig.time-value"/> depicts the logarithmic nature of this time representation.
   </t>
   <figure anchor="fig.time-value" title="A logarithmic range representation allows for higher precision in the smaller time ranges and still supports large time deltas.">
@@ -213,7 +213,7 @@ milliseconds                                                   days
   </t>
   <figure anchor="fig.time-code" title="A time-code with exponent and mantissa to encode a logarithmic range time representation.">
     <artwork align="center"><![CDATA[
-<--   one or two octets wide  -->
+<---      one octet wide     --->
 +---+---+---+---+---+---+---+---+
 |  exponent (e) |  mantissa (m) |
 +---+---+---+---+---+---+---+---+
@@ -228,31 +228,23 @@ milliseconds                                                   days
       <t hangText="Normalized (e &gt; 0):"> (1 + m/m_max) * 2^(e+b)
       </t>
     </list>
-    The subnormal form provides a gradual underflow from the smallest normalized number towards zero.
+    The subnormal form is only applied when the exponent is zero.
+    This form provides a gradual underflow for the gap between the smallest normalized number and zero.
+    The normalized form is applied for all values with an exponent greater than zero.
   </t>
   <t>
-    This document defines a bias and widths for exponents and mantissae.
-    These values are defined separately for 1-octet wide and 2-octet wide representations.
+    This document defines a bias and widths for exponent and mantissa to encode time offset values that are approriate for typical IoT deployments.
     <list style="hanging">
-      <t hangText="1-octet time-code:">
+      <t hangText="time-code configuration:">
         The 1-octet time representation uses five exponent bits, three mantissa bits, and applies a bias to the exponent of negative five.
-        The configuration is written as (5, 3, -5).
+        This yields the following properties:
         <list style="symbols">
           <t>Minimum subnormal number:   0 seconds</t>
           <t>Maximum subnormal number:  ~0.054688 seconds</t>
           <t>Minimum normalized number: ~0.062500 seconds</t>
           <t>Maximum normalized number: ~3.987284 years</t>
         </list>
-      </t>
-      <t hangText="2-octet time-code:">
-        The 2-octet time representation uses five exponent bits, eleven mantissa bits, and applies a bias to the exponent of negative five.
-        The configuration is written as (5, 11, -5).
-        <list style="symbols">
-          <t>Minimum subnormal number:   0 seconds</t>
-          <t>Maximum subnormal number:  ~0.062479 seconds</t>
-          <t>Minimum normalized number: ~0.062500 seconds</t>
-          <t>Maximum normalized number: ~4.252065 years</t>
-        </list>
+        Eight time values exist in the subnormal range [0,~0.054688s] with a step size of ~0.007813s between each time value.
       </t>
     </list>
   </t>
