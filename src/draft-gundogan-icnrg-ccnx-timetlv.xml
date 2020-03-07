@@ -250,22 +250,33 @@ milliseconds                                                   days
     </list>
   </t>
 </section>
-<section title="Alternatives for a compact time representation in CCNx messages">
-
-<t>A straightforward way to accommodate the TimeTLV approach as an alternative encoding is to simply allow a 1 or 2-byte length as an alternative to the 8-byte length while retaining the existing TLV Registry entries. While this has backward compatibility problems, the authors recommend this approach for the following reasons:
-<list style="symbols">
-	<t>Both CCNx RFCs are experimental and not Standards Track, hence expectations for forward and backward compatibility are not as stringent. "Flag day" upgrades of deployed CCNx networks, while inconvenient, are still feasible.</t>
-	<t>The major use case for these compressed encodings are smaller-scale IoT and/or sensor networks where the population of consumers, producers, and forwarders is reasonably small.</t>
-	<t>Since the current TLVs have hop-by-hop semantics, they are not covered by any signed hash and hence may be freely re-encoded by any forwarder. That means a forwarder supporting the new encoding can translate freely between the two encodings.</t>
-	<t>The alternative of assigning new TLV registry values does not substantially mitigate the interoperability problems anyway.</t>
-</list>
-</t> 
+<section title="Protocol Integration of the Compact Time Representation in CCNx Messages">
+  <t>The following lists different approaches of integrating the compact time representation for time offsets in CCNx messages.
+  A further analysis, discussion, and decision on the best suited approach will be added as the document progresses.
+  <list style="numbers">
+    <t>Relative time TLVs (e.g., T_INTLIFETIME) include nested TLVs to hint at the used encoding.
+    This approach is the least intrusive integration, but adds a TLV overhead that negates the benefits of the compact time representation.</t>
+    <t>A new TLV type for T_INTLIFETIME with a compact time representation (T_INTLIFETIME_COMPACT) is defined.
+    The packet header grammar from <xref target="RFC8609"/> is updated to allow for T_INTLIFETIME_COMPACT at the same level of the currently defined T_INTLIFETIME with an exclusive or.</t>
+    <t>A straightforward way to accommodate the compact time approach as an alternative encoding is to simply allow a 1-byte length as an alternative to the 8-byte length while retaining the existing TLV Registry entries.
+    This approach has backward compatibility problems, but may still be considered for the following reasons:
+    <list style="symbols">
+      <t>Both CCNx RFCs are experimental and not Standards Track, hence expectations for forward and backward compatibility are not as stringent. "Flag day" upgrades of deployed CCNx networks, while inconvenient, are still feasible.</t>
+      <t>The major use case for these compressed encodings are smaller-scale IoT and/or sensor networks where the population of consumers, producers, and forwarders is reasonably small.</t>
+      <t>Since the current TLVs have hop-by-hop semantics, they are not covered by any signed hash and hence may be freely re-encoded by any forwarder. That means a forwarder supporting the new encoding can translate freely between the two encodings.</t>
+      <t>The alternative of assigning new TLV registry values does not substantially mitigate the interoperability problems anyway.</t>
+    </list>
+    </t>
+  </list>
+  </t>
 </section>
 <section anchor="IANA" title="IANA Considerations">
-<t>Please change the registry for the T_INTLIFE to permit a length of 1 or 2 in addition to a length of 8, as follows:.</t>
-	<figure anchor="timetlv-encoding" title="Alternate Delta Time encoding.">
-		<preamble>.</preamble>
-        <artwork align="left"><![CDATA[
+  <t>Based on the approach of integration, certain TLV registries from <xref target="RFC8609"/> need to be updated.</t>
+<?ignore
+  <t>Please change the registry for the T_INTLIFE to permit a length of 1 in addition to a length of 8, as follows:.</t>
+  <figure anchor="timetlv-encoding" title="Alternate Delta Time encoding.">
+    <preamble>.</preamble>
+    <artwork align="left"><![CDATA[
                      1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +---------------+---------------+---------------+---------------+
@@ -273,18 +284,9 @@ milliseconds                                                   days
 +---------------+---------------+---------------+---------------+
 | INTERVAL_TIME |
 +---------------+
-
-                     1                   2                   3
- 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-+---------------+---------------+---------------+---------------+
-|             T_INTLIFE         |               2               |
-+---------------+---------------+---------------+---------------+
-|           INTERVAL_TIME       |
-+-------------------------------+
-
-            ]]></artwork>
-   </figure>
-
+]]></artwork>
+  </figure>
+?>
 </section>
 
 <section anchor="Security" title="Security Considerations">
