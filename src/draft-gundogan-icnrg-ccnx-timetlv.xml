@@ -321,7 +321,7 @@ milliseconds                                                  years
                  target="https://standards.ieee.org/content/ieee-standards/en/standard/754-2019.html">
         <front>
           <title>Standard for Floating-Point Arithmetic</title>
-          <author surname="Institute of Electrical and Electronics Engineers"/>
+          <author initials="" surname="Institute of Electrical and Electronics Engineers" fullname=""/>
           <date month="June" year="2019"/>
         </front>
       </reference>
