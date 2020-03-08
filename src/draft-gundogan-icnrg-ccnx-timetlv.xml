@@ -249,13 +249,6 @@ milliseconds                                                  years
   </t>
 </section>
 <section title="Protocol Integration of the Compact Time Representation in CCNx Messages" anchor="sec.integration">
-  <t>The following lists different approaches of integrating the compact time representation for time offsets in CCNx messages.
-  A further analysis, discussion, and decision on the best suited approach will be added as the document progresses.
-  <list style="numbers">
-    <t>Relative time TLVs (e.g., T_INTLIFETIME) include nested TLVs to hint at the used encoding.
-    This approach is the least intrusive integration, but adds a TLV overhead that negates the benefits of the compact time representation.</t>
-    <t>A new TLV type for T_INTLIFETIME with a compact time representation (T_INTLIFETIME_COMPACT) is defined.
-    The packet header grammar from <xref target="RFC8609"/> is updated to allow for T_INTLIFETIME_COMPACT at the same level of the currently defined T_INTLIFETIME with an exclusive or.</t>
     <t>A straightforward way to accommodate the compact time approach as an alternative encoding is to simply allow a 1-byte length as an alternative to the 8-byte length while retaining the existing TLV Registry entries.
     This approach has backward compatibility problems, but may still be considered for the following reasons:
     <list style="symbols">
@@ -265,6 +258,13 @@ milliseconds                                                  years
       <t>The alternative of assigning new TLV registry values does not substantially mitigate the interoperability problems anyway.</t>
     </list>
     </t>
+  <t>The following lists alternative approaches of integrating the compact time representation for time offsets in CCNx messages.
+  A further analysis, discussion, and decision on the best suited approach will be added as the document progresses.
+  <list style="numbers">
+    <t>Relative time TLVs (e.g., T_INTLIFETIME) include nested TLVs to hint at the used encoding.
+    This approach is the least intrusive integration, but adds a TLV overhead that negates the benefits of the compact time representation.</t>
+    <t>A new TLV type for T_INTLIFETIME with a compact time representation (T_INTLIFETIME_COMPACT) is defined.
+    The packet header grammar from <xref target="RFC8609"/> is updated to allow for T_INTLIFETIME_COMPACT at the same level of the currently defined T_INTLIFETIME with an exclusive or.</t>
   </list>
   </t>
 </section>
