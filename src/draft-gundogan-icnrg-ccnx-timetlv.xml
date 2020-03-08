@@ -197,14 +197,14 @@ This possibility is for further analysis and discussion as the document progress
 <section title="A Compact Time Representation with Logarithmic Range" anchor="sec.timetlv">
   <t>
     This document defines a compact time representation with logarithmic range support that is inspired by <xref target="RFC5497"/> and <xref target="IEEE.754.2019"/>.
-    Compact time-codes are one octet wide and represent time-values that range from milliseconds to days.
+    Compact time-codes are one octet wide and represent time-values that range from milliseconds to years.
     <xref target="fig.time-value"/> depicts the logarithmic nature of this time representation.
   </t>
   <figure anchor="fig.time-value" title="A logarithmic range representation allows for higher precision in the smaller time ranges and still supports large time deltas.">
     <artwork align="center"><![CDATA[
 || |  |   |    |     |      |       |        |         |          |
 +-----------------------------------------------------------------+
-milliseconds                                                   days
+milliseconds                                                  years
 ]]></artwork>
   </figure>
   <t>
