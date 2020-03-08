@@ -234,21 +234,18 @@ milliseconds                                                  years
     The normalized form is applied for all values with an exponent greater than zero.
   </t>
   <t>
-    This document defines a bias and widths for exponent and mantissa to encode time offset values that are appropriate for typical IoT deployments.
-    <list style="hanging">
-      <t hangText="time-code configuration:">
-        The 1-octet time representation uses five exponent bits, three mantissa bits, and applies a bias to the exponent of negative five.
-        This yields the following properties:
-        <list style="symbols">
-          <t>Minimum subnormal number:   0 seconds</t>
-          <t>Maximum subnormal number:  ~0.054688 seconds</t>
-          <t>Minimum normalized number: ~0.062500 seconds</t>
-          <t>Maximum normalized numbers: [~3.46, ~3.72, ~3.99] years</t>
-        </list>
-        Eight time values exist in the subnormal range [0,~0.054688s] with a step size of ~0.007813s between each time value.
-        In addition, this configuration also encodes the following convenient numbers in seconds: [1, 2, 4, 8, 16, 32, 64].
-      </t>
+    This document allocates <spanx style="verb">5</spanx> bits for the exponent and <spanx style="verb">3</spanx> bits for the mantissa.
+    Therefore, exponents have the range [0,31] and mantissae have the range [0,7].
+    This document further applies a bias of <spanx style="verb">-5</spanx>.
+    The following properties result from this configuration:
+    <list style="symbols">
+      <t>Minimum subnormal number:   0 seconds</t>
+      <t>Maximum subnormal number:  ~0.054688 seconds</t>
+      <t>Minimum normalized number: ~0.062500 seconds</t>
+      <t>Maximum normalized numbers: [~3.46, ~3.72, ~3.99] years</t>
     </list>
+    Eight time values exist in the subnormal range [0,~0.054688s] with a step size of ~0.007813s between each time value.
+    In addition, this configuration also encodes the following convenient numbers in seconds: [1, 2, 4, 8, 16, 32, 64, ...].
   </t>
 </section>
 <section title="Protocol Integration of the Compact Time Representation in CCNx Messages" anchor="sec.integration">
