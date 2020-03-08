@@ -209,7 +209,7 @@ milliseconds                                                   days
   </figure>
   <t>
     Time-codes encode an exponent and a mantissa as illustrated in <xref target="fig.time-code"/>.
-    In contrast to the representation in <xref target="IEEE.754.2019"/>, time-codes only encode positive numbers and hence do not include an extra bit for signedness.
+    In contrast to the representation in <xref target="IEEE.754.2019"/>, time-codes only encode positive numbers and hence do not include an extra sign bit.
   </t>
   <figure anchor="fig.time-code" title="A time-code with exponent and mantissa to encode a logarithmic range time representation.">
     <artwork align="center"><![CDATA[
@@ -233,7 +233,7 @@ milliseconds                                                   days
     The normalized form is applied for all values with an exponent greater than zero.
   </t>
   <t>
-    This document defines a bias and widths for exponent and mantissa to encode time offset values that are approriate for typical IoT deployments.
+    This document defines a bias and widths for exponent and mantissa to encode time offset values that are appropriate for typical IoT deployments.
     <list style="hanging">
       <t hangText="time-code configuration:">
         The 1-octet time representation uses five exponent bits, three mantissa bits, and applies a bias to the exponent of negative five.
