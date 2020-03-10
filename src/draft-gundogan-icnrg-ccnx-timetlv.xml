@@ -184,7 +184,7 @@
 <section title="Recommended Cache Time">
 <t><spanx>Recommended Cache Time</spanx> (RCT) for a content object (<xref target="RFC8569">see section 4</xref>) is a hop-by-hop header stating the expiration time for a cached content object in milliseconds since the UTC epoch (i.e. An NTP timestamp). It is currently encoded via the T_CACHETIME TLV as a 64-bit unsigned integer (see <xref target="RFC8609"> section 3.4.2</xref>).</t>
 
-<t>Recommended cache time could be far in the future, but cannot be in the past and is likely to be a reasonably short offset from the current time. Therefore, there are a couple of alternatives for defining a compact representation. These are:
+<t>A recommended cache time could be far in the future, but cannot be in the past and is likely to be a reasonably short offset from the current time. With this in mind, we suggest the following alternatives for defining a compact representation.
 <list style="symbols">
 <t>allow the compact representation to be interpreted as a delta time rather than an absolute time, since the semantics associated with an absolute time value do not seem to be critical to the utility of this value.</t>
 <t>define an alternative absolute time base against which the RCT delta can be measured. One potential candidate would be a <spanx>message generation time</spanx> included as a message TLV (not a hop-by-hop TLV). While doing this would not save any space if used for just RCT (it would actually make the message bigger) if its cost could be amortitized across multiple other time TLVs in the same message, it might be a win.</t>
