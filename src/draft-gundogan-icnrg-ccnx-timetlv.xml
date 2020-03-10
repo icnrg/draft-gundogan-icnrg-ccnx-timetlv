@@ -182,29 +182,30 @@
 </section>
 
 <section title="Recommended Cache Time">
-<t><spanx>Recommended Cache Time</spanx> (RCT) for a content object (<xref target="RFC8569">see section 4</xref>) is a hop-by-hop header stating the expiration time for a cached content object in milliseconds since the UTC epoch (i.e. An NTP timestamp). It is currently encoded via the T_CACHETIME TLV as a 64-bit unsigned integer (see <xref target="RFC8609"> section 3.4.2</xref>).</t>
+  <t><spanx>Recommended Cache Time</spanx> (RCT) for a content object (<xref target="RFC8569">see section 4</xref>) is a hop-by-hop header stating the expiration time for a cached content object in milliseconds since the UTC epoch (i.e. An NTP timestamp). It is currently encoded via the T_CACHETIME TLV as a 64-bit unsigned integer (see <xref target="RFC8609"> section 3.4.2</xref>).</t>
 
 <t>A recommended cache time could be far in the future, but cannot be in the past and is likely to be a reasonably short offset from the current time. With this in mind, we suggest the following alternatives for defining a compact representation.
-<list style="symbols">
-<t>allow the compact representation to be interpreted as a delta time rather than an absolute time, since the semantics associated with an absolute time value do not seem to be critical to the utility of this value.</t>
-<t>define an alternative absolute time base against which the RCT delta can be measured. One potential candidate would be a <spanx>message generation time</spanx> included as a message TLV (not a hop-by-hop TLV). While doing this would not save any space if used for just RCT (it would actually make the message bigger) if its cost could be amortitized across multiple other time TLVs in the same message, it might be a win.</t>
-</list>
-This possibility is for further analysis and discussion as the document progresses. 
-</t>
+  Therefore, this document allows the recommended cache time to be interpreted as a relative time value rather than an absolute time, since the semantics associated with an absolute time value do not seem to be critical to the utility of this value.
+  This document therefore updates the recommended cache time with the following rule set:
+  <list style="symbols">
+    <t>Use absolute time as per <xref target="RFC8609"/></t>
+    <t>Use relative time, if the compact time representation is used (see <xref target="sec.timetlv"/> and <xref target="sec.integration"/>)</t>
+  </list>
+  </t>
 </section>
 </section>
 </section>
 <section title="A Compact Time Representation with Logarithmic Range" anchor="sec.timetlv">
   <t>
     This document defines a compact time representation with logarithmic range support that is inspired by <xref target="RFC5497"/> and <xref target="IEEE.754.2019"/>.
-    Compact time-codes are one octet wide and represent time-values that range from milliseconds to days.
+    Compact time-codes are one octet wide and represent time-values that range from milliseconds to years.
     <xref target="fig.time-value"/> depicts the logarithmic nature of this time representation.
   </t>
   <figure anchor="fig.time-value" title="A logarithmic range representation allows for higher precision in the smaller time ranges and still supports large time deltas.">
     <artwork align="center"><![CDATA[
 || |  |   |    |     |      |       |        |         |          |
 +-----------------------------------------------------------------+
-milliseconds                                                   days
+milliseconds                                                  years
 ]]></artwork>
   </figure>
   <t>
@@ -233,31 +234,21 @@ milliseconds                                                   days
     The normalized form is applied for all values with an exponent greater than zero.
   </t>
   <t>
-    This document defines a bias and widths for exponent and mantissa to encode time offset values that are appropriate for typical IoT deployments.
-    <list style="hanging">
-      <t hangText="time-code configuration:">
-        The 1-octet time representation uses five exponent bits, three mantissa bits, and applies a bias to the exponent of negative five.
-        This yields the following properties:
-        <list style="symbols">
-          <t>Minimum subnormal number:   0 seconds</t>
-          <t>Maximum subnormal number:  ~0.054688 seconds</t>
-          <t>Minimum normalized number: ~0.062500 seconds</t>
-          <t>Maximum normalized numbers: [~3.46, ~3.72, ~3.99] years</t>
-        </list>
-        Eight time values exist in the subnormal range [0,~0.054688s] with a step size of ~0.007813s between each time value.
-        In addition, this configuration also encodes the following convenient numbers in seconds: [1, 2, 4, 8, 16, 32, 64].
-      </t>
+    This document allocates <spanx style="verb">5</spanx> bits for the exponent and <spanx style="verb">3</spanx> bits for the mantissa.
+    Therefore, exponents have the range [0,31] and mantissae have the range [0,7].
+    This document further applies a bias of <spanx style="verb">-5</spanx>.
+    The following properties result from this configuration:
+    <list style="symbols">
+      <t>Minimum subnormal number:   0 seconds</t>
+      <t>Maximum subnormal number:  ~0.054688 seconds</t>
+      <t>Minimum normalized number: ~0.062500 seconds</t>
+      <t>Maximum normalized numbers: [~3.46, ~3.72, ~3.99] years</t>
     </list>
+    Eight time values exist in the subnormal range [0,~0.054688s] with a step size of ~0.007813s between each time value.
+    In addition, this configuration also encodes the following convenient numbers in seconds: [1, 2, 4, 8, 16, 32, 64, ...].
   </t>
 </section>
-<section title="Protocol Integration of the Compact Time Representation in CCNx Messages">
-  <t>The following lists different approaches of integrating the compact time representation for time offsets in CCNx messages.
-  A further analysis, discussion, and decision on the best suited approach will be added as the document progresses.
-  <list style="numbers">
-    <t>Relative time TLVs (e.g., T_INTLIFETIME) include nested TLVs to hint at the used encoding.
-    This approach is the least intrusive integration, but adds a TLV overhead that negates the benefits of the compact time representation.</t>
-    <t>A new TLV type for T_INTLIFETIME with a compact time representation (T_INTLIFETIME_COMPACT) is defined.
-    The packet header grammar from <xref target="RFC8609"/> is updated to allow for T_INTLIFETIME_COMPACT at the same level of the currently defined T_INTLIFETIME with an exclusive or.</t>
+<section title="Protocol Integration of the Compact Time Representation in CCNx Messages" anchor="sec.integration">
     <t>A straightforward way to accommodate the compact time approach as an alternative encoding is to simply allow a 1-byte length as an alternative to the 8-byte length while retaining the existing TLV Registry entries.
     This approach has backward compatibility problems, but may still be considered for the following reasons:
     <list style="symbols">
@@ -267,6 +258,13 @@ milliseconds                                                   days
       <t>The alternative of assigning new TLV registry values does not substantially mitigate the interoperability problems anyway.</t>
     </list>
     </t>
+  <t>The following lists alternative approaches of integrating the compact time representation for time offsets in CCNx messages.
+  A further analysis, discussion, and decision on the best suited approach will be added as the document progresses.
+  <list style="numbers">
+    <t>Relative time TLVs (e.g., T_INTLIFETIME) include nested TLVs to hint at the used encoding.
+    This approach is the least intrusive integration, but adds a TLV overhead that negates the benefits of the compact time representation.</t>
+    <t>A new TLV type for T_INTLIFETIME with a compact time representation (T_INTLIFETIME_COMPACT) is defined.
+    The packet header grammar from <xref target="RFC8609"/> is updated to allow for T_INTLIFETIME_COMPACT at the same level of the currently defined T_INTLIFETIME with an exclusive or.</t>
   </list>
   </t>
 </section>
@@ -321,7 +319,8 @@ milliseconds                                                   days
                  target="https://standards.ieee.org/content/ieee-standards/en/standard/754-2019.html">
         <front>
           <title>Standard for Floating-Point Arithmetic</title>
-          <author surname="Institute of Electrical and Electronics Engineers"/>
+          <author initials="" fullname=""
+                  surname="Institute of Electrical and Electronics Engineers, C/MSC - Microprocessor Standards Committee"/>
           <date month="June" year="2019"/>
         </front>
       </reference>
