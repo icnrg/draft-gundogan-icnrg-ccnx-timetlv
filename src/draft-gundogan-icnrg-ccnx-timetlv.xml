@@ -184,7 +184,7 @@
 <section title="Recommended Cache Time">
   <t><spanx>Recommended Cache Time</spanx> (RCT) for a content object (<xref target="RFC8569">see section 4</xref>) is a hop-by-hop header stating the expiration time for a cached content object in milliseconds since the UTC epoch (i.e. An NTP timestamp). It is currently encoded via the T_CACHETIME TLV as a 64-bit unsigned integer (see <xref target="RFC8609"> section 3.4.2</xref>).</t>
 
-<t>A recommended cache time could be far in the future, but cannot be in the past and is likely to be a reasonably short offset from the current time. With this in mind, we suggest the following alternatives for defining a compact representation.
+<t>A recommended cache time could be far in the future, but cannot be in the past and is likely to be a reasonably short offset from the current time.
   Therefore, this document allows the recommended cache time to be interpreted as a relative time value rather than an absolute time, since the semantics associated with an absolute time value do not seem to be critical to the utility of this value.
   This document therefore updates the recommended cache time with the following rule set:
   <list style="symbols">
