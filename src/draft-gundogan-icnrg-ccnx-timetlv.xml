@@ -288,7 +288,7 @@ milliseconds                                                  years
 </section>
 
 <section anchor="Security" title="Security Considerations">
-	<t>This document makes no semantic changes to RFC8965, nor to any of the security properties of the message encodings of RFC8609, and hence has the same security considerations as those two existing documents.
+	<t>This document makes no semantic changes to <xref target="RFC8569"/>, nor to any of the security properties of the message encodings of <xref target="RFC8609"/>, and hence has the same security considerations as those two existing documents.
 	</t>
 </section>
 
