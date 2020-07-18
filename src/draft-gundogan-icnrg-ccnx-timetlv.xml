@@ -330,6 +330,42 @@ milliseconds                                                  years
       &I-D.irtf-icnrg-icnlowpan;
     </references>
 
+    <section anchor="sec.testvectors" title="Test Vectors">
+      <t>
+        The test vecotrs in <xref target="tab.testvectors"/> show sample time codes and their corresponding time values according to the algorithm outlined in <xref target="sec.timetlv"/>.
+      </t>
+
+      <texttable anchor="tab.testvectors"
+                 title="Test Vectors">
+        <ttcol align="center">Time Code</ttcol>
+
+        <ttcol align="right">Time Value (seconds)</ttcol>
+
+        <c>0x00</c>
+        <c>0.000000</c>
+
+        <c>0x04</c>
+        <c>0.031250</c>
+
+        <c>0x08</c>
+        <c>0.062500</c>
+
+        <c>0x15</c>
+        <c>0.203125</c>
+
+        <c>0x28</c>
+        <c>1.000000</c>
+
+        <c>0x30</c>
+        <c>2.000000</c>
+
+        <c>0xF8</c>
+        <c>67108864.000000</c>
+
+        <c>0xFF</c>
+        <c>125829120.000000</c>
+      </texttable>
+    </section>
     <!-- Change Log
 v00 2019-10-03  DRO   Initial version-->
 </back>
