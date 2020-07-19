@@ -247,6 +247,33 @@ milliseconds                                                  years
     Eight time values exist in the subnormal range [0,~0.054688s] with a step size of ~0.007813s between each time value.
     In addition, this configuration also encodes the following convenient numbers in seconds: [1, 2, 4, 8, 16, 32, 64, ...].
   </t>
+  <t>
+    An example algorithm to encode a time value into the corresponding exponent and mantissa is given as pseudo code in <xref target="fig.algo"/>.
+    Not all time values can be represented by a time code.
+    For these instances, the closest time code is chosen that is smaller than the value to encode.
+  </t>
+  <figure anchor="fig.algo" title="Algorithm in pseudo code.">
+    <artwork align="center"><![CDATA[
+ input: float v    // time value
+output:   int e, m // exponent, mantissa of time code
+
+(e, m) encode (v):
+
+    if (v == 0)
+        return (0, 0)
+
+    if (v < 0.0625)
+        m = (int) (v * 2^7) // truncate fractional part
+        return (0, m)
+    else
+        e = floor (log2(v)) // round down
+        m = floor (((v / 2^e - 1) * 8)) // round down
+        return (e + 5, m)
+]]></artwork>
+  </figure>
+  <t>
+    As an example: No specific time code for <spanx style="verb">0.063</spanx> exists, but this algorithm maps to the closest valid time code that is smaller, i.e., exponent <spanx style="verb">1</spanx> and mantissa <spanx style="verb">0</spanx> (the same as for time value <spanx style="verb">0.0625</spanx>).
+  </t>
 </section>
 <section title="Protocol Integration of the Compact Time Representation in CCNx Messages" anchor="sec.integration">
     <t>A straightforward way to accommodate the compact time approach as an alternative encoding is to simply allow a 1-byte length as an alternative to the 8-byte length while retaining the existing TLV Registry entries.
