@@ -358,7 +358,7 @@ output:   int e, m // exponent, mantissa of time code
 
     <section anchor="sec.testvectors" title="Test Vectors">
       <t>
-        The test vecotrs in <xref target="tab.testvectors"/> show sample time codes and their corresponding time values according to the algorithm outlined in <xref target="sec.timetlv"/>.
+        The test vectors in <xref target="tab.testvectors"/> show sample time codes and their corresponding time values according to the algorithm outlined in <xref target="sec.timetlv"/>.
       </t>
 
       <texttable anchor="tab.testvectors"
