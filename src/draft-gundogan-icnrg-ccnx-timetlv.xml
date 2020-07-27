@@ -114,7 +114,7 @@
       </address>
     </author>
 
-    <date month="March" year="2020" />
+    <date month="July" year="2020" />
 
     <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
          in the current day for you. If only the current year is specified, xml2rfc will fill 
@@ -141,7 +141,7 @@
          keywords will be used for the search engine. -->
 
     <abstract>
-       <t>CCNx utilizes Delta Time for a number of functions. When using CCNx in environments with constrained nodes and/or bandwidth constrained networks, it is valuable to have a compressed representation of delta time. In order to do so, either accuracy or dynamic range has to be sacrificed. Since the current uses of delta time do not require both simultaneously, one can consider a logarithmic encoding such as that specified in <xref target="IEEE.754.2019"/>. This document updates <spanx>CCNx messages in TLV Format</spanx> (RFC8609) to specify this alternative encoding.</t>
+       <t>CCNx utilizes delta time for a number of functions. When using CCNx in environments with constrained nodes and/or bandwidth constrained networks, it is valuable to have a compressed representation of delta time. In order to do so, either accuracy or dynamic range has to be sacrificed. Since the current uses of delta time do not require both simultaneously, one can consider a logarithmic encoding such as that specified in <xref target="IEEE.754.2019"/>. This document updates <spanx>CCNx messages in TLV Format</spanx> (RFC8609) to specify this alternative encoding.</t>
 <!--This document is a product of the IRTF Information-Centric Networking Research Group (ICNRG). -->
     </abstract>
 </front>
@@ -150,7 +150,7 @@
 
 <section anchor="intro" title="Introduction">
 
-<t>CCNx utilizes Time values for a number of functions. Some of these are expressed as absolute time, others as delta time. When using CCNx in environments with constrained nodes and/or bandwidth constrained networks, it is valuable to have a compact representation of time values. For example <xref target="I-D.irtf-icnrg-icnlowpan"/> specifies a compression scheme useful over IEEE 802.15.4 networks. However, any compact time representation has to sacrifice either accuracy or dynamic range or both. For some time uses this is relatively straightforward to achieve, for other uses, it is not. This document discusses the various cases, and proposes a compact encoding that is easily accommodated for delta times, and a more complicated method that can be considered for some uses of absolute time.</t>
+<t>CCNx utilizes time values for a number of functions. Some of these are expressed as absolute time, others as delta time. When using CCNx in environments with constrained nodes and/or bandwidth constrained networks, it is valuable to have a compact representation of time values. For example <xref target="I-D.irtf-icnrg-icnlowpan"/> specifies a compression scheme useful over IEEE 802.15.4 networks. However, any compact time representation has to sacrifice either accuracy or dynamic range or both. For some time uses this is relatively straightforward to achieve, for other uses, it is not. This document discusses the various cases, and proposes a compact encoding that is easily accommodated for delta times, and a more complicated method that can be considered for some uses of absolute time.</t>
 </section>
 
 <section title="Requirements Language">
@@ -158,31 +158,31 @@
         "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
         document are to be interpreted as described in <xref target="RFC2119">RFC 2119</xref>.</t>
 </section>
-<section title="Usage of Time values CCNx">
-<section anchor="relativeTime" title="Relative Time usage in CCNx">
+<section title="Usage of Time Values in CCNx">
+<section anchor="relativeTime" title="Relative Time in CCNx">
 
-<t>CCNx, as currently specified in <xref target="RFC8569"/>, utilizes delta time for only the lifetime of an Interest message (see sections 2.1, 2.2, 2.4.2, 10.3 of <xref target="RFC8569"/>). It is a hop-by-hop header value, and is currently encoded via the T_INTLIFE TLV as a 64-bit integer (<xref target="RFC8609"/> section 3.4.1). While formally an optional TLV, in all but some corner cases every Interest Message is expected to carry the Interest Lifetime TLV, and hence having compact encoding is particularly valuable for keeping Interest messages short.</t>
+<t>CCNx, as currently specified in <xref target="RFC8569"/>, utilizes delta time for only the lifetime of an Interest message (see sections 2.1, 2.2, 2.4.2, 10.3 of <xref target="RFC8569"/>). It is a hop-by-hop header value, and is currently encoded via the T_INTLIFE TLV as a 64-bit integer (<xref target="RFC8609"/> section 3.4.1). While formally an optional TLV, in all but some corner cases every Interest message is expected to carry the Interest Lifetime TLV, and hence having compact encoding is particularly valuable for keeping Interest messages short.</t>
 
-<t>Since the current uses of delta time do not require both accuracy and dynamic range simultaneously, one can consider a logarithmic encoding such as that specified in <xref target="IEEE.754.2019"/> and outlined in <xref target="sec.timetlv"/>. This document updates CCNx messages in TLV Format (<xref target="RFC8609"/>) to permit this alternative encoding for selected Time values. See <xref target="IANA"/> for the specific actions needed to register this alternative compact representation of Interest Lifetime.</t>
+<t>Since the current uses of delta time do not require both accuracy and dynamic range simultaneously, one can consider a logarithmic encoding such as that specified in <xref target="IEEE.754.2019"/> and outlined in <xref target="sec.timetlv"/>. This document updates CCNx messages in TLV Format (<xref target="RFC8609"/>) to permit this alternative encoding for selected time values. See <xref target="IANA"/> for the specific actions needed to register this alternative compact representation of Interest Lifetime.</t>
 </section>
 
-<section anchor="absoluteTime" title="Absolute Time usage in CCNx">
+<section anchor="absoluteTime" title="Absolute Time in CCNx">
 <t>CCNx, as currently specified in <xref target="RFC8569"/>, utilizes absolute time for various important functions. Each of these absolute time usages poses a different challenge for a compact representation. These are discussed in the following subsections.</t>
 
 <section title="Signature Time">
-<t><spanx>Signature Time</spanx> is the time the signature of a content object was generated (<xref target="RFC8569">sections 8.2-8.4</xref>). This is a content message TLV and represents an absolute timestamp in milliseconds since the UTC epoch (i.e. An NTP timestamp). It is currently encoded via the T_SIGTIME TLV as a 64-bit unsigned integer (see <xref target="RFC8609"> section 3.6.4.1.4.5</xref>).</t>
+<t><spanx>Signature Time</spanx> is the time the signature of a content object was generated (<xref target="RFC8569">sections 8.2-8.4</xref>). This is a content message TLV and represents an absolute timestamp in milliseconds since the UTC epoch (i.e., an NTP timestamp). It is currently encoded via the T_SIGTIME TLV as a 64-bit unsigned integer (see <xref target="RFC8609"> section 3.6.4.1.4.5</xref>).</t>
 
 <t>Given that a signature time could be essentially at any time in the past, and is included in the hash securing the content object, it seems there is no practical way to define an alternative compact encoding that preserves its semantics and security properties; hence we don't consider it further as a candidate.</t>
 </section>
 
 <section title="Expiry Time">
-<t><spanx>Expiry Time</spanx> indicates the expiry time of a content object (<xref target="RFC8569">section 4</xref>). This is a content message TLV (covered by the hash and signature of the content object) and represents an absolute timestamp in milliseconds since the UTC epoch (i.e. An NTP timestamp). It is currently encoded via the T_EXPIRY TLV as a 64-bit unsigned integer (see <xref target="RFC8609"> section 3.6.2.2.2</xref>).</t>
+<t><spanx>Expiry Time</spanx> indicates the expiry time of a content object (<xref target="RFC8569">section 4</xref>). This is a content message TLV (covered by the hash and signature of the content object) and represents an absolute timestamp in milliseconds since the UTC epoch (i.e., an NTP timestamp). It is currently encoded via the T_EXPIRY TLV as a 64-bit unsigned integer (see <xref target="RFC8609"> section 3.6.2.2.2</xref>).</t>
 
 <t>Expiry time could be in the past, or in the future, potentially by a large delta, and is included in the hash securing the content object. Therefore, it seems there is no practical way to define an alternative compact encoding that preserves its semantics and security properties; hence we don't consider it further as a candidate.</t>
 </section>
 
 <section title="Recommended Cache Time">
-  <t><spanx>Recommended Cache Time</spanx> (RCT) for a content object (<xref target="RFC8569">see section 4</xref>) is a hop-by-hop header stating the expiration time for a cached content object in milliseconds since the UTC epoch (i.e. An NTP timestamp). It is currently encoded via the T_CACHETIME TLV as a 64-bit unsigned integer (see <xref target="RFC8609"> section 3.4.2</xref>).</t>
+  <t><spanx>Recommended Cache Time</spanx> (RCT) for a content object (<xref target="RFC8569">see section 4</xref>) is a hop-by-hop header stating the expiration time for a cached content object in milliseconds since the UTC epoch (i.e., an NTP timestamp). It is currently encoded via the T_CACHETIME TLV as a 64-bit unsigned integer (see <xref target="RFC8609"> section 3.4.2</xref>).</t>
 
 <t>A recommended cache time could be far in the future, but cannot be in the past and is likely to be a reasonably short offset from the current time.
   Therefore, this document allows the recommended cache time to be interpreted as a relative time value rather than an absolute time, since the semantics associated with an absolute time value do not seem to be critical to the utility of this value.
@@ -198,7 +198,7 @@
 <section title="A Compact Time Representation with Logarithmic Range" anchor="sec.timetlv">
   <t>
     This document defines a compact time representation with logarithmic range support that is inspired by <xref target="RFC5497"/> and <xref target="IEEE.754.2019"/>.
-    Compact time-codes are one octet wide and represent time-values that range from milliseconds to years.
+    Compact time codes are one octet wide and represent time values that range from milliseconds to years.
     <xref target="fig.time-value"/> depicts the logarithmic nature of this time representation.
   </t>
   <figure anchor="fig.time-value" title="A logarithmic range representation allows for higher precision in the smaller time ranges and still supports large time deltas.">
@@ -209,10 +209,10 @@ milliseconds                                                  years
 ]]></artwork>
   </figure>
   <t>
-    Time-codes encode an exponent and a mantissa as illustrated in <xref target="fig.time-code"/>.
-    In contrast to the representation in <xref target="IEEE.754.2019"/>, time-codes only encode positive numbers and hence do not include an extra sign bit.
+    Time codes encode an exponent and a mantissa as illustrated in <xref target="fig.time-code"/>.
+    In contrast to the representation in <xref target="IEEE.754.2019"/>, time codes only encode positive numbers and hence do not include an extra sign bit.
   </t>
-  <figure anchor="fig.time-code" title="A time-code with exponent and mantissa to encode a logarithmic range time representation.">
+  <figure anchor="fig.time-code" title="A time code with exponent and mantissa to encode a logarithmic range time representation.">
     <artwork align="center"><![CDATA[
 <---      one octet wide     --->
 +---+---+---+---+---+---+---+---+
@@ -221,7 +221,7 @@ milliseconds                                                  years
 ]]></artwork>
   </figure>
   <t>
-    The base unit for time values are seconds. A time-value is calculated using the following formula,
+    The base unit for time values are seconds. A time value is calculated using the following formula,
     where (e) represents the exponent, (m) the mantissa, (m_max) the maximum mantissa value, and (b) the bias.
     <list style="hanging">
       <t hangText="Subnormal (e == 0):"> (0 + m/m_max) * 2^(1+b)
@@ -242,7 +242,7 @@ milliseconds                                                  years
       <t>Minimum subnormal number:   0 seconds</t>
       <t>Maximum subnormal number:  ~0.054688 seconds</t>
       <t>Minimum normalized number: ~0.062500 seconds</t>
-      <t>Maximum normalized numbers: [~3.46, ~3.72, ~3.99] years</t>
+      <t>Maximum normalized number: ~3.99 years</t>
     </list>
     Eight time values exist in the subnormal range [0,~0.054688s] with a step size of ~0.007813s between each time value.
     In addition, this configuration also encodes the following convenient numbers in seconds: [1, 2, 4, 8, 16, 32, 64, ...].
@@ -263,12 +263,12 @@ output:   int e, m // exponent, mantissa of time code
         return (0, 0)
 
     if (v < 0.0625)
-        m = (int) (v * 2^7) // truncate fractional part
+        m = floor ((v * 2^7))           // round down
         return (0, m)
     else
-        e = floor (log2(v)) // round down
+        e = floor (log2(v))             // round down
         m = floor (((v / 2^e - 1) * 8)) // round down
-        return (e + 5, m)
+        return (e + 5, m)               // add bias
 ]]></artwork>
   </figure>
   <t>
@@ -276,7 +276,7 @@ output:   int e, m // exponent, mantissa of time code
   </t>
 </section>
 <section title="Protocol Integration of the Compact Time Representation in CCNx Messages" anchor="sec.integration">
-    <t>A straightforward way to accommodate the compact time approach as an alternative encoding is to simply allow a 1-byte length as an alternative to the 8-byte length while retaining the existing TLV Registry entries.
+    <t>A straightforward way to accommodate the compact time approach as an alternative encoding is to simply allow a 1-byte length as an alternative to the 8-byte length while retaining the existing TLV registry entries.
     This approach has backward compatibility problems, but may still be considered for the following reasons:
     <list style="symbols">
       <t>Both CCNx RFCs are experimental and not Standards Track, hence expectations for forward and backward compatibility are not as stringent. "Flag day" upgrades of deployed CCNx networks, while inconvenient, are still feasible.</t>
