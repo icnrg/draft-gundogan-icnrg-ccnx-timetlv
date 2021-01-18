@@ -114,7 +114,7 @@
       </address>
     </author>
 
-    <date month="July" year="2020" />
+    <date year="2021" />
 
     <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
          in the current day for you. If only the current year is specified, xml2rfc will fill 
@@ -393,7 +393,8 @@ output:   int e, m // exponent, mantissa of time code
       </texttable>
     </section>
     <!-- Change Log
-v00 2019-10-03  DRO   Initial version-->
+v00 2019-10-03  DRO   Initial version
+v03	2021-01-18	DRO	  Refreash - no changes-->
 </back>
 </rfc>
 		

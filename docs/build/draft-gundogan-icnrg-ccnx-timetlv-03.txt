@@ -14,7 +14,7 @@ Expires: 22 July 2021                                            D. Oran
 
  Alternative Delta Time Encoding for CCNx Using Compact Floating-Point
                                Arithmetic
-                draft-gundogan-icnrg-ccnx-timetlv-latest
+                draft-gundogan-icnrg-ccnx-timetlv-03
 
 Abstract
 
