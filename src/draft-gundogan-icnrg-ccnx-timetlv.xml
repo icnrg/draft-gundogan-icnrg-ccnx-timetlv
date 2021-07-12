@@ -273,8 +273,8 @@ output:   int e, m // exponent, mantissa of time code
     As an example: No specific time code for <spanx style="verb">0.063</spanx> exists, but this algorithm maps to the closest valid time code that is smaller, i.e., exponent <spanx style="verb">1</spanx> and mantissa <spanx style="verb">0</spanx> (the same as for time value <spanx style="verb">0.0625</spanx>).
   </t>
 </section>
-<section title="Protocol Integration of the Compact Time Representation in CCNx Messages" anchor="sec.integration">
-    <t>A straightforward way to accommodate the compact time approach as an alternative encoding is to simply allow a 1-byte length as an alternative to the 8-byte length while retaining the existing TLV registry entries.
+<section title="Protocol Integration of the Compact Time Representation" anchor="sec.integration">
+  <t>A straightforward way to accommodate the compact time approach is to use a 1-byte length field to indicate this alternative encoding while retaining the existing TLV registry entries.
     This approach has backward compatibility problems, but may still be considered for the following reasons:
     <list style="symbols">
       <t>Both CCNx RFCs are experimental and not Standards Track, hence expectations for forward and backward compatibility are not as stringent. "Flag day" upgrades of deployed CCNx networks, while inconvenient, are still feasible.</t>
@@ -292,6 +292,37 @@ output:   int e, m // exponent, mantissa of time code
     The packet header grammar from <xref target="RFC8609"/> is updated to allow for T_INTLIFETIME_COMPACT at the same level of the currently defined T_INTLIFETIME with an exclusive or.</t>
   </list>
   </t>
+  <section title="Interest Lifetime" anchor="sec.integration.intlife">
+    <t>The Interest Lifetime definition in <xref target="RFC8609"/> allows for a variable-length lifetime representation, where a length of <spanx style="verb">1</spanx> encodes the linear range [0,255] in milliseconds.
+    This document changes the definition to prohibit 1-byte Interest Lifetime values in linear representation and instead encodes the compact time value (<xref target="def-intlifetime"/>).
+    </t>
+  <figure anchor="def-intlifetime" title="Changes to the definition of the Interest Lifetime TLV.">
+    <artwork align="left"><![CDATA[
+                     1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++---------------+---------------+---------------+---------------+
+|          T_INTLIFE            |             Length != 1       |
++---------------+---------------+---------------+---------------+
+/                                                               /
+/                      Lifetime (Length octets)                 /
+/                                                               /
++---------------+---------------+---------------+---------------+
+
+                     1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++---------------+---------------+---------------+---------------+
+|          T_INTLIFE            |               1               |
++---------------+---------------+---------------+---------------+
+| COMPACT_TIME  |
++---------------+
+]]></artwork>
+  </figure>
+
+  </section>
+  <section title="Recommended Cache Time" anchor="sec.integration.recctime">
+    <t>
+    </t>
+  </section>
 </section>
 <section anchor="IANA" title="IANA Considerations">
   <t>Based on the approach of integration, certain TLV registries from <xref target="RFC8609"/> need to be updated.</t>
