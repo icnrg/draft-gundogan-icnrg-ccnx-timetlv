@@ -196,8 +196,7 @@
 </section>
 <section title="A Compact Time Representation with Logarithmic Range" anchor="sec.timetlv">
   <t>
-    This document defines a compact time representation with logarithmic range support that is inspired by <xref target="RFC5497"/> and <xref target="IEEE.754.2019"/>.
-    Compact time codes are one octet wide and represent time values that range from milliseconds to years.
+    This document defines a compact time representation with logarithmic range that is inspired by <xref target="RFC5497"/> and <xref target="IEEE.754.2019"/>, supporting milliseconds to years.
     <xref target="fig.time-value"/> depicts the logarithmic nature of this time representation.
   </t>
   <figure anchor="fig.time-value" title="A logarithmic range representation allows for higher precision in the smaller time ranges and still supports large time deltas.">
@@ -208,17 +207,8 @@ milliseconds                                                  years
 ]]></artwork>
   </figure>
   <t>
-    Time codes encode an exponent and a mantissa as illustrated in <xref target="fig.time-code"/>.
-    In contrast to the representation in <xref target="IEEE.754.2019"/>, time codes only encode positive numbers and hence do not include an extra sign bit.
+    Time codes encode exponent and mantissa values in a single byte, but in contrast to the representation in <xref target="IEEE.754.2019"/>, time codes only encode positive numbers and hence do not include an extra sign bit.
   </t>
-  <figure anchor="fig.time-code" title="A time code with exponent and mantissa to encode a logarithmic range time representation.">
-    <artwork align="center"><![CDATA[
-<---      one octet wide     --->
-+---+---+---+---+---+---+---+---+
-|  exponent (e) |  mantissa (m) |
-+---+---+---+---+---+---+---+---+
-]]></artwork>
-  </figure>
   <t>
     The base unit for time values are seconds. A time value is calculated using the following formula,
     where (e) represents the exponent, (m) the mantissa, (m_max) the maximum mantissa value, and (b) the bias.
@@ -232,8 +222,17 @@ milliseconds                                                  years
     This form provides a gradual underflow for the gap between the smallest normalized number and zero.
     The normalized form is applied for all values with an exponent greater than zero.
   </t>
+  <figure anchor="fig.time-code" title="A time code with exponent and mantissa to encode a logarithmic range time representation.">
+    <artwork align="center"><![CDATA[
+<---          one byte wide          --->
++----+----+----+----+----+----+----+----+
+|      exponent (e)      | mantissa (m) |
++----+----+----+----+----+----+----+----+
+  0    1    2    3    4    5    6    7
+]]></artwork>
+  </figure>
   <t>
-    This document allocates <spanx style="verb">5</spanx> bits for the exponent and <spanx style="verb">3</spanx> bits for the mantissa.
+    This document allocates <spanx style="verb">5</spanx> bits for the exponent and <spanx style="verb">3</spanx> bits for the mantissa as illustrated in <xref target="fig.time-code"/>.
     Therefore, exponents have the range [0,31] and mantissae have the range [0,7].
     This document further applies a bias of <spanx style="verb">-5</spanx>.
     The following properties result from this configuration:
