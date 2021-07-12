@@ -5,11 +5,11 @@
 ICNRG                                                        C. Gundogan
 Internet-Draft                                               TC. Schmidt
 Intended status: Experimental                                HAW Hamburg
-Expires: 22 July 2021                                            D. Oran
+Expires: 13 January 2022                                         D. Oran
                                      Network Systems Research and Design
                                                             M. Waehlisch
                                                     link-lab & FU Berlin
-                                                         18 January 2021
+                                                            12 July 2021
 
 
  Alternative Delta Time Encoding for CCNx Using Compact Floating-Point
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 July 2021.
+   This Internet-Draft will expire on 13 January 2022.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Gundogan, et al.          Expires 22 July 2021                  [Page 1]
+Gundogan, et al.         Expires 13 January 2022                [Page 1]
 
-Internet-Draft              TimeTLV for CCNx                January 2021
+Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -77,15 +77,16 @@ Table of Contents
        3.2.1.  Signature Time and Expiry Time  . . . . . . . . . . .   3
        3.2.2.  Recommended Cache Time  . . . . . . . . . . . . . . .   4
    4.  A Compact Time Representation with Logarithmic Range  . . . .   4
-   5.  Protocol Integration of the Compact Time Representation in CCNx
-           Messages  . . . . . . . . . . . . . . . . . . . . . . . .   6
-   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   7
-   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   7
-   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   7
-     8.1.  Normative References  . . . . . . . . . . . . . . . . . .   7
-     8.2.  Informative References  . . . . . . . . . . . . . . . . .   8
-   Appendix A.  Test Vectors . . . . . . . . . . . . . . . . . . . .   8
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   9
+   5.  Protocol Integration of the Compact Time Representation . . .   6
+     5.1.  Interest Lifetime . . . . . . . . . . . . . . . . . . . .   7
+     5.2.  Recommended Cache Time  . . . . . . . . . . . . . . . . .   8
+   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   8
+   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   8
+     8.1.  Normative References  . . . . . . . . . . . . . . . . . .   8
+     8.2.  Informative References  . . . . . . . . . . . . . . . . .   9
+   Appendix A.  Test Vectors . . . . . . . . . . . . . . . . . . . .   9
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  10
 
 1.  Introduction
 
@@ -99,8 +100,7 @@ Table of Contents
    dynamic range or both.  For some time uses this is relatively
    straightforward to achieve, for other uses, it is not.  This document
    discusses the various cases, and proposes a compact encoding that is
-   easily accommodated for delta times, and a more complicated method
-   that can be considered for some uses of absolute time.
+   easily accommodated for delta times.
 
 
 
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Gundogan, et al.          Expires 22 July 2021                  [Page 2]
+Gundogan, et al.         Expires 13 January 2022                [Page 2]
 
-Internet-Draft              TimeTLV for CCNx                January 2021
+Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
 2.  Requirements Language
@@ -165,9 +165,9 @@ Internet-Draft              TimeTLV for CCNx                January 2021
 
 
 
-Gundogan, et al.          Expires 22 July 2021                  [Page 3]
+Gundogan, et al.         Expires 13 January 2022                [Page 3]
 
-Internet-Draft              TimeTLV for CCNx                January 2021
+Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
    an alternative compact encoding that preserves its semantics and
@@ -199,10 +199,9 @@ Internet-Draft              TimeTLV for CCNx                January 2021
 4.  A Compact Time Representation with Logarithmic Range
 
    This document defines a compact time representation with logarithmic
-   range support that is inspired by [RFC5497] and [IEEE.754.2019].
-   Compact time codes are one octet wide and represent time values that
-   range from milliseconds to years.  Figure 1 depicts the logarithmic
-   nature of this time representation.
+   range that is inspired by [RFC5497] and [IEEE.754.2019], supporting
+   milliseconds to years.  Figure 1 depicts the logarithmic nature of
+   this time representation.
 
     || |  |   |    |     |      |       |        |         |          |
     +-----------------------------------------------------------------+
@@ -212,27 +211,20 @@ Internet-Draft              TimeTLV for CCNx                January 2021
        precision in the smaller time ranges and still supports large
                                 time deltas.
 
-   Time codes encode an exponent and a mantissa as illustrated in
-   Figure 2.  In contrast to the representation in [IEEE.754.2019], time
-   codes only encode positive numbers and hence do not include an extra
-   sign bit.
+   Time codes encode exponent and mantissa values in a single byte, but
+   in contrast to the representation in [IEEE.754.2019], time codes only
+   encode positive numbers and hence do not include an extra sign bit.
 
 
 
 
 
-Gundogan, et al.          Expires 22 July 2021                  [Page 4]
+
+
+Gundogan, et al.         Expires 13 January 2022                [Page 4]
 
-Internet-Draft              TimeTLV for CCNx                January 2021
+Internet-Draft              TimeTLV for CCNx                   July 2021
 
-
-                     <---      one octet wide     --->
-                     +---+---+---+---+---+---+---+---+
-                     |  exponent (e) |  mantissa (m) |
-                     +---+---+---+---+---+---+---+---+
-
-        Figure 2: A time code with exponent and mantissa to encode a
-                   logarithmic range time representation.
 
    The base unit for time values are seconds.  A time value is
    calculated using the following formula, where (e) represents the
@@ -248,10 +240,20 @@ Internet-Draft              TimeTLV for CCNx                January 2021
    normalized number and zero.  The normalized form is applied for all
    values with an exponent greater than zero.
 
+                 <---          one byte wide          --->
+                 +----+----+----+----+----+----+----+----+
+                 |      exponent (e)      | mantissa (m) |
+                 +----+----+----+----+----+----+----+----+
+                   0    1    2    3    4    5    6    7
+
+        Figure 2: A time code with exponent and mantissa to encode a
+                   logarithmic range time representation.
+
    This document allocates "5" bits for the exponent and "3" bits for
-   the mantissa.  Therefore, exponents have the range [0,31] and
-   mantissae have the range [0,7].  This document further applies a bias
-   of "-5".  The following properties result from this configuration:
+   the mantissa as illustrated in Figure 2.  Therefore, exponents have
+   the range [0,31] and mantissae have the range [0,7].  This document
+   further applies a bias of "-5".  The following properties result from
+   this configuration:
 
    *  Minimum subnormal number: 0 seconds
 
@@ -275,11 +277,9 @@ Internet-Draft              TimeTLV for CCNx                January 2021
 
 
 
-
-
-Gundogan, et al.          Expires 22 July 2021                  [Page 5]
+Gundogan, et al.         Expires 13 January 2022                [Page 5]
 
-Internet-Draft              TimeTLV for CCNx                January 2021
+Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
             input: float v    // time value
@@ -304,14 +304,13 @@ Internet-Draft              TimeTLV for CCNx                January 2021
    algorithm maps to the closest valid time code that is smaller, i.e.,
    exponent "1" and mantissa "0" (the same as for time value "0.0625").
 
-5.  Protocol Integration of the Compact Time Representation in CCNx
-    Messages
+5.  Protocol Integration of the Compact Time Representation
 
-   A straightforward way to accommodate the compact time approach as an
-   alternative encoding is to simply allow a 1-byte length as an
-   alternative to the 8-byte length while retaining the existing TLV
-   registry entries.  This approach has backward compatibility problems,
-   but may still be considered for the following reasons:
+   A straightforward way to accommodate the compact time approach is to
+   use a 1-byte length field to indicate this alternative encoding while
+   retaining the existing TLV registry entries.  This approach has
+   backward compatibility problems, but may still be considered for the
+   following reasons:
 
    *  Both CCNx RFCs are experimental and not Standards Track, hence
       expectations for forward and backward compatibility are not as
@@ -333,9 +332,10 @@ Internet-Draft              TimeTLV for CCNx                January 2021
 
 
 
-Gundogan, et al.          Expires 22 July 2021                  [Page 6]
+
+Gundogan, et al.         Expires 13 January 2022                [Page 6]
 
-Internet-Draft              TimeTLV for CCNx                January 2021
+Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
    The following lists alternative approaches of integrating the compact
@@ -353,6 +353,64 @@ Internet-Draft              TimeTLV for CCNx                January 2021
        header grammar from [RFC8609] is updated to allow for
        T_INTLIFETIME_COMPACT at the same level of the currently defined
        T_INTLIFETIME with an exclusive or.
+
+5.1.  Interest Lifetime
+
+   The Interest Lifetime definition in [RFC8609] allows for a variable-
+   length lifetime representation, where a length of "1" encodes the
+   linear range [0,255] in milliseconds.  This document changes the
+   definition to prohibit 1-byte Interest Lifetime values in linear
+   representation and instead encodes the compact time value (Figure 4).
+
+                        1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +---------------+---------------+---------------+---------------+
+   |          T_INTLIFE            |             Length != 1       |
+   +---------------+---------------+---------------+---------------+
+   /                                                               /
+   /                      Lifetime (Length octets)                 /
+   /                                                               /
+   +---------------+---------------+---------------+---------------+
+
+                        1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +---------------+---------------+---------------+---------------+
+   |          T_INTLIFE            |               1               |
+   +---------------+---------------+---------------+---------------+
+   | COMPACT_TIME  |
+   +---------------+
+
+     Figure 4: Changes to the definition of the Interest Lifetime TLV.
+
+
+
+
+
+
+
+
+Gundogan, et al.         Expires 13 January 2022                [Page 7]
+
+Internet-Draft              TimeTLV for CCNx                   July 2021
+
+
+5.2.  Recommended Cache Time
+
+   The Recommended Cache Time definition in [RFC8609] specifies an
+   absolute time representation that is of a length fixed to 8 bytes.
+   This document changes the definition to encode a relative compact
+   time value using a fixed-length of one byte (see Figure 5).
+
+                        1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +---------------+---------------+---------------+---------------+
+   |          T_CACHETIME          |               1               |
+   +---------------+---------------+---------------+---------------+
+   | COMPACT_TIME  |
+   +---------------+
+
+     Figure 5: Changes to the definition of the Recommended Cache Time
+                                    TLV.
 
 6.  IANA Considerations
 
@@ -382,17 +440,20 @@ Internet-Draft              TimeTLV for CCNx                January 2021
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
+
+
+
+
+
+Gundogan, et al.         Expires 13 January 2022                [Page 8]
+
+Internet-Draft              TimeTLV for CCNx                   July 2021
+
+
    [RFC5497]  Clausen, T. and C. Dearlove, "Representing Multi-Value
               Time in Mobile Ad Hoc Networks (MANETs)", RFC 5497,
               DOI 10.17487/RFC5497, March 2009,
               <https://www.rfc-editor.org/info/rfc5497>.
-
-
-
-Gundogan, et al.          Expires 22 July 2021                  [Page 7]
-
-Internet-Draft              TimeTLV for CCNx                January 2021
-
 
    [RFC8569]  Mosko, M., Solis, I., and C. Wood, "Content-Centric
               Networking (CCNx) Semantics", RFC 8569,
@@ -407,18 +468,43 @@ Internet-Draft              TimeTLV for CCNx                January 2021
 8.2.  Informative References
 
    [I-D.irtf-icnrg-icnlowpan]
-              Gundogan, C., Schmidt, T., Waehlisch, M., Scherb, C.,
+              Gundogan, C., Schmidt, T. C., Waehlisch, M., Scherb, C.,
               Marxer, C., and C. Tschudin, "ICN Adaptation to LoWPAN
               Networks (ICN LoWPAN)", Work in Progress, Internet-Draft,
-              draft-irtf-icnrg-icnlowpan-09, 30 October 2020,
-              <http://www.ietf.org/internet-drafts/draft-irtf-icnrg-
-              icnlowpan-09.txt>.
+              draft-irtf-icnrg-icnlowpan-10, 10 February 2021,
+              <https://www.ietf.org/archive/id/draft-irtf-icnrg-
+              icnlowpan-10.txt>.
 
 Appendix A.  Test Vectors
 
    The test vectors in Table 1 show sample time codes and their
    corresponding time values according to the algorithm outlined in
    Section 4.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Gundogan, et al.         Expires 13 January 2022                [Page 9]
+
+Internet-Draft              TimeTLV for CCNx                   July 2021
+
 
                    +===========+======================+
                    | Time Code | Time Value (seconds) |
@@ -441,14 +527,6 @@ Appendix A.  Test Vectors
                    +-----------+----------------------+
 
                           Table 1: Test Vectors
-
-
-
-
-Gundogan, et al.          Expires 22 July 2021                  [Page 8]
-
-Internet-Draft              TimeTLV for CCNx                January 2021
-
 
 Authors' Addresses
 
@@ -476,6 +554,14 @@ Authors' Addresses
    Dave Oran
    Network Systems Research and Design
    4 Shady Hill Square
+
+
+
+Gundogan, et al.         Expires 13 January 2022               [Page 10]
+
+Internet-Draft              TimeTLV for CCNx                   July 2021
+
+
    Cambridge, MA 02138
    United States of America
 
@@ -501,4 +587,30 @@ Authors' Addresses
 
 
 
-Gundogan, et al.          Expires 22 July 2021                  [Page 9]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Gundogan, et al.         Expires 13 January 2022               [Page 11]
