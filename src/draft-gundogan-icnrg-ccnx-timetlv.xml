@@ -294,14 +294,14 @@ output:   int e, m // exponent, mantissa of time code
   </t>
   <section title="Interest Lifetime" anchor="sec.integration.intlife">
     <t>The Interest Lifetime definition in <xref target="RFC8609"/> allows for a variable-length lifetime representation, where a length of <spanx style="verb">1</spanx> encodes the linear range [0,255] in milliseconds.
-    This document changes the definition to prohibit 1-byte Interest Lifetime values in linear representation and instead encodes the compact time value (<xref target="def-intlifetime"/>).
+    This document changes the definition to always encode 1-byte Interest lifetime values in the compact time value representation (<xref target="def-intlifetime"/>).
     </t>
   <figure anchor="def-intlifetime" title="Changes to the definition of the Interest Lifetime TLV.">
     <artwork align="left"><![CDATA[
                      1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +---------------+---------------+---------------+---------------+
-|          T_INTLIFE            |             Length != 1       |
+|           T_INTLIFE           |           Length > 1          |
 +---------------+---------------+---------------+---------------+
 /                                                               /
 /                      Lifetime (Length octets)                 /
@@ -311,7 +311,7 @@ output:   int e, m // exponent, mantissa of time code
                      1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +---------------+---------------+---------------+---------------+
-|          T_INTLIFE            |               1               |
+|           T_INTLIFE           |           Length = 1          |
 +---------------+---------------+---------------+---------------+
 | COMPACT_TIME  |
 +---------------+
@@ -321,14 +321,23 @@ output:   int e, m // exponent, mantissa of time code
   </section>
   <section title="Recommended Cache Time" anchor="sec.integration.recctime">
     <t>The Recommended Cache Time definition in <xref target="RFC8609"/> specifies an absolute time representation that is of a length fixed to 8 bytes.
-    This document changes the definition to encode a relative compact time value using a fixed-length of one byte (see <xref target="def-recctime"/>).
+    This document changes the definition to always encode 1-byte Recommended Cache Time values in the compact relative time value representation (<xref target="def-recctime"/>).
     </t>
   <figure anchor="def-recctime" title="Changes to the definition of the Recommended Cache Time TLV.">
     <artwork align="left"><![CDATA[
                      1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +---------------+---------------+---------------+---------------+
-|          T_CACHETIME          |               1               |
+|          T_CACHETIME          |           Length = 8          |
++---------------+---------------+---------------+---------------+
+/                                                               /
+/                    Recommended Cache Time                     /
+/                                                               /
++---------------+---------------+---------------+---------------+
+                     1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++---------------+---------------+---------------+---------------+
+|          T_CACHETIME          |           Length = 1          |
 +---------------+---------------+---------------+---------------+
 | COMPACT_TIME  |
 +---------------+
