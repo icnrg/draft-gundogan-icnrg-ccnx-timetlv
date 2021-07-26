@@ -5,11 +5,11 @@
 ICNRG                                                        C. Gundogan
 Internet-Draft                                               TC. Schmidt
 Intended status: Experimental                                HAW Hamburg
-Expires: 14 January 2022                                         D. Oran
+Expires: 27 January 2022                                         D. Oran
                                      Network Systems Research and Design
                                                             M. Waehlisch
                                                     link-lab & FU Berlin
-                                                            13 July 2021
+                                                            26 July 2021
 
 
  Alternative Delta Time Encoding for CCNx Using Compact Floating-Point
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 January 2022.
+   This Internet-Draft will expire on 27 January 2022.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Gundogan, et al.         Expires 14 January 2022                [Page 1]
+Gundogan, et al.         Expires 27 January 2022                [Page 1]
 
 Internet-Draft              TimeTLV for CCNx                   July 2021
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Gundogan, et al.         Expires 14 January 2022                [Page 2]
+Gundogan, et al.         Expires 27 January 2022                [Page 2]
 
 Internet-Draft              TimeTLV for CCNx                   July 2021
 
@@ -165,7 +165,7 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
 
-Gundogan, et al.         Expires 14 January 2022                [Page 3]
+Gundogan, et al.         Expires 27 January 2022                [Page 3]
 
 Internet-Draft              TimeTLV for CCNx                   July 2021
 
@@ -221,7 +221,7 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
 
-Gundogan, et al.         Expires 14 January 2022                [Page 4]
+Gundogan, et al.         Expires 27 January 2022                [Page 4]
 
 Internet-Draft              TimeTLV for CCNx                   July 2021
 
@@ -277,7 +277,7 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
 
-Gundogan, et al.         Expires 14 January 2022                [Page 5]
+Gundogan, et al.         Expires 27 January 2022                [Page 5]
 
 Internet-Draft              TimeTLV for CCNx                   July 2021
 
@@ -333,7 +333,7 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
 
-Gundogan, et al.         Expires 14 January 2022                [Page 6]
+Gundogan, et al.         Expires 27 January 2022                [Page 6]
 
 Internet-Draft              TimeTLV for CCNx                   July 2021
 
@@ -389,7 +389,7 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
 
-Gundogan, et al.         Expires 14 January 2022                [Page 7]
+Gundogan, et al.         Expires 27 January 2022                [Page 7]
 
 Internet-Draft              TimeTLV for CCNx                   July 2021
 
@@ -445,7 +445,7 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
 
-Gundogan, et al.         Expires 14 January 2022                [Page 8]
+Gundogan, et al.         Expires 27 January 2022                [Page 8]
 
 Internet-Draft              TimeTLV for CCNx                   July 2021
 
@@ -501,7 +501,7 @@ Appendix A.  Test Vectors
 
 
 
-Gundogan, et al.         Expires 14 January 2022                [Page 9]
+Gundogan, et al.         Expires 27 January 2022                [Page 9]
 
 Internet-Draft              TimeTLV for CCNx                   July 2021
 
@@ -510,6 +510,8 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
                    | Time Code | Time Value (seconds) |
                    +===========+======================+
                    |    0x00   |             0.000000 |
+                   +-----------+----------------------+
+                   |    0x01   |             0.007812 |
                    +-----------+----------------------+
                    |    0x04   |             0.031250 |
                    +-----------+----------------------+
@@ -551,17 +553,18 @@ Authors' Addresses
    URI:   http://inet.haw-hamburg.de/members/schmidt
 
 
-   Dave Oran
-   Network Systems Research and Design
-   4 Shady Hill Square
 
 
 
-Gundogan, et al.         Expires 14 January 2022               [Page 10]
+
+Gundogan, et al.         Expires 27 January 2022               [Page 10]
 
 Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
+   Dave Oran
+   Network Systems Research and Design
+   4 Shady Hill Square
    Cambridge, MA 02138
    United States of America
 
@@ -610,7 +613,4 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
 
-
-
-
-Gundogan, et al.         Expires 14 January 2022               [Page 11]
+Gundogan, et al.         Expires 27 January 2022               [Page 11]

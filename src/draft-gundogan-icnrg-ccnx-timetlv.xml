@@ -421,6 +421,9 @@ output:   int e, m // exponent, mantissa of time code
         <c>0x00</c>
         <c>0.000000</c>
 
+        <c>0x01</c>
+        <c>0.007812</c>
+
         <c>0x04</c>
         <c>0.031250</c>
 
