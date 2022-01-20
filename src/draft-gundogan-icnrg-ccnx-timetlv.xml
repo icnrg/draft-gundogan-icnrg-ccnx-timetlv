@@ -240,20 +240,20 @@ milliseconds                                                  years
   <figure anchor="fig.algo" title="Algorithm in pseudo code.">
     <artwork align="center"><![CDATA[
  input: float v    // time value
-output:   int e, m // exponent, mantissa of time code
+output:   int a, b // mantissa, exponent of time code
 
-(e, m) encode (v):
+(a, b) encode (v):
 
     if (v == 0)
         return (0, 0)
 
-    if (v < 0.0625)
-        m = floor (v * 2^7)             // round down
-        return (0, m)
+    if (v < 2 * C)
+        a = floor (v * 4 * C)               // round down
+        return (a, 0)
     else
-        e = floor (log2(v))             // round down
-        m = floor ((v / 2^e - 1) * 8)   // round down
-        return (e + 5, m)               // add bias
+        b = floor (log2(v / C))             // round down
+        a = floor ((v / (2^b * C) - 1) * 8) // round down
+        return (a, b)
 ]]></artwork>
   </figure>
   <t>

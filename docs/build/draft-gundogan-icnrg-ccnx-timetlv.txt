@@ -282,21 +282,21 @@ Gundogan, et al.          Expires 24 July 2022                  [Page 5]
 Internet-Draft              TimeTLV for CCNx                January 2022
 
 
-            input: float v    // time value
-           output:   int e, m // exponent, mantissa of time code
+          input: float v    // time value
+         output:   int a, b // mantissa, exponent of time code
 
-           (e, m) encode (v):
+         (a, b) encode (v):
 
-               if (v == 0)
-                   return (0, 0)
+             if (v == 0)
+                 return (0, 0)
 
-               if (v < 0.0625)
-                   m = floor (v * 2^7)             // round down
-                   return (0, m)
-               else
-                   e = floor (log2(v))             // round down
-                   m = floor ((v / 2^e - 1) * 8)   // round down
-                   return (e + 5, m)               // add bias
+             if (v < 2 * C)
+                 a = floor (v * 4 * C)               // round down
+                 return (a, 0)
+             else
+                 b = floor (log2(v / C))             // round down
+                 a = floor ((v / (2^b * C) - 1) * 8) // round down
+                 return (a, b)
 
                     Figure 2: Algorithm in pseudo code.
 
