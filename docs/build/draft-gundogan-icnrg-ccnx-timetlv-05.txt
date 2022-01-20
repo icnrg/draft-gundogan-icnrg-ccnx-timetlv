@@ -5,16 +5,16 @@
 ICNRG                                                        C. Gundogan
 Internet-Draft                                               TC. Schmidt
 Intended status: Experimental                                HAW Hamburg
-Expires: 27 January 2022                                         D. Oran
+Expires: 24 July 2022                                            D. Oran
                                      Network Systems Research and Design
                                                             M. Waehlisch
                                                     link-lab & FU Berlin
-                                                            26 July 2021
+                                                         20 January 2022
 
 
  Alternative Delta Time Encoding for CCNx Using Compact Floating-Point
                                Arithmetic
-                draft-gundogan-icnrg-ccnx-timetlv-04
+                draft-gundogan-icnrg-ccnx-timetlv-05
 
 Abstract
 
@@ -42,20 +42,20 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 January 2022.
+   This Internet-Draft will expire on 24 July 2022.
 
 Copyright Notice
 
-   Copyright (c) 2021 IETF Trust and the persons identified as the
+   Copyright (c) 2022 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
 
 
 
 
-Gundogan, et al.         Expires 27 January 2022                [Page 1]
+Gundogan, et al.          Expires 24 July 2022                  [Page 1]
 
-Internet-Draft              TimeTLV for CCNx                   July 2021
+Internet-Draft              TimeTLV for CCNx                January 2022
 
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -63,9 +63,9 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
    license-info) in effect on the date of publication of this document.
    Please review these documents carefully, as they describe your rights
    and restrictions with respect to this document.  Code Components
-   extracted from this document must include Simplified BSD License text
-   as described in Section 4.e of the Trust Legal Provisions and are
-   provided without warranty as described in the Simplified BSD License.
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
 
 Table of Contents
 
@@ -94,13 +94,13 @@ Table of Contents
    are expressed as absolute time, others as delta time.  When using
    CCNx in environments with constrained nodes and/or bandwidth
    constrained networks, it is valuable to have a compact representation
-   of time values.  For example [I-D.irtf-icnrg-icnlowpan] specifies a
-   compression scheme useful over IEEE 802.15.4 networks.  However, any
-   compact time representation has to sacrifice either accuracy or
-   dynamic range or both.  For some time uses this is relatively
-   straightforward to achieve, for other uses, it is not.  This document
-   discusses the various cases, and proposes a compact encoding that is
-   easily accommodated for delta times.
+   of time values.  For example [RFC9139] specifies a compression scheme
+   useful over IEEE 802.15.4 networks.  However, any compact time
+   representation has to sacrifice either accuracy or dynamic range or
+   both.  For some time uses this is relatively straightforward to
+   achieve, for other uses, it is not.  This document discusses the
+   various cases, and proposes a compact encoding that is easily
+   accommodated for delta times.
 
 
 
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Gundogan, et al.         Expires 27 January 2022                [Page 2]
+Gundogan, et al.          Expires 24 July 2022                  [Page 2]
 
-Internet-Draft              TimeTLV for CCNx                   July 2021
+Internet-Draft              TimeTLV for CCNx                January 2022
 
 
 2.  Requirements Language
@@ -165,9 +165,9 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
 
-Gundogan, et al.         Expires 27 January 2022                [Page 3]
+Gundogan, et al.          Expires 24 July 2022                  [Page 3]
 
-Internet-Draft              TimeTLV for CCNx                   July 2021
+Internet-Draft              TimeTLV for CCNx                January 2022
 
 
    an alternative compact encoding that preserves its semantics and
@@ -221,9 +221,9 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
 
-Gundogan, et al.         Expires 27 January 2022                [Page 4]
+Gundogan, et al.          Expires 24 July 2022                  [Page 4]
 
-Internet-Draft              TimeTLV for CCNx                   July 2021
+Internet-Draft              TimeTLV for CCNx                January 2022
 
 
    The base unit for time values are seconds.  A time value is
@@ -249,10 +249,10 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
         Figure 2: A time code with exponent and mantissa to encode a
                    logarithmic range time representation.
 
-   This document allocates "5" bits for the exponent and "3" bits for
-   the mantissa as illustrated in Figure 2.  Therefore, exponents have
-   the range [0,31] and mantissae have the range [0,7].  This document
-   further applies a bias of "-5".  The following properties result from
+   This document allocates 5 bits for the exponent and 3 bits for the
+   mantissa as illustrated in Figure 2.  Therefore, exponents have the
+   range [0,31] and mantissae have the range [0,7].  This document
+   further applies a bias of -5.  The following properties result from
    this configuration:
 
    *  Minimum subnormal number: 0 seconds
@@ -277,9 +277,9 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
 
-Gundogan, et al.         Expires 27 January 2022                [Page 5]
+Gundogan, et al.          Expires 24 July 2022                  [Page 5]
 
-Internet-Draft              TimeTLV for CCNx                   July 2021
+Internet-Draft              TimeTLV for CCNx                January 2022
 
 
             input: float v    // time value
@@ -300,9 +300,9 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
 
                     Figure 3: Algorithm in pseudo code.
 
-   As an example: No specific time code for "0.063" exists, but this
+   As an example: No specific time code for 0.063 exists, but this
    algorithm maps to the closest valid time code that is smaller, i.e.,
-   exponent "1" and mantissa "0" (the same as for time value "0.0625").
+   exponent 1 and mantissa 0 (the same as for time value 0.0625).
 
 5.  Protocol Integration of the Compact Time Representation
 
@@ -333,9 +333,9 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
 
-Gundogan, et al.         Expires 27 January 2022                [Page 6]
+Gundogan, et al.          Expires 24 July 2022                  [Page 6]
 
-Internet-Draft              TimeTLV for CCNx                   July 2021
+Internet-Draft              TimeTLV for CCNx                January 2022
 
 
    The following lists alternative approaches of integrating the compact
@@ -357,7 +357,7 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
 5.1.  Interest Lifetime
 
    The Interest Lifetime definition in [RFC8609] allows for a variable-
-   length lifetime representation, where a length of "1" encodes the
+   length lifetime representation, where a length of 1 encodes the
    linear range [0,255] in milliseconds.  This document changes the
    definition to always encode 1-byte Interest lifetime values in the
    compact time value representation (Figure 4).
@@ -389,9 +389,9 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
 
-Gundogan, et al.         Expires 27 January 2022                [Page 7]
+Gundogan, et al.          Expires 24 July 2022                  [Page 7]
 
-Internet-Draft              TimeTLV for CCNx                   July 2021
+Internet-Draft              TimeTLV for CCNx                January 2022
 
 
 5.2.  Recommended Cache Time
@@ -445,9 +445,9 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
 
-Gundogan, et al.         Expires 27 January 2022                [Page 8]
+Gundogan, et al.          Expires 24 July 2022                  [Page 8]
 
-Internet-Draft              TimeTLV for CCNx                   July 2021
+Internet-Draft              TimeTLV for CCNx                January 2022
 
 
    [IEEE.754.2019]
@@ -479,13 +479,11 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
 
 8.2.  Informative References
 
-   [I-D.irtf-icnrg-icnlowpan]
-              Gundogan, C., Schmidt, T. C., Waehlisch, M., Scherb, C.,
-              Marxer, C., and C. Tschudin, "ICN Adaptation to LoWPAN
-              Networks (ICN LoWPAN)", Work in Progress, Internet-Draft,
-              draft-irtf-icnrg-icnlowpan-10, 10 February 2021,
-              <https://www.ietf.org/archive/id/draft-irtf-icnrg-
-              icnlowpan-10.txt>.
+   [RFC9139]  Gündoğan, C., Schmidt, T., Wählisch, M., Scherb, C.,
+              Marxer, C., and C. Tschudin, "Information-Centric
+              Networking (ICN) Adaptation to Low-Power Wireless Personal
+              Area Networks (LoWPANs)", RFC 9139, DOI 10.17487/RFC9139,
+              November 2021, <https://www.rfc-editor.org/info/rfc9139>.
 
 Appendix A.  Test Vectors
 
@@ -501,9 +499,11 @@ Appendix A.  Test Vectors
 
 
 
-Gundogan, et al.         Expires 27 January 2022                [Page 9]
+
+
+Gundogan, et al.          Expires 24 July 2022                  [Page 9]
 
-Internet-Draft              TimeTLV for CCNx                   July 2021
+Internet-Draft              TimeTLV for CCNx                January 2022
 
 
                    +===========+======================+
@@ -557,9 +557,9 @@ Authors' Addresses
 
 
 
-Gundogan, et al.         Expires 27 January 2022               [Page 10]
+Gundogan, et al.          Expires 24 July 2022                 [Page 10]
 
-Internet-Draft              TimeTLV for CCNx                   July 2021
+Internet-Draft              TimeTLV for CCNx                January 2022
 
 
    Dave Oran
@@ -613,4 +613,4 @@ Internet-Draft              TimeTLV for CCNx                   July 2021
 
 
 
-Gundogan, et al.         Expires 27 January 2022               [Page 11]
+Gundogan, et al.          Expires 24 July 2022                 [Page 11]

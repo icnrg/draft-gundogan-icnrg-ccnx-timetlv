@@ -13,26 +13,26 @@
        CCNx utilizes delta time for a number of functions. When using CCNx in environments with constrained nodes and/or bandwidth constrained networks, it is valuable to have a compressed representation of delta time. In order to do so, either accuracy or dynamic range has to be sacrificed. Since the current uses of delta time do not require both simultaneously, one can consider a logarithmic encoding such as that specified in  . This document updates  CCNx messages in TLV Format  (RFC8609) to specify this alternative encoding. 
        
     " name="description">
-<meta content="xml2rfc 3.5.0" name="generator">
+<meta content="xml2rfc 3.12.0" name="generator">
 <meta content="template" name="keyword">
-<meta content="draft-gundogan-icnrg-ccnx-timetlv-04" name="ietf.draft">
+<meta content="draft-gundogan-icnrg-ccnx-timetlv-05" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.5.0
-    Python 3.9.6
+  xml2rfc 3.12.0
+    Python 3.10.1
     appdirs 1.4.4
-    ConfigArgParse 1.2.3
-    google-i18n-address 2.4.0
+    ConfigArgParse 1.5.3
+    google-i18n-address 2.5.0
     html5lib 1.1
     intervaltree 3.1.0
     Jinja2 2.11.3
     kitchen 1.2.6
-    lxml 4.6.3
-    pycairo 1.20.0
-    pycountry 20.7.3
-    pyflakes 2.2.0
+    lxml 4.6.5
+    pycairo 1.20.1
+    pycountry 22.1.10
+    pyflakes 2.4.0
     PyYAML 5.4.1
     requests 2.26.0
-    setuptools 57.4.0
+    setuptools 59.1.1
     six 1.16.0
 -->
 <link href="draft-gundogan-icnrg-ccnx-timetlv.xml" rel="alternate" type="application/rfc+xml">
@@ -319,11 +319,11 @@ ul.toc li {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">TimeTLV for CCNx</td>
-<td class="right">July 2021</td>
+<td class="right">January 2022</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Gundogan, et al.</td>
-<td class="center">Expires 27 January 2022</td>
+<td class="center">Expires 24 July 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -333,15 +333,15 @@ ul.toc li {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">ICNRG</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-gundogan-icnrg-ccnx-timetlv-04</dd>
+<dd class="internet-draft">draft-gundogan-icnrg-ccnx-timetlv-05</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-07-26" class="published">26 July 2021</time>
+<time datetime="2022-01-20" class="published">20 January 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Experimental</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-01-27">27 January 2022</time></dd>
+<dd class="expires"><time datetime="2022-07-24">24 July 2022</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -387,7 +387,7 @@ ul.toc li {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 27 January 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 24 July 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -396,7 +396,7 @@ ul.toc li {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2021 IETF Trust and the persons identified as the
+            Copyright (c) 2022 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -405,9 +405,9 @@ ul.toc li {
             publication of this document. Please review these documents
             carefully, as they describe your rights and restrictions with
             respect to this document. Code Components extracted from this
-            document must include Simplified BSD License text as described in
+            document must include Revised BSD License text as described in
             Section 4.e of the Trust Legal Provisions and are provided without
-            warranty as described in the Simplified BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="toc">
@@ -415,68 +415,68 @@ ul.toc li {
         <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
 <a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
         </h2>
-<nav class="toc"><ul class="toc compact ulEmpty">
-<li class="toc compact ulEmpty" id="section-toc.1-1.1">
-            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a><a href="#section-toc.1-1.1.1" class="pilcrow">¶</a></p>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a></p>
 </li>
-          <li class="toc compact ulEmpty" id="section-toc.1-1.2">
-            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="xref">2</a>.  <a href="#name-requirements-language" class="xref">Requirements Language</a><a href="#section-toc.1-1.2.1" class="pilcrow">¶</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="xref">2</a>.  <a href="#name-requirements-language" class="xref">Requirements Language</a></p>
 </li>
-          <li class="toc compact ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-usage-of-time-values-in-ccn" class="xref">Usage of Time Values in CCNx</a><a href="#section-toc.1-1.3.1" class="pilcrow">¶</a></p>
-<ul class="toc compact ulEmpty">
-<li class="toc compact ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-relative-time-in-ccnx" class="xref">Relative Time in CCNx</a><a href="#section-toc.1-1.3.2.1.1" class="pilcrow">¶</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-usage-of-time-values-in-ccn" class="xref">Usage of Time Values in CCNx</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-relative-time-in-ccnx" class="xref">Relative Time in CCNx</a></p>
 </li>
-              <li class="toc compact ulEmpty" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-absolute-time-in-ccnx" class="xref">Absolute Time in CCNx</a><a href="#section-toc.1-1.3.2.2.1" class="pilcrow">¶</a></p>
-<ul class="toc compact ulEmpty">
-<li class="toc compact ulEmpty" id="section-toc.1-1.3.2.2.2.1">
-                    <p id="section-toc.1-1.3.2.2.2.1.1"><a href="#section-3.2.1" class="xref">3.2.1</a>.  <a href="#name-signature-time-and-expiry-t" class="xref">Signature Time and Expiry Time</a><a href="#section-toc.1-1.3.2.2.2.1.1" class="pilcrow">¶</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-absolute-time-in-ccnx" class="xref">Absolute Time in CCNx</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.1">
+                    <p id="section-toc.1-1.3.2.2.2.1.1"><a href="#section-3.2.1" class="xref">3.2.1</a>.  <a href="#name-signature-time-and-expiry-t" class="xref">Signature Time and Expiry Time</a></p>
 </li>
-                  <li class="toc compact ulEmpty" id="section-toc.1-1.3.2.2.2.2">
-                    <p id="section-toc.1-1.3.2.2.2.2.1"><a href="#section-3.2.2" class="xref">3.2.2</a>.  <a href="#name-recommended-cache-time" class="xref">Recommended Cache Time</a><a href="#section-toc.1-1.3.2.2.2.2.1" class="pilcrow">¶</a></p>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.2">
+                    <p id="section-toc.1-1.3.2.2.2.2.1"><a href="#section-3.2.2" class="xref">3.2.2</a>.  <a href="#name-recommended-cache-time" class="xref">Recommended Cache Time</a></p>
 </li>
                 </ul>
 </li>
             </ul>
 </li>
-          <li class="toc compact ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-a-compact-time-representati" class="xref">A Compact Time Representation with Logarithmic Range</a><a href="#section-toc.1-1.4.1" class="pilcrow">¶</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-a-compact-time-representati" class="xref">A Compact Time Representation with Logarithmic Range</a></p>
 </li>
-          <li class="toc compact ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-protocol-integration-of-the" class="xref">Protocol Integration of the Compact Time Representation</a><a href="#section-toc.1-1.5.1" class="pilcrow">¶</a></p>
-<ul class="toc compact ulEmpty">
-<li class="toc compact ulEmpty" id="section-toc.1-1.5.2.1">
-                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-interest-lifetime" class="xref">Interest Lifetime</a><a href="#section-toc.1-1.5.2.1.1" class="pilcrow">¶</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-protocol-integration-of-the" class="xref">Protocol Integration of the Compact Time Representation</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-interest-lifetime" class="xref">Interest Lifetime</a></p>
 </li>
-              <li class="toc compact ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="xref">5.2</a>.  <a href="#name-recommended-cache-time-2" class="xref">Recommended Cache Time</a><a href="#section-toc.1-1.5.2.2.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-</li>
-          <li class="toc compact ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a><a href="#section-toc.1-1.6.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="toc compact ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a><a href="#section-toc.1-1.7.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="toc compact ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-references" class="xref">References</a><a href="#section-toc.1-1.8.1" class="pilcrow">¶</a></p>
-<ul class="toc compact ulEmpty">
-<li class="toc compact ulEmpty" id="section-toc.1-1.8.2.1">
-                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="xref">8.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a><a href="#section-toc.1-1.8.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="toc compact ulEmpty" id="section-toc.1-1.8.2.2">
-                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="xref">8.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a><a href="#section-toc.1-1.8.2.2.1" class="pilcrow">¶</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="xref">5.2</a>.  <a href="#name-recommended-cache-time-2" class="xref">Recommended Cache Time</a></p>
 </li>
             </ul>
 </li>
-          <li class="toc compact ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#section-appendix.a" class="xref">Appendix A</a>.  <a href="#name-test-vectors" class="xref">Test Vectors</a><a href="#section-toc.1-1.9.1" class="pilcrow">¶</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a></p>
 </li>
-          <li class="toc compact ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#section-appendix.b" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a><a href="#section-toc.1-1.10.1" class="pilcrow">¶</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-references" class="xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="xref">8.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
+                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="xref">8.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="xref">Appendix A</a>.  <a href="#name-test-vectors" class="xref">Test Vectors</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -487,7 +487,7 @@ ul.toc li {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">CCNx utilizes time values for a number of functions. Some of these are expressed as absolute time, others as delta time. When using CCNx in environments with constrained nodes and/or bandwidth constrained networks, it is valuable to have a compact representation of time values. For example <span>[<a href="#I-D.irtf-icnrg-icnlowpan" class="xref">I-D.irtf-icnrg-icnlowpan</a>]</span> specifies a compression scheme useful over IEEE 802.15.4 networks. However, any compact time representation has to sacrifice either accuracy or dynamic range or both. For some time uses this is relatively straightforward to achieve, for other uses, it is not. This document discusses the various cases, and proposes a compact encoding that is easily accommodated for delta times.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-1">CCNx utilizes time values for a number of functions. Some of these are expressed as absolute time, others as delta time. When using CCNx in environments with constrained nodes and/or bandwidth constrained networks, it is valuable to have a compact representation of time values. For example <span>[<a href="#RFC9139" class="xref">RFC9139</a>]</span> specifies a compression scheme useful over IEEE 802.15.4 networks. However, any compact time representation has to sacrifice either accuracy or dynamic range or both. For some time uses this is relatively straightforward to achieve, for other uses, it is not. This document discusses the various cases, and proposes a compact encoding that is easily accommodated for delta times.<a href="#section-1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <section id="section-2">
@@ -557,7 +557,7 @@ ul.toc li {
     <a href="#fig.time-value" class="xref">Figure 1</a> depicts the logarithmic nature of this time representation.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <span id="name-a-logarithmic-range-represe"></span><div id="fig.time-value">
 <figure id="figure-1">
-        <div class="artwork art-text alignCenter" id="section-4-2.1">
+        <div class="alignCenter art-text artwork" id="section-4-2.1">
 <pre>
 || |  |   |    |     |      |       |        |         |          |
 +-----------------------------------------------------------------+
@@ -589,7 +589,7 @@ milliseconds                                                  years
     The normalized form is applied for all values with an exponent greater than zero.<a href="#section-4-6" class="pilcrow">¶</a></p>
 <span id="name-a-time-code-with-exponent-a"></span><div id="fig.time-code">
 <figure id="figure-2">
-        <div class="artwork art-text alignCenter" id="section-4-7.1">
+        <div class="alignCenter art-text artwork" id="section-4-7.1">
 <pre>
 &lt;---          one byte wide          ---&gt;
 +----+----+----+----+----+----+----+----+
@@ -626,7 +626,7 @@ milliseconds                                                  years
     For these instances, the closest time code is chosen that is smaller than the value to encode.<a href="#section-4-11" class="pilcrow">¶</a></p>
 <span id="name-algorithm-in-pseudo-code"></span><div id="fig.algo">
 <figure id="figure-3">
-        <div class="artwork art-text alignCenter" id="section-4-12.1">
+        <div class="alignCenter art-text artwork" id="section-4-12.1">
 <pre>
  input: float v    // time value
 output:   int e, m // exponent, mantissa of time code
@@ -689,7 +689,7 @@ output:   int e, m // exponent, mantissa of time code
     This document changes the definition to always encode 1-byte Interest lifetime values in the compact time value representation (<a href="#def-intlifetime" class="xref">Figure 4</a>).<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <span id="name-changes-to-the-definition-o"></span><div id="def-intlifetime">
 <figure id="figure-4">
-          <div class="artwork art-text alignLeft" id="section-5.1-2.1">
+          <div class="alignLeft art-text artwork" id="section-5.1-2.1">
 <pre>
                      1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -725,7 +725,7 @@ output:   int e, m // exponent, mantissa of time code
     This document changes the definition to always encode 1-byte Recommended Cache Time values in the compact relative time value representation (<a href="#def-recctime" class="xref">Figure 5</a>).<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <span id="name-changes-to-the-definition-of"></span><div id="def-recctime">
 <figure id="figure-5">
-          <div class="artwork art-text alignLeft" id="section-5.2-2.1">
+          <div class="alignLeft art-text artwork" id="section-5.2-2.1">
 <pre>
                      1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -788,15 +788,15 @@ output:   int e, m // exponent, mantissa of time code
 <dd class="break"></dd>
 <dt id="RFC5497">[RFC5497]</dt>
         <dd>
-<span class="refAuthor">Clausen, T.</span><span class="refAuthor"> and C. Dearlove</span>, <span class="refTitle">"Representing Multi-Value Time in Mobile Ad Hoc Networks (MANETs)"</span>, <span class="seriesInfo">RFC 5497</span>, <span class="seriesInfo">DOI 10.17487/RFC5497</span>, <time datetime="2009-03" class="refDate">March 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5497">https://www.rfc-editor.org/info/rfc5497</a>&gt;</span>. </dd>
+<span class="refAuthor">Clausen, T.</span> and <span class="refAuthor">C. Dearlove</span>, <span class="refTitle">"Representing Multi-Value Time in Mobile Ad Hoc Networks (MANETs)"</span>, <span class="seriesInfo">RFC 5497</span>, <span class="seriesInfo">DOI 10.17487/RFC5497</span>, <time datetime="2009-03" class="refDate">March 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5497">https://www.rfc-editor.org/info/rfc5497</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8569">[RFC8569]</dt>
         <dd>
-<span class="refAuthor">Mosko, M.</span><span class="refAuthor">, Solis, I.</span><span class="refAuthor">, and C. Wood</span>, <span class="refTitle">"Content-Centric Networking (CCNx) Semantics"</span>, <span class="seriesInfo">RFC 8569</span>, <span class="seriesInfo">DOI 10.17487/RFC8569</span>, <time datetime="2019-07" class="refDate">July 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8569">https://www.rfc-editor.org/info/rfc8569</a>&gt;</span>. </dd>
+<span class="refAuthor">Mosko, M.</span>, <span class="refAuthor">Solis, I.</span>, and <span class="refAuthor">C. Wood</span>, <span class="refTitle">"Content-Centric Networking (CCNx) Semantics"</span>, <span class="seriesInfo">RFC 8569</span>, <span class="seriesInfo">DOI 10.17487/RFC8569</span>, <time datetime="2019-07" class="refDate">July 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8569">https://www.rfc-editor.org/info/rfc8569</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8609">[RFC8609]</dt>
       <dd>
-<span class="refAuthor">Mosko, M.</span><span class="refAuthor">, Solis, I.</span><span class="refAuthor">, and C. Wood</span>, <span class="refTitle">"Content-Centric Networking (CCNx) Messages in TLV Format"</span>, <span class="seriesInfo">RFC 8609</span>, <span class="seriesInfo">DOI 10.17487/RFC8609</span>, <time datetime="2019-07" class="refDate">July 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8609">https://www.rfc-editor.org/info/rfc8609</a>&gt;</span>. </dd>
+<span class="refAuthor">Mosko, M.</span>, <span class="refAuthor">Solis, I.</span>, and <span class="refAuthor">C. Wood</span>, <span class="refTitle">"Content-Centric Networking (CCNx) Messages in TLV Format"</span>, <span class="seriesInfo">RFC 8609</span>, <span class="seriesInfo">DOI 10.17487/RFC8609</span>, <time datetime="2019-07" class="refDate">July 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8609">https://www.rfc-editor.org/info/rfc8609</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -805,20 +805,20 @@ output:   int e, m // exponent, mantissa of time code
 <a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
-<dt id="I-D.irtf-icnrg-icnlowpan">[I-D.irtf-icnrg-icnlowpan]</dt>
+<dt id="RFC9139">[RFC9139]</dt>
       <dd>
-<span class="refAuthor">Gundogan, C.</span><span class="refAuthor">, Schmidt, T. C.</span><span class="refAuthor">, Waehlisch, M.</span><span class="refAuthor">, Scherb, C.</span><span class="refAuthor">, Marxer, C.</span><span class="refAuthor">, and C. Tschudin</span>, <span class="refTitle">"ICN Adaptation to LoWPAN Networks (ICN LoWPAN)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-icnrg-icnlowpan-10</span>, <time datetime="2021-02-10" class="refDate">10 February 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-irtf-icnrg-icnlowpan-10.txt">https://www.ietf.org/archive/id/draft-irtf-icnrg-icnlowpan-10.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Gündoğan, C.</span>, <span class="refAuthor">Schmidt, T.</span>, <span class="refAuthor">Wählisch, M.</span>, <span class="refAuthor">Scherb, C.</span>, <span class="refAuthor">Marxer, C.</span>, and <span class="refAuthor">C. Tschudin</span>, <span class="refTitle">"Information-Centric Networking (ICN) Adaptation to Low-Power Wireless Personal Area Networks (LoWPANs)"</span>, <span class="seriesInfo">RFC 9139</span>, <span class="seriesInfo">DOI 10.17487/RFC9139</span>, <time datetime="2021-11" class="refDate">November 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc9139">https://www.rfc-editor.org/info/rfc9139</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
 </section>
 <div id="sec.testvectors">
-<section id="section-appendix.a">
+<section id="appendix-A">
       <h2 id="name-test-vectors">
-<a href="#section-appendix.a" class="section-number selfRef">Appendix A. </a><a href="#name-test-vectors" class="section-name selfRef">Test Vectors</a>
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-test-vectors" class="section-name selfRef">Test Vectors</a>
       </h2>
-<p id="section-appendix.a-1">
-        The test vectors in <a href="#tab.testvectors" class="xref">Table 1</a> show sample time codes and their corresponding time values according to the algorithm outlined in <a href="#sec.timetlv" class="xref">Section 4</a>.<a href="#section-appendix.a-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-1">
+        The test vectors in <a href="#tab.testvectors" class="xref">Table 1</a> show sample time codes and their corresponding time values according to the algorithm outlined in <a href="#sec.timetlv" class="xref">Section 4</a>.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <span id="name-test-vectors-2"></span><div id="tab.testvectors">
 <table class="center" id="table-1">
         <caption>
@@ -874,7 +874,7 @@ output:   int e, m // exponent, mantissa of time code
 </section>
 </div>
 <div id="authors-addresses">
-<section id="section-appendix.b">
+<section id="appendix-B">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
