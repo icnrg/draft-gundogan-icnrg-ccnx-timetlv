@@ -10,8 +10,8 @@
 <!ENTITY RFC5497 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5497.xml">
 <!ENTITY RFC8569 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8569.xml">
 <!ENTITY RFC8609 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8609.xml">
+<!ENTITY RFC9139 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.9139.xml">
 <!ENTITY I-D.mastorakis-icnrg-icntraceroute SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mastorakis-icnrg-icntraceroute.xml">
-<!ENTITY I-D.irtf-icnrg-icnlowpan SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.irtf-icnrg-icnlowpan.xml">
 ]>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 <!-- used by XSLT processors -->
@@ -114,7 +114,7 @@
       </address>
     </author>
 
-    <date year="2021" />
+    <date year="2022" />
 
     <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
          in the current day for you. If only the current year is specified, xml2rfc will fill 
@@ -150,7 +150,7 @@
 
 <section anchor="intro" title="Introduction">
 
-<t>CCNx utilizes time values for a number of functions. Some of these are expressed as absolute time, others as delta time. When using CCNx in environments with constrained nodes and/or bandwidth constrained networks, it is valuable to have a compact representation of time values. For example <xref target="I-D.irtf-icnrg-icnlowpan"/> specifies a compression scheme useful over IEEE 802.15.4 networks. However, any compact time representation has to sacrifice either accuracy or dynamic range or both. For some time uses this is relatively straightforward to achieve, for other uses, it is not. This document discusses the various cases, and proposes a compact encoding that is easily accommodated for delta times.</t>
+<t>CCNx utilizes time values for a number of functions. Some of these are expressed as absolute time, others as delta time. When using CCNx in environments with constrained nodes and/or bandwidth constrained networks, it is valuable to have a compact representation of time values. For example <xref target="RFC9139"/> specifies a compression scheme useful over IEEE 802.15.4 networks. However, any compact time representation has to sacrifice either accuracy or dynamic range or both. For some time uses this is relatively straightforward to achieve, for other uses, it is not. This document discusses the various cases, and proposes a compact encoding that is easily accommodated for delta times.</t>
 </section>
 
 <section title="Requirements Language">
@@ -404,7 +404,7 @@ output:   int e, m // exponent, mantissa of time code
     </references>
 
     <references title="Informative References">
-      &I-D.irtf-icnrg-icnlowpan;
+      &RFC9139;
     </references>
 
     <section anchor="sec.testvectors" title="Test Vectors">
@@ -448,7 +448,8 @@ output:   int e, m // exponent, mantissa of time code
     </section>
     <!-- Change Log
 v00 2019-10-03  DRO   Initial version
-v03	2021-01-18	DRO	  Refreash - no changes-->
+v03	2021-01-18	DRO	  Refreash - no changes
+v05 2022-01-20  CG    update references -->
 </back>
 </rfc>
 		
