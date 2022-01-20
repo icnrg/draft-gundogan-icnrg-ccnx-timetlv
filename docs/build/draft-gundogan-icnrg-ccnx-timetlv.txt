@@ -291,11 +291,11 @@ Internet-Draft              TimeTLV for CCNx                January 2022
                    return (0, 0)
 
                if (v < 0.0625)
-                   m = floor ((v * 2^7))           // round down
+                   m = floor (v * 2^7)             // round down
                    return (0, m)
                else
                    e = floor (log2(v))             // round down
-                   m = floor (((v / 2^e - 1) * 8)) // round down
+                   m = floor ((v / 2^e - 1) * 8)   // round down
                    return (e + 5, m)               // add bias
 
                     Figure 3: Algorithm in pseudo code.
