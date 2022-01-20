@@ -198,10 +198,11 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 
 4.  A Compact Time Representation with Logarithmic Range
 
-   This document defines a compact time representation with logarithmic
-   range that is inspired by [RFC5497] and [IEEE.754.2019], supporting
-   milliseconds to years.  Figure 1 depicts the logarithmic nature of
-   this time representation.
+   This document uses the compact time representation of ICNLoWPAN (see
+   section 7 [RFC9139]) that is inspired by [RFC5497] and
+   [IEEE.754.2019].  Its logarithmic encoding supports a representation
+   ranging from milliseconds to years.  Figure 1 depicts the logarithmic
+   nature of this time representation.
 
     || |  |   |    |     |      |       |        |         |          |
     +-----------------------------------------------------------------+
@@ -220,59 +221,58 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 
 
 
-
 Gundogan, et al.          Expires 24 July 2022                  [Page 4]
 
 Internet-Draft              TimeTLV for CCNx                January 2022
 
 
    The base unit for time values are seconds.  A time value is
-   calculated using the following formula, where (e) represents the
-   exponent, (m) the mantissa, (m_max) the maximum mantissa value, and
-   (b) the bias.
+   calculated using the following formula (adopted from [RFC9139]),
+   where (a) represents the mantissa, (b) the exponent, and (C) a
+   constant factor set to C := 1/32.
 
-   Subnormal (e == 0):  (0 + m/m_max) * 2^(1+b)
+   Subnormal (b == 0):  (0 + a/8) * 2 * C
 
-   Normalized (e > 0):  (1 + m/m_max) * 2^(e+b)
+   Normalized (b > 0):  (1 + a/8) * 2^b * C
 
-   The subnormal form is only applied when the exponent is zero.  This
-   form provides a gradual underflow for the gap between the smallest
-   normalized number and zero.  The normalized form is applied for all
-   values with an exponent greater than zero.
-
-                 <---          one byte wide          --->
-                 +----+----+----+----+----+----+----+----+
-                 |      exponent (e)      | mantissa (m) |
-                 +----+----+----+----+----+----+----+----+
-                   0    1    2    3    4    5    6    7
-
-        Figure 2: A time code with exponent and mantissa to encode a
-                   logarithmic range time representation.
-
-   This document allocates 5 bits for the exponent and 3 bits for the
-   mantissa as illustrated in Figure 2.  Therefore, exponents have the
-   range [0,31] and mantissae have the range [0,7].  This document
-   further applies a bias of -5.  The following properties result from
+   The subnormal form provides a gradual underflow between zero and the
+   smallest normalized number.  The following properties result from
    this configuration:
 
    *  Minimum subnormal number: 0 seconds
+
+   *  2nd minimum subnormal number: ~0.007812 seconds
 
    *  Maximum subnormal number: ~0.054688 seconds
 
    *  Minimum normalized number: ~0.062500 seconds
 
+   *  2nd minimum normalized number: ~0.070312 seconds
+
    *  Maximum normalized number: ~3.99 years
 
-   Eight time values exist in the subnormal range [0,~0.054688s] with a
-   step size of ~0.007813s between each time value.  In addition, this
+   Eight time values exist in the subnormal range [0s,~0.054688s] with a
+   step size of ~0.007812s between each time value.  In addition, this
    configuration also encodes the following convenient numbers in
    seconds: [1, 2, 4, 8, 16, 32, 64, ...].
 
    An example algorithm to encode a time value into the corresponding
-   exponent and mantissa is given as pseudo code in Figure 3.  Not all
+   exponent and mantissa is given as pseudo code in Figure 2.  Not all
    time values can be represented by a time code.  For these instances,
    the closest time code is chosen that is smaller than the value to
    encode.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -298,7 +298,7 @@ Internet-Draft              TimeTLV for CCNx                January 2022
                    m = floor ((v / 2^e - 1) * 8)   // round down
                    return (e + 5, m)               // add bias
 
-                    Figure 3: Algorithm in pseudo code.
+                    Figure 2: Algorithm in pseudo code.
 
    As an example: No specific time code for 0.063 exists, but this
    algorithm maps to the closest valid time code that is smaller, i.e.,
@@ -360,7 +360,7 @@ Internet-Draft              TimeTLV for CCNx                January 2022
    length lifetime representation, where a length of 1 encodes the
    linear range [0,255] in milliseconds.  This document changes the
    definition to always encode 1-byte Interest lifetime values in the
-   compact time value representation (Figure 4).
+   compact time value representation (Figure 3).
 
                         1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -380,7 +380,7 @@ Internet-Draft              TimeTLV for CCNx                January 2022
    | COMPACT_TIME  |
    +---------------+
 
-     Figure 4: Changes to the definition of the Interest Lifetime TLV.
+     Figure 3: Changes to the definition of the Interest Lifetime TLV.
 
 
 
@@ -400,7 +400,7 @@ Internet-Draft              TimeTLV for CCNx                January 2022
    absolute time representation that is of a length fixed to 8 bytes.
    This document changes the definition to always encode 1-byte
    Recommended Cache Time values in the compact relative time value
-   representation (Figure 5).
+   representation (Figure 4).
 
                         1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -419,7 +419,7 @@ Internet-Draft              TimeTLV for CCNx                January 2022
    | COMPACT_TIME  |
    +---------------+
 
-     Figure 5: Changes to the definition of the Recommended Cache Time
+     Figure 4: Changes to the definition of the Recommended Cache Time
                                     TLV.
 
 6.  IANA Considerations
