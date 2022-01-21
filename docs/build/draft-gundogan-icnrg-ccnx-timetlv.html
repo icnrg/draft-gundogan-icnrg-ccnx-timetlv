@@ -621,13 +621,16 @@ output:   int a, b // mantissa, exponent of time code
     if (v == 0)
         return (0, 0)
 
-    if (v &lt; 2 * C)
-        a = floor (v * 4 * C)               // round down
+    if (v &lt; 2 * C)                              // subnormal
+        a = floor (v * 4 * C)                   // round down
         return (a, 0)
-    else
-        b = floor (log2(v / C))             // round down
-        a = floor ((v / (2^b * C) - 1) * 8) // round down
-        return (a, b)
+    else                                        // normalized
+        if (v &gt; (1 + 7/8) * 2^31 * C)           // check bounds
+            return (7, 31)                      // return maximum
+        else
+            b = floor (log2(v / C))             // round down
+            a = floor ((v / (2^b * C) - 1) * 8) // round down
+            return (a, b)
 </pre>
 </div>
 <figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:

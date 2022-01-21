@@ -79,7 +79,7 @@ Table of Contents
    4.  A Compact Time Representation with Logarithmic Range  . . . .   4
    5.  Protocol Integration of the Compact Time Representation . . .   6
      5.1.  Interest Lifetime . . . . . . . . . . . . . . . . . . . .   7
-     5.2.  Recommended Cache Time  . . . . . . . . . . . . . . . . .   7
+     5.2.  Recommended Cache Time  . . . . . . . . . . . . . . . . .   8
    6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
    7.  Security Considerations . . . . . . . . . . . . . . . . . . .   8
    8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   8
@@ -258,21 +258,21 @@ Internet-Draft              TimeTLV for CCNx                January 2022
    the closest time code is chosen that is smaller than the value to
    encode.
 
-          input: float v    // time value
-         output:   int a, b // mantissa, exponent of time code
 
-         (a, b) encode (v):
 
-             if (v == 0)
-                 return (0, 0)
 
-             if (v < 2 * C)
-                 a = floor (v * 4 * C)               // round down
-                 return (a, 0)
-             else
-                 b = floor (log2(v / C))             // round down
-                 a = floor ((v / (2^b * C) - 1) * 8) // round down
-                 return (a, b)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -281,6 +281,25 @@ Gundogan, et al.          Expires 25 July 2022                  [Page 5]
 
 Internet-Draft              TimeTLV for CCNx                January 2022
 
+
+      input: float v    // time value
+     output:   int a, b // mantissa, exponent of time code
+
+     (a, b) encode (v):
+
+         if (v == 0)
+             return (0, 0)
+
+         if (v < 2 * C)                              // subnormal
+             a = floor (v * 4 * C)                   // round down
+             return (a, 0)
+         else                                        // normalized
+             if (v > (1 + 7/8) * 2^31 * C)           // check bounds
+                 return (7, 31)                      // return maximum
+             else
+                 b = floor (log2(v / C))             // round down
+                 a = floor ((v / (2^b * C) - 1) * 8) // round down
+                 return (a, b)
 
                     Figure 3: Algorithm in pseudo code.
 
@@ -310,6 +329,15 @@ Internet-Draft              TimeTLV for CCNx                January 2022
       any forwarder.  That means a forwarder supporting the new encoding
       can translate freely between the two encodings.
 
+
+
+
+
+Gundogan, et al.          Expires 25 July 2022                  [Page 6]
+
+Internet-Draft              TimeTLV for CCNx                January 2022
+
+
    *  The alternative of assigning new TLV registry values does not
       substantially mitigate the interoperability problems anyway.
 
@@ -328,15 +356,6 @@ Internet-Draft              TimeTLV for CCNx                January 2022
        header grammar from [RFC8609] is updated to allow for
        T_INTLIFETIME_COMPACT at the same level of the currently defined
        T_INTLIFETIME with an exclusive or.
-
-
-
-
-
-Gundogan, et al.          Expires 25 July 2022                  [Page 6]
-
-Internet-Draft              TimeTLV for CCNx                January 2022
-
 
 5.1.  Interest Lifetime
 
@@ -366,25 +385,6 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 
      Figure 4: Changes to the definition of the Interest Lifetime TLV.
 
-5.2.  Recommended Cache Time
-
-   The Recommended Cache Time definition in [RFC8609] specifies an
-   absolute time representation that is of a length fixed to 8 bytes.
-   This document changes the definition to always encode 1-byte
-   Recommended Cache Time values in the compact relative time value
-   representation (Figure 5).
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -393,6 +393,14 @@ Gundogan, et al.          Expires 25 July 2022                  [Page 7]
 
 Internet-Draft              TimeTLV for CCNx                January 2022
 
+
+5.2.  Recommended Cache Time
+
+   The Recommended Cache Time definition in [RFC8609] specifies an
+   absolute time representation that is of a length fixed to 8 bytes.
+   This document changes the definition to always encode 1-byte
+   Recommended Cache Time values in the compact relative time value
+   representation (Figure 5).
 
                         1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -430,6 +438,18 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 
 8.1.  Normative References
 
+
+
+
+
+
+
+
+Gundogan, et al.          Expires 25 July 2022                  [Page 8]
+
+Internet-Draft              TimeTLV for CCNx                January 2022
+
+
    [IEEE.754.2019]
               Institute of Electrical and Electronics Engineers, C/MSC -
               Microprocessor Standards Committee, "Standard for
@@ -441,14 +461,6 @@ Internet-Draft              TimeTLV for CCNx                January 2022
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
-
-
-
-
-Gundogan, et al.          Expires 25 July 2022                  [Page 8]
-
-Internet-Draft              TimeTLV for CCNx                January 2022
-
 
    [RFC5497]  Clausen, T. and C. Dearlove, "Representing Multi-Value
               Time in Mobile Ad Hoc Networks (MANETs)", RFC 5497,
@@ -478,18 +490,6 @@ Appendix A.  Test Vectors
    The test vectors in Table 1 show sample time codes and their
    corresponding time values according to the algorithm outlined in
    Section 4.
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
