@@ -70,12 +70,10 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-   2.  Requirements Language . . . . . . . . . . . . . . . . . . . .   3
+   2.  Requirements Language . . . . . . . . . . . . . . . . . . . .   2
    3.  Usage of Time Values in CCNx  . . . . . . . . . . . . . . . .   3
      3.1.  Relative Time in CCNx . . . . . . . . . . . . . . . . . .   3
      3.2.  Absolute Time in CCNx . . . . . . . . . . . . . . . . . .   3
-       3.2.1.  Signature Time and Expiry Time  . . . . . . . . . . .   3
-       3.2.2.  Recommended Cache Time  . . . . . . . . . . . . . . .   4
    4.  A Compact Time Representation with Logarithmic Range  . . . .   4
    5.  Protocol Integration of the Compact Time Representation . . .   6
      5.1.  Interest Lifetime . . . . . . . . . . . . . . . . . . . .   7
@@ -86,6 +84,7 @@ Table of Contents
      8.1.  Normative References  . . . . . . . . . . . . . . . . . .   8
      8.2.  Informative References  . . . . . . . . . . . . . . . . .   9
    Appendix A.  Test Vectors . . . . . . . . . . . . . . . . . . . .   9
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  10
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  10
 
 1.  Introduction
@@ -102,10 +101,11 @@ Table of Contents
    various cases, and proposes a compact encoding that is easily
    accommodated for delta times.
 
+2.  Requirements Language
 
-
-
-
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in RFC 2119 [RFC2119].
 
 
 
@@ -113,12 +113,6 @@ Gundogan, et al.          Expires 25 July 2022                  [Page 2]
 
 Internet-Draft              TimeTLV for CCNx                January 2022
 
-
-2.  Requirements Language
-
-   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-   document are to be interpreted as described in RFC 2119 [RFC2119].
 
 3.  Usage of Time Values in CCNx
 
@@ -162,6 +156,12 @@ Internet-Draft              TimeTLV for CCNx                January 2022
    Both time values could be in the past, or in the future, potentially
    by a large delta.  They are also included in the security envelope of
    the message.  Therefore, it seems there is no practical way to define
+   an alternative compact encoding that preserves its semantics and
+   security properties; hence we don't consider it further as a
+   candidate.
+
+
+
 
 
 
@@ -169,10 +169,6 @@ Gundogan, et al.          Expires 25 July 2022                  [Page 3]
 
 Internet-Draft              TimeTLV for CCNx                January 2022
 
-
-   an alternative compact encoding that preserves its semantics and
-   security properties; hence we don't consider it further as a
-   candidate.
 
 3.2.2.  Recommended Cache Time
 
@@ -221,6 +217,10 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 
 
 
+
+
+
+
 Gundogan, et al.          Expires 25 July 2022                  [Page 4]
 
 Internet-Draft              TimeTLV for CCNx                January 2022
@@ -248,15 +248,15 @@ Internet-Draft              TimeTLV for CCNx                January 2022
    smallest normalized number.  Eight time values exist in the subnormal
    range [0s,~0.054688s] with a step size of ~0.007812s between each
    time value.  This configuration also encodes the following convenient
-   numbers in seconds: [1, 2, 4, 8, 16, 32, 64, ...].  Appendix A of
-   this document further includes test vectors to illustrate the
-   logarithmic range.
+   numbers in seconds: [1, 2, 4, 8, 16, 32, 64, ...].  Appendix A
+   further includes test vectors to illustrate the logarithmic range.
 
    An example algorithm to encode a time value into the corresponding
    exponent and mantissa is given as pseudo code in Figure 3.  Not all
    time values can be represented by a time code.  For these instances,
    the closest time code is chosen that is smaller than the value to
    encode.
+
 
 
 
@@ -530,6 +530,13 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 
                           Table 1: Test Vectors
 
+Acknowledgments
+
+   We would like to thank the active members of the ICNRG research group
+   for constructive thoughts.  In particular, we thank Marc Mosko for
+   his constructive thoughts on the encoding scheme, the provided pseudo
+   code, and test vectors.
+
 Authors' Addresses
 
    Cenk Gundogan
@@ -543,14 +550,7 @@ Authors' Addresses
    URI:   http://inet.haw-hamburg.de/members/cenk-gundogan
 
 
-   Thomas C. Schmidt
-   HAW Hamburg
-   Berliner Tor 7
-   D-20099 Hamburg
-   Germany
 
-   Email: t.schmidt@haw-hamburg.de
-   URI:   http://inet.haw-hamburg.de/members/schmidt
 
 
 
@@ -560,6 +560,16 @@ Authors' Addresses
 Gundogan, et al.          Expires 25 July 2022                 [Page 10]
 
 Internet-Draft              TimeTLV for CCNx                January 2022
+
+
+   Thomas C. Schmidt
+   HAW Hamburg
+   Berliner Tor 7
+   D-20099 Hamburg
+   Germany
+
+   Email: t.schmidt@haw-hamburg.de
+   URI:   http://inet.haw-hamburg.de/members/schmidt
 
 
    Dave Oran
@@ -579,16 +589,6 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 
    Email: mw@link-lab.net
    URI:   http://www.inf.fu-berlin.de/~waehl
-
-
-
-
-
-
-
-
-
-
 
 
 

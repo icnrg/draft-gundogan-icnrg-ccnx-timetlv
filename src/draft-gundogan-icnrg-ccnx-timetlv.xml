@@ -169,7 +169,7 @@
 <section anchor="absoluteTime" title="Absolute Time in CCNx">
 <t>CCNx, as currently specified in <xref target="RFC8569"/>, utilizes absolute time for various important functions. Each of these absolute time usages poses a different challenge for a compact representation. These are discussed in the following subsections.</t>
 
-<section title="Signature Time and Expiry Time">
+<section toc="exclude" title="Signature Time and Expiry Time">
   <t><spanx>Signature Time</spanx> is the time the signature of a content object was generated (<xref target="RFC8569">sections 8.2-8.4</xref>).
   <spanx>Expiry Time</spanx> indicates the expiry time of a content object (<xref target="RFC8569">section 4</xref>).
   Both values are content message TLVs and represent absolute timestamps in milliseconds since the UTC epoch (i.e., an NTP timestamp).
@@ -180,7 +180,7 @@
   Therefore, it seems there is no practical way to define an alternative compact encoding that preserves its semantics and security properties; hence we don't consider it further as a candidate.</t>
 </section>
 
-<section title="Recommended Cache Time">
+<section toc="exclude" title="Recommended Cache Time">
   <t><spanx>Recommended Cache Time</spanx> (RCT) for a content object (<xref target="RFC8569">see section 4</xref>) is a hop-by-hop header stating the expiration time for a cached content object in milliseconds since the UTC epoch (i.e., an NTP timestamp). It is currently encoded via the T_CACHETIME TLV as a 64-bit unsigned integer (see <xref target="RFC8609"> section 3.4.2</xref>).</t>
 
 <t>A recommended cache time could be far in the future, but cannot be in the past and is likely to be a reasonably short offset from the current time.
@@ -232,7 +232,7 @@ milliseconds                                                  years
     The subnormal form provides a gradual underflow between zero and the smallest normalized number.
     Eight time values exist in the subnormal range [0s,~0.054688s] with a step size of ~0.007812s between each time value.
     This configuration also encodes the following convenient numbers in seconds: [1, 2, 4, 8, 16, 32, 64, ...].
-    Appendix A of this document further includes test vectors to illustrate the logarithmic range.
+    <xref target="sec.testvectors"/> further includes test vectors to illustrate the logarithmic range.
   </t>
   <t>
     An example algorithm to encode a time value into the corresponding exponent and mantissa is given as pseudo code in <xref target="fig.algo"/>.
@@ -437,6 +437,9 @@ output:   int a, b // mantissa, exponent of time code
         <c>0xFF</c>
         <c>125829120.000000</c>
       </texttable>
+    </section>
+    <section numbered="no" title="Acknowledgments">
+      <t>We would like to thank the active members of the ICNRG research group for constructive thoughts. In particular, we thank Marc Mosko for his constructive thoughts on the encoding scheme, the provided pseudo code, and test vectors.</t>
     </section>
     <!-- Change Log
 v00 2019-10-03  DRO   Initial version
