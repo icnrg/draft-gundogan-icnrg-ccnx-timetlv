@@ -196,7 +196,7 @@
 </section>
 <section title="A Compact Time Representation with Logarithmic Range" anchor="sec.timetlv">
   <t>
-    This document uses the compact time representation of ICNLoWPAN (<xref target="RFC9139">see section 7</xref>) that is inspired by <xref target="RFC5497"/> and <xref target="IEEE.754.2019"/>.
+    This document uses the compact time representation of ICNLoWPAN (<xref target="RFC9139">see section 7 of </xref>) that is inspired by <xref target="RFC5497"/> and <xref target="IEEE.754.2019"/>.
     Its logarithmic encoding supports a representation ranging from milliseconds to years.
     <xref target="fig.time-value"/> depicts the logarithmic nature of this time representation.
   </t>
@@ -209,9 +209,19 @@ milliseconds                                                  years
   </figure>
   <t>
     Time codes encode exponent and mantissa values in a single byte, but in contrast to the representation in <xref target="IEEE.754.2019"/>, time codes only encode positive numbers and hence do not include an extra sign bit.
+    <xref target="fig.time-code"/> shows the configuration of a time code: an exponent width of 5 bits, and a mantissa width of 3 bits.
   </t>
+  <figure anchor="fig.time-code" title="A time code with exponent and mantissa to encode a logarithmic range time representation.">
+    <artwork align="center"><![CDATA[
+<---          one byte wide          --->
++----+----+----+----+----+----+----+----+
+|      exponent (b)      | mantissa (a) |
++----+----+----+----+----+----+----+----+
+  0    1    2    3    4    5    6    7
+]]></artwork>
+  </figure>
   <t>
-    The base unit for time values are seconds. A time value is calculated using the following formula (adopted from <xref target="RFC9139"/>),
+    The base unit for time values are seconds. A time value is calculated using the following formula (adopted from <xref target="RFC5497"/> and <xref target="RFC9139"/>),
     where (a) represents the mantissa, (b) the exponent, and (C) a constant factor set to <spanx style="verb">C := 1/32</spanx>.
     <list style="hanging">
       <t hangText="Subnormal (b == 0):"> (0 + a/8) * 2 * C
@@ -220,17 +230,9 @@ milliseconds                                                  years
       </t>
     </list>
     The subnormal form provides a gradual underflow between zero and the smallest normalized number.
-    The following properties result from this configuration:
-    <list style="symbols">
-      <t>Minimum subnormal number:        0 seconds</t>
-      <t>2nd minimum subnormal number:   ~0.007812 seconds</t>
-      <t>Maximum subnormal number:       ~0.054688 seconds</t>
-      <t>Minimum normalized number:      ~0.062500 seconds</t>
-      <t>2nd minimum normalized number:  ~0.070312 seconds</t>
-      <t>Maximum normalized number:      ~3.99 years</t>
-    </list>
     Eight time values exist in the subnormal range [0s,~0.054688s] with a step size of ~0.007812s between each time value.
     In addition, this configuration also encodes the following convenient numbers in seconds: [1, 2, 4, 8, 16, 32, 64, ...].
+    Appendix A of this document further includes test vectors to illustrate the logarithmic range.
   </t>
   <t>
     An example algorithm to encode a time value into the corresponding exponent and mantissa is given as pseudo code in <xref target="fig.algo"/>.
