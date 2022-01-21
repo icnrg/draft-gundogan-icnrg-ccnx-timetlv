@@ -424,7 +424,7 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 
    The packet processing is adapted to calculate an absolute time from
    the relative time code based on the absolute reception time.  On
-   transmission, a new relative time code is calculate based on the
+   transmission, a new relative time code is calculated based on the
    current system time.
 
 6.  IANA Considerations
