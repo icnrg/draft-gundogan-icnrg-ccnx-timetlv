@@ -422,6 +422,10 @@ Internet-Draft              TimeTLV for CCNx                January 2022
      Figure 5: Changes to the definition of the Recommended Cache Time
                                     TLV.
 
+   The packet processing is adapted to calculate an absolute time from
+   the relative time code on reception.  On transmission, a new time
+   code is calculate based on the current time.
+
 6.  IANA Considerations
 
    Based on the approach of integration, certain TLV registries from
@@ -437,10 +441,6 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 8.  References
 
 8.1.  Normative References
-
-
-
-
 
 
 

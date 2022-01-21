@@ -346,6 +346,8 @@ output:   int a, b // mantissa, exponent of time code
 +---------------+
 ]]></artwork>
   </figure>
+  <t>The packet processing is adapted to calculate an absolute time from the relative time code on reception.
+  On transmission, a new time code is calculate based on the current time.</t>
   </section>
 </section>
 <section anchor="IANA" title="IANA Considerations">
@@ -455,7 +457,7 @@ output:   int a, b // mantissa, exponent of time code
     <!-- Change Log
 v00 2019-10-03  DRO   Initial version
 v03	2021-01-18	DRO	  Refreash - no changes
-v05 2022-01-20  CG    update references -->
+v05 2022-01-20  CG    major update-->
 </back>
 </rfc>
 		
