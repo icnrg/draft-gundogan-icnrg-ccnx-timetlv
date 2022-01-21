@@ -450,7 +450,7 @@ output:   int a, b // mantissa, exponent of time code
       </texttable>
     </section>
     <section numbered="no" title="Acknowledgments">
-      <t>We would like to thank the active members of the ICNRG research group for constructive thoughts. In particular, we thank Marc Mosko for his constructive thoughts on the encoding scheme, the provided pseudo code, and test vectors.</t>
+      <t>We would like to thank the active members of the ICNRG research group for constructive thoughts. In particular, we thank Marc Mosko for his feedback on the encoding scheme, the provided pseudo code, and test vectors.</t>
     </section>
     <!-- Change Log
 v00 2019-10-03  DRO   Initial version
