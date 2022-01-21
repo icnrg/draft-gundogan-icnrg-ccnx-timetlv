@@ -153,11 +153,22 @@
 <t>CCNx utilizes time values for a number of functions. Some of these are expressed as absolute time, others as delta time. When using CCNx in environments with constrained nodes and/or bandwidth constrained networks, it is valuable to have a compact representation of time values. For example <xref target="RFC9139"/> specifies a compression scheme useful over IEEE 802.15.4 networks. However, any compact time representation has to sacrifice either accuracy or dynamic range or both. For some time uses this is relatively straightforward to achieve, for other uses, it is not. This document discusses the various cases, and proposes a compact encoding that is easily accommodated for delta times.</t>
 </section>
 
-<section title="Requirements Language">
+<section title="Terminology">
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
         "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
         document are to be interpreted as described in <xref target="RFC2119">RFC 2119</xref>.</t>
+
+        <t>This document uses the terminology of <xref target="RFC8569"/> and <xref
+        target="RFC8609"/> for CCNx entities.</t>
+
+        <t>The following terms are used in the document and defined as follows:
+        <list hangIndent="14" style="hanging">
+          <t hangText="byte:">synonym for octet</t>
+          <t hangText="time value:">a time offset measured in seconds</t>
+          <t hangText="time code:">an 8-bit encoded time value</t>
+        </list></t>
 </section>
+
 <section title="Usage of Time Values in CCNx">
 <section anchor="relativeTime" title="Relative Time in CCNx">
 

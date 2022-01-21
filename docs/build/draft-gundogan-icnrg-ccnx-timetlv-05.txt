@@ -70,7 +70,7 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-   2.  Requirements Language . . . . . . . . . . . . . . . . . . . .   2
+   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   2
    3.  Usage of Time Values in CCNx  . . . . . . . . . . . . . . . .   3
      3.1.  Relative Time in CCNx . . . . . . . . . . . . . . . . . .   3
      3.2.  Absolute Time in CCNx . . . . . . . . . . . . . . . . . .   3
@@ -101,7 +101,7 @@ Table of Contents
    various cases, and proposes a compact encoding that is easily
    accommodated for delta times.
 
-2.  Requirements Language
+2.  Terminology
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
@@ -113,6 +113,17 @@ Gundogan, et al.          Expires 25 July 2022                  [Page 2]
 
 Internet-Draft              TimeTLV for CCNx                January 2022
 
+
+   This document uses the terminology of [RFC8569] and [RFC8609] for
+   CCNx entities.
+
+   The following terms are used in the document and defined as follows:
+
+   byte:         synonym for octet
+
+   time value:   a time offset measured in seconds
+
+   time code:    an 8-bit encoded time value
 
 3.  Usage of Time Values in CCNx
 
@@ -151,6 +162,14 @@ Internet-Draft              TimeTLV for CCNx                January 2022
    milliseconds since the UTC epoch (i.e., an NTP timestamp).  They are
    currently encoded via the T_SIGTIME and T_EXPIRY TLVs as 64-bit
    unsigned integers (see section 3.6.4.1.4.5 [RFC8609] and section
+
+
+
+Gundogan, et al.          Expires 25 July 2022                  [Page 3]
+
+Internet-Draft              TimeTLV for CCNx                January 2022
+
+
    3.6.2.2.2 [RFC8609]).
 
    Both time values could be in the past, or in the future, potentially
@@ -159,16 +178,6 @@ Internet-Draft              TimeTLV for CCNx                January 2022
    an alternative compact encoding that preserves its semantics and
    security properties; hence we don't consider it further as a
    candidate.
-
-
-
-
-
-
-Gundogan, et al.          Expires 25 July 2022                  [Page 3]
-
-Internet-Draft              TimeTLV for CCNx                January 2022
-
 
 3.2.2.  Recommended Cache Time
 
@@ -208,15 +217,6 @@ Internet-Draft              TimeTLV for CCNx                January 2022
        precision in the smaller time ranges and still supports large
                                 time deltas.
 
-   Time codes encode exponent and mantissa values in a single byte, but
-   in contrast to the representation in [IEEE.754.2019], time codes only
-   encode positive numbers and hence do not include an extra sign bit.
-   Figure 2 shows the configuration of a time code: an exponent width of
-   5 bits, and a mantissa width of 3 bits.
-
-
-
-
 
 
 
@@ -225,6 +225,12 @@ Gundogan, et al.          Expires 25 July 2022                  [Page 4]
 
 Internet-Draft              TimeTLV for CCNx                January 2022
 
+
+   Time codes encode exponent and mantissa values in a single byte, but
+   in contrast to the representation in [IEEE.754.2019], time codes only
+   encode positive numbers and hence do not include an extra sign bit.
+   Figure 2 shows the configuration of a time code: an exponent width of
+   5 bits, and a mantissa width of 3 bits.
 
                  <---          one byte wide          --->
                  +----+----+----+----+----+----+----+----+
@@ -256,12 +262,6 @@ Internet-Draft              TimeTLV for CCNx                January 2022
    time values can be represented by a time code.  For these instances,
    the closest time code is chosen that is smaller than the value to
    encode.
-
-
-
-
-
-
 
 
 
