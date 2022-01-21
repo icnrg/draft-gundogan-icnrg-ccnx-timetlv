@@ -603,7 +603,7 @@ milliseconds                                                  years
 <p id="section-4-7">
     The subnormal form provides a gradual underflow between zero and the smallest normalized number.
     Eight time values exist in the subnormal range [0s,~0.054688s] with a step size of ~0.007812s between each time value.
-    In addition, this configuration also encodes the following convenient numbers in seconds: [1, 2, 4, 8, 16, 32, 64, ...].
+    This configuration also encodes the following convenient numbers in seconds: [1, 2, 4, 8, 16, 32, 64, ...].
     Appendix A of this document further includes test vectors to illustrate the logarithmic range.<a href="#section-4-7" class="pilcrow">¶</a></p>
 <p id="section-4-8">
     An example algorithm to encode a time value into the corresponding exponent and mantissa is given as pseudo code in <a href="#fig.algo" class="xref">Figure 3</a>.
@@ -622,7 +622,7 @@ output:   int a, b // mantissa, exponent of time code
         return (0, 0)
 
     if (v &lt; 2 * C)                              // subnormal
-        a = floor (v * 4 * C)                   // round down
+        a = floor (v * 4 / C)                   // round down
         return (a, 0)
     else                                        // normalized
         if (v &gt; (1 + 7/8) * 2^31 * C)           // check bounds
