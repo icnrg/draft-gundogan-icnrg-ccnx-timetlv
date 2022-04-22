@@ -320,6 +320,9 @@ output:   int a, b // mantissa, exponent of time code
 ]]></artwork>
   </figure>
 
+  <t>A note on legacy forwarders: A forwarder that does not support
+  this integration will interpret the compact time as an Interest
+  lifetime between 0 and 255 milliseconds. This may lead to a degradation of network performance, since Interest paths timeout unexpectedly quick.</t>
   </section>
   <section title="Recommended Cache Time" anchor="sec.integration.recctime">
     <t>The Recommended Cache Time definition in <xref target="RFC8609"/> specifies an absolute time representation that is of a length fixed to 8 bytes.
