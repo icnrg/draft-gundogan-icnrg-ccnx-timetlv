@@ -54,7 +54,7 @@
     </title>
 
     <!-- add 'role="editor"' below for the editors if appropriate -->
-    <author fullname="Cenk Gundogan" surname="C. Gundogan">
+    <author fullname="Cenk Gundogan" initials="C." surname="Gundogan">
     	<organization>HAW Hamburg</organization>
     	<address>
     		<postal>
@@ -82,7 +82,7 @@
       </address>
     </author>
 
-    <author fullname="Dave Oran" surname="D. Oran">
+    <author fullname="Dave Oran" initials="D." surname="Oran">
         <organization>Network Systems Research and Design</organization>
         <address>
             <postal>
