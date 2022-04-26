@@ -460,6 +460,21 @@ output:   int a, b // mantissa, exponent of time code
         <c>125829120.000000</c>
       </texttable>
     </section>
+    <section anchor="sec.tvapprox" title="Efficient Time Value Approximation">
+      <t>
+        A forwarder frequently converts compact time into milliseconds to compare Interest lifetimes and the duration of cache entries.
+        On many architectures, multiplication and division perform slower than addition, subtraction, and bit shifts.
+        The following equations approximate the formulas in <xref target="sec.timetlv"/>, and scale from seconds into the milliseconds range by applying a factor of 2^10 instead of 10^3.
+        This results in an error of 2.4%.
+
+        <list style="hanging" hangIndent="10">
+          <t hangText="b == 0:">2^10 * a * 2^-3 * 2^1 * 2^-5<br/>= a &lt;&lt; 3
+          </t>
+          <t hangText="b &gt; 0:">(2^10 + a * 2^-3 * 2^10) * 2^b * 2^-5<br/>= (1 &lt;&lt; 5 + a &lt;&lt; 2) &lt;&lt; b
+          </t>
+        </list>
+      </t>
+    </section>
     <section numbered="no" title="Acknowledgments">
       <t>We would like to thank the active members of the ICNRG research group for constructive thoughts. In particular, we thank Marc Mosko for his feedback on the encoding scheme, the provided pseudo code, and test vectors.</t>
     </section>
