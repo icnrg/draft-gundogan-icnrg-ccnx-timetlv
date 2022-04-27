@@ -2,30 +2,31 @@
 
 
 
-ICNRG                                                        C. Gundogan
+ICNRG                                                        C. Gündoğan
 Internet-Draft                                               TC. Schmidt
 Intended status: Experimental                                HAW Hamburg
-Expires: 25 July 2022                                            D. Oran
+Expires: 29 October 2022                                         D. Oran
                                      Network Systems Research and Design
                                                             M. Waehlisch
                                                     link-lab & FU Berlin
-                                                         21 January 2022
+                                                           27 April 2022
 
 
  Alternative Delta Time Encoding for CCNx Using Compact Floating-Point
                                Arithmetic
-                draft-gundogan-icnrg-ccnx-timetlv-05
+                  draft-irtf-icnrg-ccnx-timetlv-00
 
 Abstract
 
    CCNx utilizes delta time for a number of functions.  When using CCNx
-   in environments with constrained nodes and/or bandwidth constrained
+   in environments with constrained nodes or bandwidth constrained
    networks, it is valuable to have a compressed representation of delta
    time.  In order to do so, either accuracy or dynamic range has to be
    sacrificed.  Since the current uses of delta time do not require both
    simultaneously, one can consider a logarithmic encoding such as that
-   specified in [IEEE.754.2019].  This document updates _CCNx messages
-   in TLV Format_ (RFC8609) to specify this alternative encoding.
+   specified in [RFC5497] and [IEEE.754.2019].  This document updates
+   _CCNx messages in TLV Format_ [RFC8609] to specify this alternative
+   encoding.
 
 Status of This Memo
 
@@ -42,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 July 2022.
+   This Internet-Draft will expire on 29 October 2022.
 
 Copyright Notice
 
@@ -52,10 +53,9 @@ Copyright Notice
 
 
 
-
-Gundogan, et al.          Expires 25 July 2022                  [Page 1]
+Gündoğan, et al.         Expires 29 October 2022                [Page 1]
 
-Internet-Draft              TimeTLV for CCNx                January 2022
+Internet-Draft              TimeTLV for CCNx                  April 2022
 
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -70,7 +70,7 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   2
+   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   3
    3.  Usage of Time Values in CCNx  . . . . . . . . . . . . . . . .   3
      3.1.  Relative Time in CCNx . . . . . . . . . . . . . . . . . .   3
      3.2.  Absolute Time in CCNx . . . . . . . . . . . . . . . . . .   3
@@ -78,41 +78,47 @@ Table of Contents
    5.  Protocol Integration of the Compact Time Representation . . .   6
      5.1.  Interest Lifetime . . . . . . . . . . . . . . . . . . . .   7
      5.2.  Recommended Cache Time  . . . . . . . . . . . . . . . . .   8
-   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
-   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   8
-   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   8
-     8.1.  Normative References  . . . . . . . . . . . . . . . . . .   8
+   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
+   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   9
+     8.1.  Normative References  . . . . . . . . . . . . . . . . . .   9
      8.2.  Informative References  . . . . . . . . . . . . . . . . .   9
-   Appendix A.  Test Vectors . . . . . . . . . . . . . . . . . . . .   9
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  10
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  10
+   Appendix A.  Test Vectors . . . . . . . . . . . . . . . . . . . .  10
+   Appendix B.  Efficient Time Value Approximation . . . . . . . . .  11
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  11
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  11
 
 1.  Introduction
 
    CCNx utilizes time values for a number of functions.  Some of these
-   are expressed as absolute time, others as delta time.  When using
-   CCNx in environments with constrained nodes and/or bandwidth
+   are expressed as absolute time, others as delta time.  CCNx is well
+   suited for Internet of Things (IoT) applications [RFC7927].  When
+   using CCNx in environments with constrained nodes or bandwidth
    constrained networks, it is valuable to have a compact representation
-   of time values.  For example [RFC9139] specifies a compression scheme
-   useful over IEEE 802.15.4 networks.  However, any compact time
-   representation has to sacrifice either accuracy or dynamic range or
-   both.  For some time uses this is relatively straightforward to
+   of time values.  For example [RFC9139] and [ICNLOWPAN] specify a
+   compression scheme useful over IEEE 802.15.4 networks.  However, any
+   compact time representation has to sacrifice accuracy or dynamic
+   range.  For some time uses this is relatively straightforward to
    achieve, for other uses, it is not.  This document discusses the
    various cases, and proposes a compact encoding that is easily
    accommodated for delta times.
+
+
+
+
+
+
+
+Gündoğan, et al.         Expires 29 October 2022                [Page 2]
+
+Internet-Draft              TimeTLV for CCNx                  April 2022
+
 
 2.  Terminology
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
    document are to be interpreted as described in RFC 2119 [RFC2119].
-
-
-
-Gundogan, et al.          Expires 25 July 2022                  [Page 2]
-
-Internet-Draft              TimeTLV for CCNx                January 2022
-
 
    This document uses the terminology of [RFC8569] and [RFC8609] for
    CCNx entities.
@@ -141,7 +147,7 @@ Internet-Draft              TimeTLV for CCNx                January 2022
    Since the current uses of delta time do not require both accuracy and
    dynamic range simultaneously, one can consider a logarithmic encoding
    such as that specified in [IEEE.754.2019] and outlined in Section 4.
-   This document updates CCNx messages in TLV Format ([RFC8609]) to
+   This document updates _CCNx messages in TLV Format_ [RFC8609] to
    permit this alternative encoding for selected time values.  See
    Section 6 for the specific actions needed to register this
    alternative compact representation of Interest Lifetime.
@@ -153,6 +159,17 @@ Internet-Draft              TimeTLV for CCNx                January 2022
    poses a different challenge for a compact representation.  These are
    discussed in the following subsections.
 
+
+
+
+
+
+
+Gündoğan, et al.         Expires 29 October 2022                [Page 3]
+
+Internet-Draft              TimeTLV for CCNx                  April 2022
+
+
 3.2.1.  Signature Time and Expiry Time
 
    _Signature Time_ is the time the signature of a content object was
@@ -161,16 +178,7 @@ Internet-Draft              TimeTLV for CCNx                January 2022
    are content message TLVs and represent absolute timestamps in
    milliseconds since the UTC epoch (i.e., an NTP timestamp).  They are
    currently encoded via the T_SIGTIME and T_EXPIRY TLVs as 64-bit
-   unsigned integers (see section 3.6.4.1.4.5 [RFC8609] and section
-
-
-
-Gundogan, et al.          Expires 25 July 2022                  [Page 3]
-
-Internet-Draft              TimeTLV for CCNx                January 2022
-
-
-   3.6.2.2.2 [RFC8609]).
+   unsigned integers (see section 3.6.4.1.4.5 and 3.6.2.2.2 [RFC8609]).
 
    Both time values could be in the past, or in the future, potentially
    by a large delta.  They are also included in the security envelope of
@@ -209,6 +217,15 @@ Internet-Draft              TimeTLV for CCNx                January 2022
    ranging from milliseconds to years.  Figure 1 depicts the logarithmic
    nature of this time representation.
 
+
+
+
+
+Gündoğan, et al.         Expires 29 October 2022                [Page 4]
+
+Internet-Draft              TimeTLV for CCNx                  April 2022
+
+
     || |  |   |    |     |      |       |        |         |          |
     +-----------------------------------------------------------------+
     milliseconds                                                  years
@@ -216,15 +233,6 @@ Internet-Draft              TimeTLV for CCNx                January 2022
        Figure 1: A logarithmic range representation allows for higher
        precision in the smaller time ranges and still supports large
                                 time deltas.
-
-
-
-
-
-Gundogan, et al.          Expires 25 July 2022                  [Page 4]
-
-Internet-Draft              TimeTLV for CCNx                January 2022
-
 
    Time codes encode exponent and mantissa values in a single byte, but
    in contrast to the representation in [IEEE.754.2019], time codes only
@@ -269,17 +277,9 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 
 
 
-
-
-
-
-
-
-
-
-Gundogan, et al.          Expires 25 July 2022                  [Page 5]
+Gündoğan, et al.         Expires 29 October 2022                [Page 5]
 
-Internet-Draft              TimeTLV for CCNx                January 2022
+Internet-Draft              TimeTLV for CCNx                  April 2022
 
 
       input: float v    // time value
@@ -333,9 +333,9 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 
 
 
-Gundogan, et al.          Expires 25 July 2022                  [Page 6]
+Gündoğan, et al.         Expires 29 October 2022                [Page 6]
 
-Internet-Draft              TimeTLV for CCNx                January 2022
+Internet-Draft              TimeTLV for CCNx                  April 2022
 
 
    *  The alternative of assigning new TLV registry values does not
@@ -347,15 +347,14 @@ Internet-Draft              TimeTLV for CCNx                January 2022
    be added as the document progresses.
 
    1.  Relative time TLVs (e.g., T_INTLIFETIME) include nested TLVs to
-       hint at the used encoding.  This approach is the least intrusive
-       integration, but adds a TLV overhead that negates the benefits of
-       the compact time representation.
+       hint at the used encoding.  This approach allows for versatility
+       in defining new time encodings, but adds a TLV overhead that
+       negates the benefits of the compact time representation.
 
-   2.  A new TLV type for T_INTLIFETIME with a compact time
-       representation (T_INTLIFETIME_COMPACT) is defined.  The packet
-       header grammar from [RFC8609] is updated to allow for
-       T_INTLIFETIME_COMPACT at the same level of the currently defined
-       T_INTLIFETIME with an exclusive or.
+   2.  A new TLV type for the compact time representation is defined
+       (T_INTLIFETIME_COMPACT).  The packet header grammar from
+       [RFC8609] is updated to allow for T_INTLIFETIME_COMPACT at the
+       same level of the currently defined T_INTLIFETIME.
 
 5.1.  Interest Lifetime
 
@@ -368,6 +367,13 @@ Internet-Draft              TimeTLV for CCNx                January 2022
                         1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +---------------+---------------+---------------+---------------+
+   |           T_INTLIFE           |           Length = 1          |
+   +---------------+---------------+---------------+---------------+
+   | COMPACT_TIME  |
+   +---------------+
+                        1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +---------------+---------------+---------------+---------------+
    |           T_INTLIFE           |           Length > 1          |
    +---------------+---------------+---------------+---------------+
    /                                                               /
@@ -375,24 +381,24 @@ Internet-Draft              TimeTLV for CCNx                January 2022
    /                                                               /
    +---------------+---------------+---------------+---------------+
 
-                        1                   2                   3
-    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-   +---------------+---------------+---------------+---------------+
-   |           T_INTLIFE           |           Length = 1          |
-   +---------------+---------------+---------------+---------------+
-   | COMPACT_TIME  |
-   +---------------+
-
      Figure 4: Changes to the definition of the Interest Lifetime TLV.
 
 
 
 
 
-Gundogan, et al.          Expires 25 July 2022                  [Page 7]
-
-Internet-Draft              TimeTLV for CCNx                January 2022
 
+
+Gündoğan, et al.         Expires 29 October 2022                [Page 7]
+
+Internet-Draft              TimeTLV for CCNx                  April 2022
+
+
+   A note on legacy forwarders: A forwarder that does not support this
+   compact time representation will interpret the time value as an
+   Interest lifetime between 0 and 255 milliseconds.  This may lead to a
+   degradation of network performance, since Pending Interest
+   Table (PIT) entries timeout quicker than expected.
 
 5.2.  Recommended Cache Time
 
@@ -405,19 +411,19 @@ Internet-Draft              TimeTLV for CCNx                January 2022
                         1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
    +---------------+---------------+---------------+---------------+
+   |          T_CACHETIME          |           Length = 1          |
+   +---------------+---------------+---------------+---------------+
+   | COMPACT_TIME  |
+   +---------------+
+                        1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +---------------+---------------+---------------+---------------+
    |          T_CACHETIME          |           Length = 8          |
    +---------------+---------------+---------------+---------------+
    /                                                               /
    /                    Recommended Cache Time                     /
    /                                                               /
    +---------------+---------------+---------------+---------------+
-                        1                   2                   3
-    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-   +---------------+---------------+---------------+---------------+
-   |          T_CACHETIME          |           Length = 1          |
-   +---------------+---------------+---------------+---------------+
-   | COMPACT_TIME  |
-   +---------------+
 
      Figure 5: Changes to the definition of the Recommended Cache Time
                                     TLV.
@@ -426,6 +432,23 @@ Internet-Draft              TimeTLV for CCNx                January 2022
    the relative time code based on the absolute reception time.  On
    transmission, a new relative time code is calculated based on the
    current system time.
+
+   A note on legacy forwarders: A forwarder that does not support this
+   compact time representation is expected to consider a Recommended
+   Cache Time with length 1 as a structural or syntactical error and
+   discard the packet.  Otherwise, a forwarder interprets the compact
+   1-byte time value as an absolute time far in the past, which impacts
+   cache utilization.
+
+
+
+
+
+
+Gündoğan, et al.         Expires 29 October 2022                [Page 8]
+
+Internet-Draft              TimeTLV for CCNx                  April 2022
+
 
 6.  IANA Considerations
 
@@ -443,12 +466,19 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 
 8.1.  Normative References
 
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
 
+8.2.  Informative References
 
-Gundogan, et al.          Expires 25 July 2022                  [Page 8]
-
-Internet-Draft              TimeTLV for CCNx                January 2022
-
+   [ICNLOWPAN]
+              Gündoğan, C., Kietzmann, P., Schmidt, T., and M. Wählisch,
+              "Designing a LoWPAN convergence layer for the Information
+              Centric Internet of Things", Computer Communications, Vol.
+              164, No. 1, p. 114–123, Elsevier, December 2020,
+              <https://doi.org/10.1016/j.comcom.2020.10.002>.
 
    [IEEE.754.2019]
               Institute of Electrical and Electronics Engineers, C/MSC -
@@ -457,15 +487,24 @@ Internet-Draft              TimeTLV for CCNx                January 2022
               <https://standards.ieee.org/content/ieee-standards/en/
               standard/754-2019.html>.
 
-   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
-              Requirement Levels", BCP 14, RFC 2119,
-              DOI 10.17487/RFC2119, March 1997,
-              <https://www.rfc-editor.org/info/rfc2119>.
-
    [RFC5497]  Clausen, T. and C. Dearlove, "Representing Multi-Value
               Time in Mobile Ad Hoc Networks (MANETs)", RFC 5497,
               DOI 10.17487/RFC5497, March 2009,
               <https://www.rfc-editor.org/info/rfc5497>.
+
+   [RFC7927]  Kutscher, D., Ed., Eum, S., Pentikousis, K., Psaras, I.,
+              Corujo, D., Saucez, D., Schmidt, T., and M. Waehlisch,
+              "Information-Centric Networking (ICN) Research
+              Challenges", RFC 7927, DOI 10.17487/RFC7927, July 2016,
+              <https://www.rfc-editor.org/info/rfc7927>.
+
+
+
+
+Gündoğan, et al.         Expires 29 October 2022                [Page 9]
+
+Internet-Draft              TimeTLV for CCNx                  April 2022
+
 
    [RFC8569]  Mosko, M., Solis, I., and C. Wood, "Content-Centric
               Networking (CCNx) Semantics", RFC 8569,
@@ -476,8 +515,6 @@ Internet-Draft              TimeTLV for CCNx                January 2022
               Networking (CCNx) Messages in TLV Format", RFC 8609,
               DOI 10.17487/RFC8609, July 2019,
               <https://www.rfc-editor.org/info/rfc8609>.
-
-8.2.  Informative References
 
    [RFC9139]  Gündoğan, C., Schmidt, T., Wählisch, M., Scherb, C.,
               Marxer, C., and C. Tschudin, "Information-Centric
@@ -490,21 +527,6 @@ Appendix A.  Test Vectors
    The test vectors in Table 1 show sample time codes and their
    corresponding time values according to the algorithm outlined in
    Section 4.
-
-
-
-
-
-
-
-
-
-
-
-Gundogan, et al.          Expires 25 July 2022                  [Page 9]
-
-Internet-Draft              TimeTLV for CCNx                January 2022
-
 
                    +===========+======================+
                    | Time Code | Time Value (seconds) |
@@ -530,16 +552,42 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 
                           Table 1: Test Vectors
 
+
+
+
+
+
+Gündoğan, et al.         Expires 29 October 2022               [Page 10]
+
+Internet-Draft              TimeTLV for CCNx                  April 2022
+
+
+Appendix B.  Efficient Time Value Approximation
+
+   A forwarder frequently converts compact time into milliseconds to
+   compare Interest lifetimes and the duration of cache entries.  On
+   many architectures, multiplication and division perform slower than
+   addition, subtraction, and bit shifts.  The following equations
+   approximate the formulas in Section 4, and scale from seconds into
+   the milliseconds range by applying a factor of 2^10 instead of 10^3.
+   This results in an error of 2.4%.
+
+   b == 0:   2^10 * a * 2^-3 * 2^1 * 2^-5
+             = a << 3
+
+   b > 0:    (2^10 + a * 2^-3 * 2^10) * 2^b * 2^-5
+             = (1 << 5 + a << 2) << b
+
 Acknowledgments
 
    We would like to thank the active members of the ICNRG research group
-   for constructive thoughts.  In particular, we thank Marc Mosko for
-   his feedback on the encoding scheme, the provided pseudo code, and
-   test vectors.
+   for constructive thoughts.  In particular, we thank Marc Mosko and
+   Ken Calvert for their valuable feedback on the encoding scheme and
+   the protocol integration.
 
 Authors' Addresses
 
-   Cenk Gundogan
+   Cenk Gündoğan
    HAW Hamburg
    Berliner Tor 7
    D-20099 Hamburg
@@ -550,18 +598,6 @@ Authors' Addresses
    URI:   http://inet.haw-hamburg.de/members/cenk-gundogan
 
 
-
-
-
-
-
-
-
-Gundogan, et al.          Expires 25 July 2022                 [Page 10]
-
-Internet-Draft              TimeTLV for CCNx                January 2022
-
-
    Thomas C. Schmidt
    HAW Hamburg
    Berliner Tor 7
@@ -570,6 +606,16 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 
    Email: t.schmidt@haw-hamburg.de
    URI:   http://inet.haw-hamburg.de/members/schmidt
+
+
+
+
+
+
+
+Gündoğan, et al.         Expires 29 October 2022               [Page 11]
+
+Internet-Draft              TimeTLV for CCNx                  April 2022
 
 
    Dave Oran
@@ -613,4 +659,14 @@ Internet-Draft              TimeTLV for CCNx                January 2022
 
 
 
-Gundogan, et al.          Expires 25 July 2022                 [Page 11]
+
+
+
+
+
+
+
+
+
+
+Gündoğan, et al.         Expires 29 October 2022               [Page 12]
