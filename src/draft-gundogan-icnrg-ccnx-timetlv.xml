@@ -323,7 +323,7 @@ output:   int a, b // mantissa, exponent of time code
 
   <t>A note on legacy forwarders: A forwarder that does not support
   this compact time representation will interpret the time value as an Interest
-  lifetime between 0 and 255 milliseconds. This may lead to a degradation of network performance, since Pending Interest Table (PIT) entries timeout quickly.</t>
+  lifetime between 0 and 255 milliseconds. This may lead to a degradation of network performance, since Pending Interest Table (PIT) entries timeout quicker than expected.</t>
   </section>
   <section title="Recommended Cache Time" anchor="sec.integration.recctime">
     <t>The Recommended Cache Time definition in <xref target="RFC8609"/> specifies an absolute time representation that is of a length fixed to 8 bytes.
@@ -353,10 +353,8 @@ output:   int a, b // mantissa, exponent of time code
   On transmission, a new relative time code is calculated based on the current system time.</t>
 
   <t>A note on legacy forwarders: A forwarder that does not support
-  this integration may perform one of the following two actions.
-  First, a forwarder considers the Recommended Cache Time with Length 1 as structural or syntactical error.
-  <xref target="RFC8569"/> recommends discarding such Interests.
-  Second, a forwarder interprets the compact 1-byte time value as an absolute time far in the past, which results in outdated content objects.
+  this compact time representation may consider a Recommended Cache Time with length 1 as a structural or syntactical error and discard the packet.
+  Otherwise, a forwarder interprets the compact 1-byte time value as an absolute time far in the past, which impacts cache utilization.
   </t>
   </section>
 </section>
