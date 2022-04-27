@@ -403,9 +403,14 @@ output:   int a, b // mantissa, exponent of time code
 
     <references title="Normative References">
       &RFC2119;
+    </references>
+
+    <references title="Informative References">
       &RFC5497;
       &RFC8569;
       &RFC8609;
+      &RFC9139;
+
       <reference anchor="IEEE.754.2019"
                  target="https://standards.ieee.org/content/ieee-standards/en/standard/754-2019.html">
         <front>
@@ -415,10 +420,7 @@ output:   int a, b // mantissa, exponent of time code
           <date month="June" year="2019"/>
         </front>
       </reference>
-    </references>
 
-    <references title="Informative References">
-      &RFC9139;
     </references>
 
     <section anchor="sec.testvectors" title="Test Vectors">
