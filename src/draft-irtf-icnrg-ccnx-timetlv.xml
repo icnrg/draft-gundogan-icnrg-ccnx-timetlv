@@ -56,17 +56,15 @@
 
     <!-- add 'role="editor"' below for the editors if appropriate -->
     <author fullname="Cenk Gündoğan" initials="C." surname="Gündoğan">
-        <organization>HAW Hamburg</organization>
+        <organization>Huawei Technologies</organization>
         <address>
                 <postal>
-                        <street>Berliner Tor 7</street>
-                        <city>Hamburg</city>
-                        <code>D-20099</code>
+                        <street>Riesstrasse 25</street>
+                        <city>Munich</city>
+                        <code>D-80992</code>
                         <country>Germany</country>
                 </postal>
-                <phone>+4940428758067</phone>
-                <email>cenk.guendogan@haw-hamburg.de</email>
-                <uri>http://inet.haw-hamburg.de/members/cenk-gundogan</uri>
+                <email>cenk.gundogan@huawei.com</email>
         </address>
     </author>
     <author fullname="Thomas C. Schmidt" initials="TC." surname="Schmidt">
@@ -143,7 +141,8 @@
 
     <abstract>
        <t>CCNx utilizes delta time for a number of functions. When using CCNx in environments with constrained nodes or bandwidth constrained networks, it is valuable to have a compressed representation of delta time. In order to do so, either accuracy or dynamic range has to be sacrificed. Since the current uses of delta time do not require both simultaneously, one can consider a logarithmic encoding such as that specified in <xref target="RFC5497"/> and <xref target="IEEE.754.2019"/>. This document updates <spanx>CCNx messages in TLV Format</spanx> <xref target="RFC8609"/> to specify this alternative encoding.</t>
-<!--This document is a product of the IRTF Information-Centric Networking Research Group (ICNRG). -->
+      <t>This document is a product of the IRTF Information-Centric
+      Networking Research Group (ICNRG).</t>
     </abstract>
 </front>
 
@@ -152,6 +151,10 @@
 <section anchor="intro" title="Introduction">
 
 <t>CCNx utilizes time values for a number of functions. Some of these are expressed as absolute time, others as delta time. CCNx is well suited for Internet of Things (IoT) applications <xref target="RFC7927"/>. When using CCNx in environments with constrained nodes or bandwidth constrained networks, it is valuable to have a compact representation of time values. For example <xref target="RFC9139"/> and <xref target="ICNLOWPAN"/> specify a compression scheme useful over IEEE 802.15.4 networks. However, any compact time representation has to sacrifice accuracy or dynamic range. For some time uses this is relatively straightforward to achieve, for other uses, it is not. This document discusses the various cases, and proposes a compact encoding that is easily accommodated for delta times.</t>
+<t>This document has received fruitful reviews by the members of the research
+group (see the Acknowledgments section).  It is the consensus of ICNRG that this
+document should be published in the IRTF Stream of the RFC series. This document
+does not constitute an IETF standard.</t>
 </section>
 
 <section title="Terminology">
