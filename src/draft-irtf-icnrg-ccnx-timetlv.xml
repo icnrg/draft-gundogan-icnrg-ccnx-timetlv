@@ -99,16 +99,15 @@
     </author>
 
     <author fullname="Matthias Waehlisch" initials="M." surname="Waehlisch">
-      <organization abbrev="link-lab &amp; FU Berlin">link-lab &amp; FU
-      Berlin</organization>
+      <organization abbrev="FU Berlin">Freie Universität Berlin</organization>
       <address>
         <postal>
-          <street>Hoenower Str. 35</street>
+          <street>Takustrasse 9</street>
           <city>Berlin</city>
-          <code>D-10318</code>
+          <code>D-14195</code>
           <country>Germany</country>
         </postal>
-        <email>mw@link-lab.net</email>
+        <email>m.waehlisch@fu-berlin.de</email>
         <uri>http://www.inf.fu-berlin.de/~waehl</uri>
       </address>
     </author>
