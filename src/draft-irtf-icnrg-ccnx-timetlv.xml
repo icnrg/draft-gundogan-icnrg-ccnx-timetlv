@@ -404,13 +404,13 @@ output:   int a, b // mantissa, exponent of time code
 
     <references title="Normative References">
       &RFC2119;
+      &RFC8569;
+      &RFC8609;
     </references>
 
     <references title="Informative References">
       &RFC5497;
       &RFC7927;
-      &RFC8569;
-      &RFC8609;
       &RFC9139;
 
       <reference anchor="IEEE.754.2019"
