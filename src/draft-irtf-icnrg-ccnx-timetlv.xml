@@ -281,7 +281,7 @@ output:   int a, b // mantissa, exponent of time code
 </section>
 <section title="Protocol Integration of the Compact Time Representation" anchor="sec.integration">
   <t>A straightforward way to accommodate the compact time approach is to use a 1-byte length field to indicate this alternative encoding while retaining the existing TLV registry entries.
-    This approach has backward compatibility problems, but may still be considered for the following reasons:
+    This approach has backward compatibility problems, but is still considered for the following reasons:
     <list style="symbols">
       <t>Both CCNx RFCs are experimental and not Standards Track, hence expectations for forward and backward compatibility are not as stringent. "Flag day" upgrades of deployed CCNx networks, while inconvenient, are still feasible.</t>
       <t>The major use case for these compressed encodings are smaller-scale IoT and/or sensor networks where the population of consumers, producers, and forwarders is reasonably small.</t>
@@ -289,15 +289,6 @@ output:   int a, b // mantissa, exponent of time code
       <t>The alternative of assigning new TLV registry values does not substantially mitigate the interoperability problems anyway.</t>
     </list>
     </t>
-  <t>The following lists alternative approaches of integrating the compact time representation for time offsets in CCNx messages.
-  A further analysis, discussion, and decision on the best suited approach will be added as the document progresses.
-  <list style="numbers">
-    <t>Relative time TLVs (e.g., T_INTLIFETIME) include nested TLVs to hint at the used encoding.
-    This approach allows for versatility in defining new time encodings, but adds a TLV overhead that negates the benefits of the compact time representation.</t>
-    <t>A new TLV type for the compact time representation is defined (T_INTLIFETIME_COMPACT).
-    The packet header grammar from <xref target="RFC8609"/> is updated to allow for T_INTLIFETIME_COMPACT at the same level of the currently defined T_INTLIFETIME.</t>
-  </list>
-  </t>
   <section title="Interest Lifetime" anchor="sec.integration.intlife">
     <t>The Interest Lifetime definition in <xref target="RFC8609"/> allows for a variable-length lifetime representation, where a length of <spanx style="verb">1</spanx> encodes the linear range [0,255] in milliseconds.
     This document changes the definition to always encode 1-byte Interest lifetime values in the compact time value representation (<xref target="def-intlifetime"/>).
