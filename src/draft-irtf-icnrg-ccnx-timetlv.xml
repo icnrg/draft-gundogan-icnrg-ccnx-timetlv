@@ -352,22 +352,27 @@ output:   int a, b // mantissa, exponent of time code
   </section>
 </section>
 <section anchor="IANA" title="IANA Considerations">
-  <t>Based on the approach of integration, certain TLV registries from <xref target="RFC8609"/> need to be updated.</t>
-<?ignore
-  <t>Please change the registry for the T_INTLIFE to permit a length of 1 in addition to a length of 8, as follows:.</t>
-  <figure anchor="timetlv-encoding" title="Alternate Delta Time encoding.">
-    <preamble>.</preamble>
-    <artwork align="left"><![CDATA[
-                     1                   2                   3
- 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-+---------------+---------------+---------------+---------------+
-|             T_INTLIFE         |               1               |
-+---------------+---------------+---------------+---------------+
-| INTERVAL_TIME |
-+---------------+
-]]></artwork>
-  </figure>
-?>
+  <t>The protocol integration of the compact time encoding defined in <xref target="sec.integration.intlife"/> and <xref target="sec.integration.recctime"/> uses the following CCNx Hop-by-Hop Types assigned by IANA:</t>
+  <table anchor="tab.iana.types" align="center">
+    <name>Registered CCNx Hop-by-Hop Types</name>
+    <thead>
+      <tr>
+        <th align="center">Type</th>
+        <th align="center">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td align="center">0x0001</td>
+        <td align="center">T_INTLIFE</td>
+      </tr>
+      <tr>
+        <td align="center">0x0002</td>
+        <td align="center">T_CACHETIME</td>
+      </tr>
+    </tbody>
+  </table>
+  <t>These types are registered in the <spanx style="verb">CCNx Hop-by-Hop Types</spanx> registry <xref target="RFC8609"/>.</t>
 </section>
 
 <section anchor="Security" title="Security Considerations">
