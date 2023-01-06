@@ -149,7 +149,11 @@
 
 <section anchor="intro" title="Introduction">
 
-<t>CCNx utilizes time values for a number of functions. Some of these are expressed as absolute time, others as delta time. CCNx is well suited for Internet of Things (IoT) applications <xref target="RFC7927"/>. When using CCNx in environments with constrained nodes or bandwidth constrained networks, it is valuable to have a compact representation of time values. For example <xref target="RFC9139"/> and <xref target="ICNLOWPAN"/> specify a compression scheme useful over IEEE 802.15.4 networks. However, any compact time representation has to sacrifice accuracy or dynamic range. For some time uses this is relatively straightforward to achieve, for other uses, it is not. This document discusses the various cases, and proposes a compact encoding that is easily accommodated for delta times.</t>
+<t>CCNx is well suited for Internet of Things (IoT) applications <xref target="RFC7927"/>.
+LoWPAN adaptation layers (e.g., <xref target="RFC9139"/>) confirm the advantages of a space-efficient packet encoding for low-power and lossy IEEE 802.15.4 networks.
+CCNx utilizes absolute and delta time values for a number of functions.
+When using CCNx in resource-constrained environments, it is valuable to have a compact representation of time values.  However, any compact time representation has to sacrifice accuracy or dynamic range. For some time uses this is relatively straightforward to achieve, for other uses, it is not.
+As a result of deployment experiments <xref target="ICNLOWPAN"/>, this document discusses the various cases of time values, and proposes a compact encoding for delta times.</t>
 <t>This document has received fruitful reviews by the members of the research
 group (see the Acknowledgments section).  It is the consensus of ICNRG that this
 document should be published in the IRTF Stream of the RFC series. This document
