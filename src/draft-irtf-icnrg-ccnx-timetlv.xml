@@ -153,7 +153,7 @@
 LoWPAN adaptation layers (e.g., <xref target="RFC9139"/>) confirm the advantages of a space-efficient packet encoding for low-power and lossy networks.
 CCNx utilizes absolute and delta time values for a number of functions.
 When using CCNx in resource-constrained environments, it is valuable to have a compact representation of time values.  However, any compact time representation has to sacrifice accuracy or dynamic range. For some time uses this is relatively straightforward to achieve, for other uses, it is not.
-As a result of experiments in bandwidth-constrained IEEE 802.15.4 deployments <xref target="ICNLOWPAN"/>, this document discusses the various cases of time values, and proposes a compact encoding for delta times.</t>
+As a result of experiments in bandwidth-constrained IEEE 802.15.4 deployments <xref target="ICNLOWPAN"/>, this document discusses the various cases of time values, proposes a compact encoding for delta times, and updates <xref target="RFC8609"/> to utilize this encoding format in CCNx messages.</t>
 <t>This document has received fruitful reviews by the members of the research
 group (see the Acknowledgments section).  It is the consensus of ICNRG that this
 document should be published in the IRTF Stream of the RFC series. This document
