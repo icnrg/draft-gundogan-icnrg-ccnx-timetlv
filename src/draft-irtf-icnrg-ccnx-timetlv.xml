@@ -190,7 +190,7 @@ does not constitute an IETF standard.</t>
 <section toc="exclude" title="Signature Time and Expiry Time">
   <t><spanx>Signature Time</spanx> is the time the signature of a content object was generated (<xref target="RFC8569">sections 8.2-8.4</xref>).
   <spanx>Expiry Time</spanx> indicates the expiry time of a content object (<xref target="RFC8569">section 4</xref>).
-  Both values are content message TLVs and represent absolute timestamps in milliseconds since the UTC epoch (i.e., an NTP timestamp).
+  Both values are content message TLVs and represent absolute timestamps in milliseconds since the POSIX epoch.
   They are currently encoded via the T_SIGTIME and T_EXPIRY TLVs as 64-bit unsigned integers (see <xref target="RFC8609"> section 3.6.4.1.4.5 and 3.6.2.2.2</xref>).</t>
 
   <t>Both time values could be in the past, or in the future, potentially by a large delta.
@@ -199,7 +199,7 @@ does not constitute an IETF standard.</t>
 </section>
 
 <section toc="exclude" title="Recommended Cache Time">
-  <t><spanx>Recommended Cache Time</spanx> (RCT) for a content object (<xref target="RFC8569">see section 4</xref>) is a hop-by-hop header stating the expiration time for a cached content object in milliseconds since the UTC epoch (i.e., an NTP timestamp). It is currently encoded via the T_CACHETIME TLV as a 64-bit unsigned integer (see <xref target="RFC8609"> section 3.4.2</xref>).</t>
+  <t><spanx>Recommended Cache Time</spanx> (RCT) for a content object (<xref target="RFC8569">see section 4</xref>) is a hop-by-hop header stating the expiration time for a cached content object in milliseconds since the POSIX epoch. It is currently encoded via the T_CACHETIME TLV as a 64-bit unsigned integer (see <xref target="RFC8609"> section 3.4.2</xref>).</t>
 
 <t>A recommended cache time could be far in the future, but cannot be in the past and is likely to be a reasonably short offset from the current time.
   Therefore, this document allows the recommended cache time to be interpreted as a relative time value rather than an absolute time, since the semantics associated with an absolute time value do not seem to be critical to the utility of this value.
