@@ -172,7 +172,7 @@ does not constitute an IETF standard.</t>
         <list hangIndent="14" style="hanging">
           <t hangText="byte:">synonym for octet</t>
           <t hangText="time value:">a time offset measured in seconds</t>
-          <t hangText="time code:">an 8-bit encoded time value</t>
+          <t hangText="time code:">an 8-bit encoded time value as defined in <xref target="RFC5497"/></t>
         </list></t>
 </section>
 
