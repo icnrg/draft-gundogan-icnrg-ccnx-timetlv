@@ -356,26 +356,7 @@ output:   int a, b // mantissa, exponent of time code
   </section>
 </section>
 <section anchor="IANA" title="IANA Considerations">
-  <t>The protocol integration of the compact time encoding defined in <xref target="sec.integration.intlife"/> and <xref target="sec.integration.recctime"/> uses the following types registered in the <spanx style="verb">CCNx Hop-by-Hop Types</spanx> registry and assigned by IANA <xref target="RFC8609"/>.</t>
-  <table anchor="tab.iana.types" align="center">
-    <name>Registered CCNx Hop-by-Hop Types</name>
-    <thead>
-      <tr>
-        <th align="center">Type</th>
-        <th align="center">Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td align="center">0x0001</td>
-        <td align="center">T_INTLIFE</td>
-      </tr>
-      <tr>
-        <td align="center">0x0002</td>
-        <td align="center">T_CACHETIME</td>
-      </tr>
-    </tbody>
-  </table>
+  This document has no IANA actions.
 </section>
 
 <section anchor="Security" title="Security Considerations">
