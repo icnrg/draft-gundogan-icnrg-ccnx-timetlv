@@ -209,6 +209,13 @@ does not constitute an IETF standard.</t>
     <t>Use relative time, if the compact time representation is used (see <xref target="sec.timetlv"/> and <xref target="sec.integration"/>)</t>
   </list>
   </t>
+  <t>If relative time is used, the packet processing needs to be adapted to include time offsets instead of absolute timestamps in all messages.
+  Since the conversion between absolute and relative time is likely performed on the network layer, residence times on lower layers and link delays will introduce an error with every hop.
+  This document targets low-power networks, where delay bounds are rather loose, or do not exist.
+  An accumulated error in the range of seconds or minutes for the recommended cache time is thus still tolerable, and does not (significantly) impact the protocol performance.
+</t>
+  <t>Networks with tight latency bounds will likely use dedicated hardware, optimized software routines, and traffic engineering to reduce latency variations.
+  In these deterministic networks, conversion errors can be corrected on every hop.</t>
 </section>
 </section>
 </section>
