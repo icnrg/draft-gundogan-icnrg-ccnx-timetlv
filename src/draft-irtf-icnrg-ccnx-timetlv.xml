@@ -56,7 +56,7 @@
 
     <!-- add 'role="editor"' below for the editors if appropriate -->
     <author fullname="Cenk Gündoğan" initials="C." surname="Gündoğan">
-        <organization>Huawei Technologies</organization>
+        <organization abbrev="Huawei">Huawei Technologies Duesseldorf GmbH</organization>
         <address>
                 <postal>
                         <street>Riesstrasse 25</street>
@@ -360,24 +360,24 @@ output:   int a, b // mantissa, exponent of time code
 
 <section anchor="Security" title="Security Considerations">
         <t>This document makes no semantic changes to <xref target="RFC8569"/>, nor to any of the security properties of the message encodings of <xref target="RFC8609"/>, and hence has the same security considerations as those two existing documents.
-        Additional considerations need to be made in networks that deploy legacy and updated forwarders:
+        Additional considerations need to be made in networks that deploy forwarders with support (updated forwarder) and without support (legacy forwarder) for this compact time representation:
         </t>
         <list style="hanging">
           <t hangText="Interest Lifetime:">
-          A forwarder that does not support this compact time representation
-          will interpret the time value as an Interest lifetime between 0 and
+          A legacy forwarder
+          interprets a time code as an Interest lifetime between 0 and
           255 milliseconds. This may lead to a degradation of network
           performance, since Pending Interest Table (PIT) entries timeout
           quicker than expected.
-          If a legacy router sets a lifetime in the range between 0 and 255 milliseconds, then updated routers may configure Interest timeouts of up to 4 years.
+          An updated forwarder interprets short lifetimes set by a legacy forwarder as time codes, thus configuring timeouts of up to 4 years.
           This leads to an inefficient occupation of state space.
           </t>
           <t hangText="Recommended Cache Time:">
-            A forwarder that does not support this compact time representation
-            is expected to consider a Recommended Cache Time with length 1 as a
-            structural or syntactical error and discard the packet (<xref target="RFC8569">section 10.3.9</xref>).  Otherwise,
-            a forwarder interprets the compact 1-byte time value as an absolute
-            time far in the past, which impacts cache utilization.
+            A legacy forwarder
+            considers a Recommended Cache Time with length 1 as a
+            structural or syntactical error and it SHOULD discard the packet (<xref target="RFC8569">section 10.3.9</xref>).
+            Otherwise, a legacy forwarder interprets time codes as absolute
+            time values far in the past, which impacts cache utilization.
           </t>
         </list>
 </section>
