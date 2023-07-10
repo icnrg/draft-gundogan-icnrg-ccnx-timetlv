@@ -210,7 +210,7 @@ does not constitute an IETF standard.</t>
     <t>Use relative time, if the compact time representation is used (see <xref target="sec.timetlv"/> and <xref target="sec.integration"/>)</t>
   </list>
   </t>
-  <t>If relative time is used, the packet processing needs to be adapted to include time offsets instead of absolute timestamps in all messages.
+  <t>If relative time is used, the packet processing is adapted to include time offsets instead of absolute timestamps in all messages.
   Since the conversion between absolute and relative time is likely performed on the network layer, residence times on lower layers and link delays will introduce an error with every hop.
   This document targets low-power networks, where delay bounds are rather loose, or do not exist.
   An accumulated error in the range of seconds for the recommended cache time is thus still tolerable, and does not (significantly) impact the protocol performance.
@@ -500,7 +500,7 @@ output:   int a, b // mantissa, exponent of time code
     <section numbered="no" title="Acknowledgments">
       <t>We would like to thank the active members of the ICNRG research group for constructive thoughts.
       In particular, we thank Marc Mosko and Ken Calvert for their valuable feedback on the encoding scheme and the protocol integration.
-      Special thanks also to Carsten Bormann for constructive in-depth comments during the IRSG review.</t>
+      Special thanks also to Carsten Bormann for his constructive in-depth comments during the IRSG review.</t>
     </section>
     <!-- Change Log
 v00 2019-10-03  DRO   Initial version
