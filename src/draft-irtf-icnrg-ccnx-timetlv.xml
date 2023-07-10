@@ -213,9 +213,9 @@ does not constitute an IETF standard.</t>
   <t>If relative time is used, the time offset recorded in a message will typically not account for residence times on lower layers (e.g., for processing, queuing) and link delays for every hop.
   The recommended cache time can thus not be expressed as accurate as with absolute time.
   This document targets low-power networks, where delay bounds are rather loose, or do not exist.
-  An accumulated error due to transmission delays in the range of milliseconds and seconds for the recommended cache time is still tolerable in these networks, and does not (significantly) impact the protocol performance.
+  An accumulated error due to transmission delays in the range of milliseconds and seconds for the recommended cache time is still tolerable in these networks, and does not impact the protocol performance.
 </t>
-  <t>Networks with tight latency bounds will likely use dedicated hardware, optimized software routines, and traffic engineering to reduce latency variations.
+  <t>Networks with tight latency bounds use dedicated hardware, optimized software routines, and traffic engineering to reduce latency variations.
   Time offsets can then be corrected on every hop to yield exact cache times.
   </t>
 </section>
