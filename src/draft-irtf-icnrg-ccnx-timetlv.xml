@@ -9,6 +9,7 @@
 <!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
 <!ENTITY RFC5497 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5497.xml">
 <!ENTITY RFC7927 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7927.xml">
+<!ENTITY RFC8174 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8174.xml">
 <!ENTITY RFC8569 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8569.xml">
 <!ENTITY RFC8609 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8609.xml">
 <!ENTITY RFC9139 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.9139.xml">
@@ -130,7 +131,7 @@
          If this element is not present, the default is "Network Working Group",
          which is used by the RFC Editor as a nod to the history of the IETF. -->
 
-    <keyword>template</keyword>
+    <keyword>CCNx, constrained networks, compressed delta time encoding</keyword>
 
     <!-- Keywords will be incorporated into HTML output
          files in a meta tag but they have no effect on text or nroff
@@ -138,7 +139,7 @@
          keywords will be used for the search engine. -->
 
     <abstract>
-       <t>CCNx utilizes delta time for a number of functions. When using CCNx in environments with constrained nodes or bandwidth constrained networks, it is valuable to have a compressed representation of delta time. In order to do so, either accuracy or dynamic range has to be sacrificed. Since the current uses of delta time do not require both simultaneously, one can consider a logarithmic encoding. This document updates <spanx>CCNx messages in TLV Format</spanx> to specify this alternative encoding.</t>
+       <t>CCNx utilizes delta time for a number of functions. When using CCNx in environments with constrained nodes or bandwidth constrained networks, it is valuable to have a compressed representation of delta time. In order to do so, either accuracy or dynamic range has to be sacrificed. Since the current uses of delta time do not require both simultaneously, one can consider a logarithmic encoding. This document updates RFC 8609 (<spanx>CCNx messages in TLV Format</spanx>) to specify this alternative encoding.</t>
       <t>This document is a product of the IRTF Information-Centric
       Networking Research Group (ICNRG).</t>
     </abstract>
@@ -160,9 +161,11 @@ does not constitute an IETF standard.</t>
 </section>
 
 <section title="Terminology">
-        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-        "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-        document are to be interpreted as described in <xref target="RFC2119">RFC 2119</xref>.</t>
+        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+        NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
+        "MAY", and "OPTIONAL" in this document are to be interpreted as
+        described in BCP 14 <xref target="RFC2119"/> <xref target="RFC8174"/> when, and only when, they
+        appear in all capitals, as shown here.</t>
 
         <t>This document uses the terminology of <xref target="RFC8569"/> and <xref
         target="RFC8609"/> for CCNx entities.</t>
@@ -234,7 +237,7 @@ milliseconds                                                  years
 ]]></artwork>
   </figure>
   <t>
-    Time codes encode exponent and mantissa values in a single byte, but in contrast to the representation in <xref target="IEEE.754.2019"/>, time codes only encode positive numbers and hence do not include an extra sign bit.
+    Time codes encode exponent and mantissa values in a single byte, but in contrast to the representation in <xref target="IEEE.754.2019"/>, time codes only encode non-negative numbers and hence do not include a separate sign bit.
     <xref target="fig.time-code"/> shows the configuration of a time code: an exponent width of 5 bits, and a mantissa width of 3 bits.
   </t>
   <figure anchor="fig.time-code" title="A time code with exponent and mantissa to encode a logarithmic range time representation.">
@@ -402,6 +405,7 @@ output:   int a, b // mantissa, exponent of time code
 
     <references title="Normative References">
       &RFC2119;
+      &RFC8174;
       &RFC8569;
       &RFC8609;
     </references>
