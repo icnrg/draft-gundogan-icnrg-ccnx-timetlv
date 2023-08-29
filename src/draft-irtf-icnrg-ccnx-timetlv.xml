@@ -98,17 +98,16 @@
         </address>
     </author>
 
-    <author fullname="Matthias Waehlisch" initials="M." surname="Waehlisch">
-      <organization abbrev="FU Berlin">Freie Universität Berlin</organization>
+    <author fullname="Matthias Wählisch" initials="M." surname="Wählisch">
+      <organization abbrev="TU Dresden">TUD Dresden University of Technology</organization>
       <address>
         <postal>
-          <street>Takustrasse 9</street>
-          <city>Berlin</city>
-          <code>D-14195</code>
+          <street>Helmholtzstr. 10</street>
+          <city>Dresden</city>
+          <code>D-01069</code>
           <country>Germany</country>
         </postal>
-        <email>m.waehlisch@fu-berlin.de</email>
-        <uri>http://www.inf.fu-berlin.de/~waehl</uri>
+        <email>m.waehlisch@tu-dresden.de</email>
       </address>
     </author>
 
