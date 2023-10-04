@@ -483,7 +483,7 @@ output:   int a, b // mantissa, exponent of time code
         <c>2.0000000</c>
 
         <c>0xF8</c>
-        <c>67108863.0000000</c>
+        <c>67108864.0000000</c>
 
         <c>0xFF</c>
         <c>125829120.0000000</c>
